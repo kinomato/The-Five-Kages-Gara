@@ -1,0 +1,16 @@
+<h1 class="display-4">Detail</h1>
+<form *ngIf="thamso" #form="ngForm" (submit)="onSave(form)" autocomplete="off">
+  <!-- <input type="hidden" name="id" #id="ngModel" [(ngModel)]="thamso.id"> -->
+  <div class="form-group">
+    <input  name="tenthamso" #tenthamso="ngModel" [(ngModel)]="thamso.tenthamso" placeholder="tenthamso" class="form-control" required>
+    <div class="validation-error" *ngIf="tenthamso.invalid && tenthamso.touched">this field is required</div>
+  </div>
+  <div class="form-group">
+    <input class="form-control" name="giatri" #giatri="ngModel" [(ngModel)]="thamso.giatri" placeholder="giatri">
+  </div>
+  <div class="form-group">
+    <button class="form-control" [disabled]="form.invalid" 
+    type="submit" class="btn btn-block btn-info">Save</button>
+  </div>
+</form>
+<button matTooltip="go back" (click)="goBack()" class="btn btn-default">Go back</button>

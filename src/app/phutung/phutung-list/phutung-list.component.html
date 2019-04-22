@@ -1,0 +1,22 @@
+<button routerLink="/phutungs/new" class="btn btn-success">New phutung</button>
+<h1>phutung table</h1>
+<table class="table table-hover">
+  <thead>
+    <th>Name</th>
+    <th>Position</th>
+    <th>Mobile</th>
+  </thead>
+  <tbody>
+    <tr *ngFor="let phutung of phutungList">
+        <td >{{phutung.tenphutung}} </td>
+        <td > {{phutung.giaphutung}} </td>
+        <td > {{phutung.soluongconlai}} </td>
+        <td> <a matTooltip="Edit" class="btn text-warning"  [routerLink]="[ '/phutungs/detail/', phutung.idphutung ]">
+          <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+          </a></td>
+        <td> <a matTooltip="Delete" class="btn text-danger" (click)="onDelete(phutung.idphutung)">
+        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+        </a></td>
+    </tr>
+  </tbody>
+</table>

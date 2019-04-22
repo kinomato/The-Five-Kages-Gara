@@ -1,0 +1,28 @@
+<button type="button" class="btn btn-default" (click)="getTest()">Show List</button>
+<h1>Danh sách phiếu</h1>
+<table class="table table-hover">
+  <thead>
+    <th>biển số</th>
+    <th>hiệu xe</th>
+    <th>ngày nhận</th>
+    <th>tên chủ xe</th>
+    <th>địa chỉ</th>
+    <th>điện thoại</th>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of dataList">
+        <td >{{item.bienso}}</td>
+        <td > {{item.hieuxe}} </td>
+        <td > {{item.ngaytiepnhan}} </td>
+        <td > {{item.tenkhachhang}} </td>
+        <td > {{item.diachi}} </td>
+        <td > {{item.dienthoai}} </td>
+        <td> <a matTooltip="Edit" class="btn text-warning"  [routerLink]="[ '/phieutiepnhan/detail/', item.idphieutiepnhan ]">
+          <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+          </a></td>
+        <td> <a matTooltip="Delete" class="btn text-danger" (click)="onDelete(item.idphieutiepnhan)">
+        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+        </a></td>
+    </tr>
+  </tbody>
+</table>

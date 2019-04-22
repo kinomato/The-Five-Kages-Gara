@@ -1,0 +1,22 @@
+<button routerLink="/employees/new" class="btn btn-success">New Employee</button>
+<h1>Employee table</h1>
+<table class="table table-hover">
+  <thead>
+    <th>Name</th>
+    <th>Position</th>
+    <th>Mobile</th>
+  </thead>
+  <tbody>
+    <tr *ngFor="let employee of employeeList">
+        <td >{{employee.empCode}} - {{employee.fullname}} </td>
+        <td > {{employee.position}} </td>
+        <td > {{employee.mobile}} </td>
+        <td> <a matTooltip="Edit" class="btn text-warning"  [routerLink]="[ '/employees/detail/', employee.id ]">
+          <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+          </a></td>
+        <td> <a matTooltip="Delete" class="btn text-danger" (click)="onDelete(employee.id)">
+        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+        </a></td>
+    </tr>
+  </tbody>
+</table>

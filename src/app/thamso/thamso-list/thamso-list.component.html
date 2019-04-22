@@ -1,0 +1,21 @@
+<button routerLink="/thamsos/new" class="btn btn-success">New thamso</button>
+<h1>thamso table</h1>
+<table class="table table-hover">
+  <thead>
+    <th>Name</th>
+    <th>Position</th>
+    <th>Mobile</th>
+  </thead>
+  <tbody>
+    <tr *ngFor="let thamso of thamsoList">
+        <td > {{thamso.tenthamso}} </td>
+        <td > {{thamso.giatri}} </td>      
+        <td> <a matTooltip="Edit" class="btn text-warning"  [routerLink]="[ '/thamsos/detail/', thamso.idthamso]">
+          <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+          </a></td>
+        <td> <a matTooltip="Delete" class="btn text-danger" (click)="onDelete(thamso.idthamso)">
+        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+        </a></td>
+    </tr>
+  </tbody>
+</table>

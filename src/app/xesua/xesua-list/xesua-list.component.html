@@ -1,0 +1,22 @@
+<button routerLink="/xesuas/new" class="btn btn-success">New xesua</button>
+<h1>xesua table</h1>
+<table class="table table-hover">
+  <thead>
+    <th>Biển số</th>
+    <th>khách hàng</th>
+    <th>hiệu xe</th>
+  </thead>
+  <tbody>
+    <tr *ngFor="let xesua of xesuaList">
+        <td >{{xesua.bienso}}</td>
+        <td >{{xesua.idkhachhang}}</td>
+        <td >{{xesua.idhieuxe}}</td>
+        <td> <a matTooltip="Edit" class="btn text-warning"  [routerLink]="[ '/xesuas/detail/', xesua.idxesua ]">
+          <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+          </a></td>
+        <td> <a matTooltip="Delete" class="btn text-danger" (click)="onDelete(xesua.idxesua)">
+        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+        </a></td>
+    </tr>
+  </tbody>
+</table>

@@ -1,0 +1,22 @@
+<button routerLink="/khachhang/new" class="btn btn-success">New khachhang</button>
+<h1>khachhang table</h1>
+<table class="table table-hover">
+  <thead>
+    <th>Tên khách</th>
+    <th>Điện thoại</th>
+    <th>Địa chỉ</th>
+  </thead>
+  <tbody>
+    <tr *ngFor="let khachhang of khachhangList">
+        <td >{{khachhang.tenkhachhang}}</td>
+        <td >{{khachhang.dienthoai}}</td>
+        <td >{{khachhang.diachi}}</td>
+        <td> <a matTooltip="Edit" class="btn text-warning"  [routerLink]="[ '/khachhangs/detail/', khachhang.idkhachhang ]">
+          <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+          </a></td>
+        <td> <a matTooltip="Delete" class="btn text-danger" (click)="onDelete(khachhang.idkhachhang)">
+        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+        </a></td>
+    </tr>
+  </tbody>
+</table>

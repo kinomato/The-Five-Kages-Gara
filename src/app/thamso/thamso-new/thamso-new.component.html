@@ -1,0 +1,14 @@
+<h1 class="display-4">EMP. register</h1>
+<form #form="ngForm" (submit)="onSubmit(form)" autocomplete="off">
+  <!-- <input type="hidden" name="id" #id="ngModel" [(ngModel)]="employee.id"> -->
+  <div class="form-group">
+      <input  name="tenthamso" #tenthamso="ngModel" [(ngModel)]="thamso.tenthamso" placeholder="tenthamso" class="form-control" required>
+      <div class="validation-error" *ngIf="tenthamso.invalid && tenthamso.touched">this field is required</div>
+    </div>
+    <div class="form-group">
+      <input class="form-control" name="giatri" #giatri="ngModel" [(ngModel)]="thamso.giatri" placeholder="giatri">
+    </div>
+  <div class="form-group">
+    <button class="form-control" [disabled]="form.invalid" type="submit" class="btn btn-block btn-info">submit</button>
+  </div>
+</form>

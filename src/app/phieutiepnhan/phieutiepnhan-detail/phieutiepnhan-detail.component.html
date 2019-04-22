@@ -1,0 +1,61 @@
+<h1 class="display-4">Phiểu Tiếp Nhận Xe</h1>
+<form #form="ngForm" (submit)="onSave(form)" autocomplete="off">
+  <!-- <input type="hidden" name="id" #id="ngModel" [(ngModel)]="employee.id"> -->
+  <h2>Thông tin phiếu</h2>
+  <div class="form-group">
+    <!-- <label for="bienso"></label>
+    <input class="form-control" id="bienso" #bienso="ngModel" [(ngModel)]="phieutiepnhan.bienso" name="bienso"
+      placeholder="biển số" required> -->
+      <mat-form-field>
+          <input type="text" matInput class="form-control" #bienso="ngModel" 
+          [(ngModel)]="phieutiepnhan.bienso" name="bienso" placeholder="Biển số xe" required>
+      </mat-form-field>
+  </div>
+  <div class="form-group row">
+    <div class="form-group col-sm-7">
+      <!-- <label for="ngaynhan"></label>
+      <input readonly="true" id="ngaynhan" class="form-control" name="ngaytiepnhan" placeholder="ngày nhận"
+        [ngModel]="phieutiepnhan.ngaytiepnhan"> -->
+        <mat-form-field>
+            <input type="text" matInput class="form-control" #bienso="ngModel"
+            [ngModel]="phieutiepnhan.ngaytiepnhan" name="ngaytiepnhan" placeholder="Ngày tiếp nhận" required>
+        </mat-form-field>
+    </div>
+    <div class="form-group col-sm-5">
+      <!-- <label for="hieuxe"></label>
+      <select type="input" class="form-control" id="hieuxe" name="hieuxe" [(ngModel)]="phieutiepnhan.hieuxe" required>
+        <option [ngValue]="null">Hiệu xe</option>
+        <option [ngValue]="hieuxe.hieuxe" *ngFor="let hieuxe of hieuxeList"> {{hieuxe.hieuxe}} </option>
+      </select> -->
+      <mat-form-field>
+          <input type="text" (keyup)="search()" matInput class="form-control" name="hieuxe" [(ngModel)]="phieutiepnhan.hieuxe" required [matAutocomplete]="auto" placeholder="Hiệu xe" >
+        </mat-form-field>
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let hieuxe of hieuxeFilter" [value]="hieuxe">
+            {{ hieuxe }}
+          </mat-option>
+        </mat-autocomplete>
+    </div>
+  </div>
+  <h2>Thông tin khách hàng</h2>
+  <div class="form-group">
+    <label for="tenchuxe"></label>
+    <input name="tenkhachhang" id="tenchuxe" #tenkhach="ngModel" [(ngModel)]="phieutiepnhan.tenkhachhang"
+      placeholder="Tên chủ xe" class="form-control" required>
+    <div class="validation-error" *ngIf="tenkhach.invalid && tenkhach.touched">this field is required</div>
+  </div>
+
+  <div class="form-group">
+    <label for="dienthoai"></label>
+    <input class="form-control" id="dienthoai" #dienthoai="ngModel" [(ngModel)]="phieutiepnhan.dienthoai"
+      name="dienthoai" placeholder="điện thoại" required>
+  </div>
+  <div class="form-group">
+    <label for="diachi"></label>
+    <input class="form-control" id="diachi" #diachi="ngModel" [(ngModel)]="phieutiepnhan.diachi" name="diachi"
+      placeholder="địa chỉ">
+  </div>
+  <div class="form-group">
+    <button class="form-control" [disabled]="form.invalid" type="submit" class="btn btn-block btn-info">submit</button>
+  </div>
+</form>
