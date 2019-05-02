@@ -2,13 +2,19 @@ export class Phieutiepnhan {
     constructor(
         public idphieutiepnhan: string,
         public ngaytiepnhan: Date,
-        public biensoxe: string,
-        public hieuxenhan: string,
+        public bienso: string,
+        public hieuxe: string,
         public idkhachhang: string,
-        public tenkhach?: string,
-        public sodienthoai?: string,
+        public suachuastt: boolean,
+        public tiennostt: boolean,
+        public thutienstt: boolean,
+        public idsuachua?: string,
+        public tienno?: number,
+        public idthutien?: string
+        /* public tenkhach?: string,
+        public dienthoai?: string,
         public diachi?: string,
         public idhieuxe?: string,
-        public idxesua?: string,
+        public idxesua?: string, */
     ) {}
 }

@@ -1,14 +1,19 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, Input } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { NgbModule, NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+
+import { SelectDropDownModule } from 'ngx-select-dropdown';
+import { NumericTextboxModule } from 'ngx-numeric-textbox';
+
 
 
 /* import { BoardComponent } from './board/board.component'; */
@@ -46,6 +51,19 @@ import { KhachhangListComponent } from './khachhang/khachhang-list/khachhang-lis
 import { KhachhangNewComponent } from './khachhang/khachhang-new/khachhang-new.component';
 import { KhachhangDetailComponent } from './khachhang/khachhang-detail/khachhang-detail.component';
 import { MatAutocompleteModule, MatInputModule, MatFormFieldModule} from '@angular/material';
+import { PhieusuachuaComponent } from './phieusuachua/phieusuachua.component';
+import { PhieusuachuaNewComponent } from './phieusuachua/phieusuachua-new/phieusuachua-new.component';
+import { CTPhieusuachuaListComponent } from './phieusuachua/phieusuachua-new/ct-phieusuachua-list/ct-phieusuachua-list.component';
+import { PhieusuachuaListComponent } from './phieusuachua/phieusuachua-list/phieusuachua-list.component';
+import { PhieusuachuaDetailComponent } from './phieusuachua/phieusuachua-detail/phieusuachua-detail.component';
+// tslint:disable-next-line: max-line-length
+import { CtPhieusuachuaDetailListComponent } from './phieusuachua/phieusuachua-detail/ct-phieusuachua-detail-list/ct-phieusuachua-detail-list.component';
+import { DaytimeyearPipe } from './custompipe/daytimeyear.pipe';
+import { DanhsachxeComponent } from './danhsachxe/danhsachxe.component';
+import { PhieuthutienComponent } from './phieuthutien/phieuthutien.component';
+import { PhieuthutienNewComponent } from './phieuthutien/phieuthutien-new/phieuthutien-new.component';
+import { PhieuthutienListComponent } from './phieuthutien/phieuthutien-list/phieuthutien-list.component';
+import { PhieuthutienDetailComponent } from './phieuthutien/phieuthutien-detail/phieuthutien-detail.component';
 
 @NgModule({
   declarations: [
@@ -80,7 +98,19 @@ import { MatAutocompleteModule, MatInputModule, MatFormFieldModule} from '@angul
     XesuaListComponent,
     KhachhangListComponent,
     KhachhangNewComponent,
-    KhachhangDetailComponent
+    KhachhangDetailComponent,
+    PhieusuachuaComponent,
+    PhieusuachuaNewComponent,
+    CTPhieusuachuaListComponent,
+    PhieusuachuaListComponent,
+    PhieusuachuaDetailComponent,
+    CtPhieusuachuaDetailListComponent,
+    DaytimeyearPipe,
+    DanhsachxeComponent,
+    PhieuthutienComponent,
+    PhieuthutienNewComponent,
+    PhieuthutienListComponent,
+    PhieuthutienDetailComponent
   ],
   imports: [
     BrowserModule,
@@ -94,13 +124,17 @@ import { MatAutocompleteModule, MatInputModule, MatFormFieldModule} from '@angul
     ToastrModule.forRoot(),
     MatInputModule,
     MatAutocompleteModule,
-    MatFormFieldModule
-
+    MatFormFieldModule,
+    NgbModule,
+    NgbDatepickerModule,
+    SelectDropDownModule,
+    NumericTextboxModule
   ],
   exports: [
     MatAutocompleteModule,
     MatInputModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    NgbDatepickerModule
   ],
   providers: [EmployeeService],
   bootstrap: [AppComponent]

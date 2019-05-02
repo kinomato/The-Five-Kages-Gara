@@ -42,7 +42,13 @@ export class PhieutiepnhanService {
               bienso: data.bienso,
               ngaytiepnhan: data.ngaytiepnhan,
               hieuxe: data.hieuxe,
-              idkhachhang: idkhach
+              idkhachhang: idkhach,
+              suachuastt: false,
+              tiennostt: false,
+              thutienstt: false,
+              idsuachua: '',
+              tienno: 0,
+              idthutien: ''
             });
             this.fireStore.collection('tiepnhan').add(datatiepnhan);
             /* this.toastr.success('Submitted Succesfully!', 'Tiếp nhận xe'); */
@@ -54,7 +60,13 @@ export class PhieutiepnhanService {
             bienso: data.bienso,
             ngaytiepnhan: data.ngaytiepnhan,
             hieuxe: data.hieuxe,
-            idkhachhang: item.id
+            idkhachhang: item.id,
+            suachuastt: false,
+            tiennostt: false,
+            thutienstt: false,
+            idsuachua: '',
+            tienno: 0,
+            idthutien: ''
           });
           this.fireStore.collection('tiepnhan').add(datatiepnhan);
           /*  this.toastr.success('Submitted Succesfully!', 'Tiếp nhận xe'); */
@@ -62,7 +74,9 @@ export class PhieutiepnhanService {
       }
     }, err => this.toastr.error(err, 'error'));
   }
-  Update(id: string, data: NgForm) {
+  Update(id: string, data: any) {
+    console.log(id);
+    console.log(data);
     this.fireStore.collection('tiepnhan').doc(id).update(data);
   }
   Delete(id: string) {
@@ -71,8 +85,33 @@ export class PhieutiepnhanService {
   getTiepnhans() {
     return this.fireStore.collection('tiepnhan').snapshotChanges();
   }
+  getTiepnhansps() {
+    return this.fireStore.collection('tiepnhan', ref => {
+      return ref.where('suachuastt', '==', false);
+    }).snapshotChanges();
+  }
+  getTiepnhanspt() {
+    return this.fireStore.collection('tiepnhan', ref => {
+      return ref.where('suachuastt', '==', true)
+      /* .orderBy('suachuastt')
+                .startAt(true).endAt(true) */
+                .where('thutienstt', '==', false);
+    }).snapshotChanges();
+  }
   getTiepnhan(id: string) {
     return this.fireStore.doc('tiepnhan/' + id).valueChanges();
+  }
+  getTiepnhanQuery(bienso?: string) {
+    return this.fireStore.collection('tiepnhan', ref => {
+      return ref.limit(1).where('bienso', '==', bienso);
+      /* .where('hieuxe', '==', hieuxe)
+      .where('idkhachhang', '==', idkhachhang); */
+    }).snapshotChanges();
+  }
+  getTiepnhanQuery2(idsuachua: string) {
+    return this.fireStore.collection('tiepnhan', ref => {
+      return ref.limit(1).where('idsuachua', '==', idsuachua);
+    }).snapshotChanges();
   }
   getThongtin(id: string) {
     return this.getTiepnhan(id).pipe(
@@ -106,7 +145,7 @@ export class PhieutiepnhanService {
       })
     );
   }
-  getThongtin_Test1() {
+  /* getThongtin_Test1() {
     return this.getTiepnhans().pipe(
       flatMap(res => {
         return res.map(item => {
@@ -136,40 +175,5 @@ export class PhieutiepnhanService {
         );
       }),
     );
-  }
-  getThongtin_Test2() {
-    return this.getTiepnhans().pipe(
-      flatMap(res => {
-        return res.map(item => {
-          return {
-            idphieutiepnhan: item.payload.doc.id,
-            ...item.payload.doc.data()
-          } as Phieutiepnhan;
-        });
-      }),
-      flatMap(res1 => {
-        return this.xesuaService.getXesua(res1.idxesua).pipe(
-          map((xesua: Xesua) => {
-            return Object.assign(res1, xesua);
-          })
-        );
-      }),
-      flatMap(res2 => {
-        return this.khachhangService.getKhachhang(res2.idkhachhang).pipe(
-          map(datasnapshot => {
-            const datakhach = datasnapshot.data() as Khachhang;
-            return Object.assign(res2, datakhach);
-          })
-        );
-      }),
-      flatMap(res3 => {
-        return this.hieuxeService.getHieuxe(res3.idhieuxe).pipe(
-          map(hieuxesnap => {
-            const dataxe = hieuxesnap.data() as Hieuxe;
-            return Object.assign(res3, dataxe);
-          })
-        );
-      })
-    );
-  }
+  } */
 }

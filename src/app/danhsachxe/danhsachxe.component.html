@@ -1,0 +1,48 @@
+<h1>Danh sách xe</h1>
+<div class="shadow-lg">
+  <table class="table table-hover">
+    <thead>
+      <th>STT</th>
+      <th>Biển số</th>
+      <th>Hiệu xe</th>
+      <th>Chủ xe</th>
+      <th>Tiền nợ</th>
+      <th>Phiếu nhận</th>
+      <th>Phiếu sửa</th>
+      <th>Phiếu thu tiền</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let tiepnhan of dataList, let i = index">
+        <th scope="row">{{i + 1}}</th>
+        <td>{{tiepnhan.bienso}}</td>
+        <td>{{tiepnhan.hieuxe}}</td>
+        <td>{{tiepnhan.tenkhachhang}}</td>
+        <td>{{tiepnhan.tienno}}</td>
+        <td>
+          <button id="phieunhan" type="button" class="btn btn-outline-primary text-primary"
+            [routerLink]="[ '/phieutiepnhan/detail/', tiepnhan.idphieutiepnhan ]">
+            <i class="fa fa-address-card" aria-hidden="true"></i></button>
+        </td>
+        <td>
+          <button *ngIf="tiepnhan.suachuastt" id="phieusua" type="button"
+            class="btn btn-outline-warning text-warning" [routerLink]="[ '/suachua/detail/', tiepnhan.idsuachua ]">
+            <i class="fa fa-tools" aria-hidden="true"></i>
+          </button>
+          <button *ngIf="!tiepnhan.suachuastt" [disabled]="true" type="button"
+            class="btn btn-outline-secondary" [routerLink]="[ '/suachua/detail/', tiepnhan.idsuachua ]">
+            <i class="fa fa-tools" aria-hidden="true"></i>
+          </button>
+        </td>
+        <td>
+            <button *ngIf="tiepnhan.thutientt" id="phieutien" type="button"
+            class="btn btn-outline-success text-success" [routerLink]="[ '/thutien/detail/', tiepnhan.idthutien ]">
+            <i class="fa fa-money-check-alt" aria-hidden="true"></i>
+          </button>
+          <button *ngIf="!tiepnhan.thutienstt" [disabled]="true" type="button"
+            class="btn btn-outline-secondary">
+            <i class="fa fa-money-check-alt" aria-hidden="true"></i>
+          </button>
+      </tr>
+    </tbody>
+  </table>
+</div>

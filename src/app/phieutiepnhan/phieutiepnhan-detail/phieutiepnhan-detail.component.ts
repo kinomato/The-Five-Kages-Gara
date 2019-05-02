@@ -29,16 +29,32 @@ export class PhieutiepnhanDetailComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.formReset();
     this.getHieuxes();
     this.getThongtin();
+  }
+  formReset(form?: NgForm) {
+    if (form !== null) {
+      return;
+    }
+    this.phieutiepnhan = {
+      tenkhachhang: '',
+      hieuxe: '',
+      bienso: '',
+      diachi: '',
+      dienthoai: ''
+    };
   }
   search() {
     /* this.hieuxeFilter = this.hieuxeList.filter(hieuxe => {
       hieuxe.hieuxe.toLowerCase().includes(this.phieutiepnhan.hieuxe);
     }) */
     this.filteredOptions = this.fireStore.collection('tiepnhan', ref => ref
-      .orderBy
-    })
+      .orderBy('tenkhachhang')
+      .startAt(this.phieutiepnhan.hieuxe.toLowerCase())
+      .endAt(this.phieutiepnhan.hieuxe.toLowerCase() + '\uf8ff')
+      .limit(10)
+    ).valueChanges();
   }
   getThongtin() {
     const id = this.activetedRoute.snapshot.paramMap.get('id');

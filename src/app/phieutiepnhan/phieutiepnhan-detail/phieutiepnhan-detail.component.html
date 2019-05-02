@@ -7,7 +7,7 @@
     <input class="form-control" id="bienso" #bienso="ngModel" [(ngModel)]="phieutiepnhan.bienso" name="bienso"
       placeholder="biển số" required> -->
       <mat-form-field>
-          <input type="text" matInput class="form-control" #bienso="ngModel" 
+          <input type="text" matInput class="form-control" #biensoxe="ngModel" 
           [(ngModel)]="phieutiepnhan.bienso" name="bienso" placeholder="Biển số xe" required>
       </mat-form-field>
   </div>
@@ -17,7 +17,7 @@
       <input readonly="true" id="ngaynhan" class="form-control" name="ngaytiepnhan" placeholder="ngày nhận"
         [ngModel]="phieutiepnhan.ngaytiepnhan"> -->
         <mat-form-field>
-            <input type="text" matInput class="form-control" #bienso="ngModel"
+            <input type="text" matInput class="form-control" #ngaynhan="ngModel"
             [ngModel]="phieutiepnhan.ngaytiepnhan" name="ngaytiepnhan" placeholder="Ngày tiếp nhận" required>
         </mat-form-field>
     </div>
@@ -28,11 +28,11 @@
         <option [ngValue]="hieuxe.hieuxe" *ngFor="let hieuxe of hieuxeList"> {{hieuxe.hieuxe}} </option>
       </select> -->
       <mat-form-field>
-          <input type="text" (keyup)="search()" matInput class="form-control" name="hieuxe" [(ngModel)]="phieutiepnhan.hieuxe" required [matAutocomplete]="auto" placeholder="Hiệu xe" >
+          <input type="text" matInput class="form-control" (keyup)="search()" name="hieuxe" [(ngModel)]="phieutiepnhan.hieuxe" required [matAutocomplete]="auto" placeholder="Hiệu xe" >
         </mat-form-field>
         <mat-autocomplete #auto="matAutocomplete">
-          <mat-option *ngFor="let hieuxe of hieuxeFilter" [value]="hieuxe">
-            {{ hieuxe }}
+          <mat-option *ngFor="let hieuxe of filteredOptions" [value]="hieuxe.hieuxe">
+            {{ hieuxe.hieuxe }}
           </mat-option>
         </mat-autocomplete>
     </div>

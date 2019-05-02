@@ -26,12 +26,19 @@ import { PhieutiepnhanNewComponent } from './phieutiepnhan/phieutiepnhan-new/phi
 import { ThamsoDetailComponent } from './thamso/thamso-detail/thamso-detail.component';
 import { ThamsoNewComponent } from './thamso/thamso-new/thamso-new.component';
 import { ThamsoListComponent } from './thamso/thamso-list/thamso-list.component';
+import { PhieusuachuaNewComponent } from './phieusuachua/phieusuachua-new/phieusuachua-new.component';
+import { PhieusuachuaListComponent } from './phieusuachua/phieusuachua-list/phieusuachua-list.component';
+import { PhieusuachuaDetailComponent } from './phieusuachua/phieusuachua-detail/phieusuachua-detail.component';
+import { DanhsachxeComponent } from './danhsachxe/danhsachxe.component';
+import { PhieuthutienListComponent } from './phieuthutien/phieuthutien-list/phieuthutien-list.component';
+import { PhieuthutienNewComponent } from './phieuthutien/phieuthutien-new/phieuthutien-new.component';
+import { PhieuthutienDetailComponent } from './phieuthutien/phieuthutien-detail/phieuthutien-detail.component';
 
 
 
 
 const routes: Routes = [
-  { path: '', redirectTo: '/employees', pathMatch: 'full' },
+  { path: '', redirectTo: '/phieutiepnhan', pathMatch: 'full' },
   { path: 'employees/detail/:id', component: EmployeeDetailComponent },
   { path: 'employees/new', component: EmployeeComponent },
   { path: 'employees', component: EmployeeListComponent },
@@ -56,6 +63,13 @@ const routes: Routes = [
   { path: 'thamso/detail/:id', component: ThamsoDetailComponent },
   { path: 'thamso/new', component: ThamsoNewComponent },
   { path: 'thamso', component: ThamsoListComponent },
+  { path: 'suachua/detail/:id', component: PhieusuachuaDetailComponent },
+  { path: 'suachua/new', component: PhieusuachuaNewComponent },
+  { path: 'suachua', component: PhieusuachuaListComponent },
+  { path: 'danhsachxe', component: DanhsachxeComponent },
+  { path: 'thutien/detail/:id', component: PhieuthutienDetailComponent },
+  { path: 'thutien/new', component: PhieuthutienNewComponent },
+  { path: 'thutien', component: PhieuthutienListComponent },
 ];
 @NgModule({
   declarations: [],

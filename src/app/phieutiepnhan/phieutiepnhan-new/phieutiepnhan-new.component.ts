@@ -10,6 +10,7 @@ import { Khachhang } from 'src/app/models/khachhang.model';
 import { Observable, throwError } from 'rxjs';
 import { NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-phieutiepnhan-new',
@@ -36,7 +37,8 @@ export class PhieutiepnhanNewComponent implements OnInit {
     private hieuxeService: HieuxeService,
     private xesuaService: XesuaService,
     private khachhangService: KhachhangService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private location: Location,
   ) {
   }
 
@@ -83,5 +85,8 @@ export class PhieutiepnhanNewComponent implements OnInit {
       idkhachhang: '',
       bienso: ''
     }; */
+  }
+  goBack() {
+    this.location.back();
   }
 }

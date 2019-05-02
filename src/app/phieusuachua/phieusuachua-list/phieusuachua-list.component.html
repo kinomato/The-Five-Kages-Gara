@@ -1,0 +1,25 @@
+<button routerLink="/suachua/new" class="btn btn-success">Thêm phiếu sửa</button>
+<h1>Danh sách phiếu sửa chữa</h1>
+<div class="shadow-lg">
+  <table class="table table-hover">
+    <thead>
+      <th>STT</th>
+      <th>Biển số</th>
+      <th>Ngày sửa chữa</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let suachua of suachuaList, let i = index">
+        <th scope="row">{{i + 1}}</th>
+        <td>{{suachua.bienso}}</td>
+        <td>{{suachua.ngaysuachua | customdatetime}}</td>
+        <td> <a matTooltip="Edit" type="button" class="btn text-warning"
+            [routerLink]="[ '/suachua/detail/', suachua.idphieusuachua ]">
+            <i class="fa fa-cog" aria-hidden="true"></i>
+          </a></td>
+        <td> <a matTooltip="Delete" type="button" class="btn text-danger" (click)="onDelete(suachua.idphieusuachua)">
+            <i class="fa fa-trash" aria-hidden="true"></i>
+          </a></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
