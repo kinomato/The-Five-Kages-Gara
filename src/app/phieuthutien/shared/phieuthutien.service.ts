@@ -38,11 +38,26 @@ export class PhieuthutienService {
       })
     );
   }
-  Submit(data: any) {
-    this.fireStore.collection('thutien').add(data)
-    .catch(rejected => console.log(rejected))
-    .finally(() => {
-      this.toastr.success('Submited Succesful!', 'Thu tiền');
-    });
+  async Submit(data: any) {
+    try {
+      const docref = await this.fireStore.collection('thutien').add(data);
+      return docref.id;
+    } catch (err) {
+      console.log('submit phieusuachua' + err);
+      return '';
+    }
+  }
+  changePhieutiepnhan(id: string, data: any, tienthu: number) {
+    const newobj = Object.assign({} as Phieutiepnhan, data);
+    delete newobj.tenkhachhang;
+    delete newobj.diachi;
+    delete newobj.dienthoai;
+    newobj.idthutien = id;
+    newobj.thutienstt = true;
+    newobj.tienno = newobj.tienno - tienthu;
+    if (newobj.tienno === 0) {
+      newobj.tiennostt = false;
+    }
+    this.tiepnhanService.Update(data.idphieutiepnhan, newobj);
   }
 }

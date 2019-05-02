@@ -20,7 +20,7 @@ export class PhieuthutienNewComponent implements OnInit {
   sotienthu: '';
   currentdate: Date = new Date();
   tiepnhantemp: any;
-  tiepnhanList = [];
+  tiepnhanList = [{bienso: 'None'}];
   model;
   config;
   ishow = false;
@@ -45,7 +45,7 @@ export class PhieuthutienNewComponent implements OnInit {
       searchOnKey: 'bienso' // key on which search should be performed this will be selective search.
       // if undefined this will be extensive search on all keys
     };
-   }
+  }
 
   ngOnInit() {
     this.getDate();
@@ -65,13 +65,28 @@ export class PhieuthutienNewComponent implements OnInit {
     this.thutienService.getPhieutiepnhans().subscribe(res => {
       this.tiepnhanList = [...this.tiepnhanList, res];
     },
-    err => console.log(err));
+      err => console.log(err));
   }
-  onSubmit(form: NgForm) {
-    const newObj = Object.assign({sotienthu: +this.sotienthu} as Phieuthutien, form.value);
+  /* onSubmit(form: NgForm) {
+    const newObj = Object.assign({ sotienthu: +this.sotienthu } as Phieuthutien, form.value);
     newObj.bienso = this.tiepnhantemp.bienso;
-    /* console.log(newObj); */
     this.thutienService.Submit(newObj);
+  } */
+  onSubmit(form: NgForm) {
+    const newObj = Object.assign({ sotienthu: +this.sotienthu } as Phieuthutien, form.value);
+    newObj.bienso = this.tiepnhantemp.bienso;
+    this.thutienService.Submit(newObj)
+      .then(id => {
+        this.thutienService.changePhieutiepnhan(id, this.tiepnhantemp, +this.sotienthu);
+      })
+      .finally(() => {
+        this.toastr.success('Submited Succesful!', 'Phiếu sửa chữa');
+        this.refresh();
+      });
+  }
+  refresh() {
+    this.tiepnhanList = [{bienso: 'None'}];
+    this.tiepnhantemp = {...this.tiepnhanList[0]};
   }
   change() {
     if (this.tiepnhantemp === undefined || this.tiepnhantemp === null) {
