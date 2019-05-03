@@ -5,6 +5,8 @@ import { PhieuthutienService } from '../shared/phieuthutien.service';
 import { Location } from '@angular/common';
 import { NgForm } from '@angular/forms';
 import { Phieuthutien } from 'src/app/models/phieuthutien.model';
+import { ActivatedRoute } from '@angular/router';
+import { Phieutiepnhan } from 'src/app/models/phieutiepnhan.model';
 
 @Component({
   selector: 'app-phieuthutien-detail',
@@ -12,11 +14,11 @@ import { Phieuthutien } from 'src/app/models/phieuthutien.model';
   styleUrls: ['./phieuthutien-detail.component.css']
 })
 export class PhieuthutienDetailComponent implements OnInit {
-  bienso: '';
-  tenchuxe: '';
-  dienthoai: '';
-  diachi: '';
-  sotienthu: '';
+  bienso = '';
+  tenchuxe = '';
+  dienthoai = '';
+  diachi = '';
+  sotienthu = '';
   currentdate: Date = new Date();
   tiepnhantemp: any;
   tiepnhanList = [{bienso: 'None'}];
@@ -27,7 +29,8 @@ export class PhieuthutienDetailComponent implements OnInit {
     private toastr: ToastrService,
     private tiepnhanService: PhieutiepnhanService,
     private location: Location,
-    private thutienService: PhieuthutienService
+    private thutienService: PhieuthutienService,
+    private activetedRoute: ActivatedRoute,
   ) {
     this.config = {
       displayKey: 'bienso', // if objects array passed which key to be displayed defaults to description
@@ -47,6 +50,8 @@ export class PhieuthutienDetailComponent implements OnInit {
    }
 
   ngOnInit() {
+    this.getPhieutiepnhans();
+    this.getPhieuthutien();
   }
   async getPhieutiepnhans() {
     this.thutienService.getPhieutiepnhans().subscribe(res => {
@@ -54,16 +59,41 @@ export class PhieuthutienDetailComponent implements OnInit {
     },
       err => console.log(err));
   }
+  getPhieuthutien() {
+    const id = this.activetedRoute.snapshot.paramMap.get('id');
+    this.thutienService.getPhieuthutien(id).subscribe((data: Phieuthutien) => {
+      const newobj = Object.assign({}, data);
+      console.log(newobj);
+      this.diachi = newobj.diachi;
+      this.dienthoai = newobj.dienthoai;
+      this.tenchuxe = newobj.tenchuxe;
+      this.sotienthu = '' + newobj.sotienthu;
+      this.model = newobj.ngaythutien;
+      this.initialize(newobj.bienso);
+    });
+  }
+  initialize(bienso: string) {
+    this.thutienService.getPhieutiepnhan(bienso).subscribe(actionArray => {
+      return actionArray.map(item => {
+        return this.tiepnhantemp = Object.assign({}, {
+          idphieutiepnhan: item.payload.doc.id,
+          ...item.payload.doc.data()
+        } as Phieutiepnhan);
+      });
+    });
+  }
   onSubmit(form: NgForm) {
+    const id = this.activetedRoute.snapshot.paramMap.get('id');
     const newObj = Object.assign({ sotienthu: +this.sotienthu } as Phieuthutien, form.value);
     newObj.bienso = this.tiepnhantemp.bienso;
-    this.thutienService.Submit(newObj)
-      .then(id => {
+    this.thutienService.Update(id, newObj);
+    this.toastr.success('Save Succesful!', 'Phiếu sửa chữa');
+      /* .then(id => {
         this.thutienService.changePhieutiepnhan(id, this.tiepnhantemp, +this.sotienthu);
       })
       .finally(() => {
         this.toastr.success('Submited Succesful!', 'Phiếu sửa chữa');
-      });
+      }); */
   }
   change() {
     if (this.tiepnhantemp === undefined || this.tiepnhantemp === null) {
@@ -80,9 +110,13 @@ export class PhieuthutienDetailComponent implements OnInit {
       this.sotienthu = this.tiepnhantemp.tienno;
     }
   }
+  goBack() {
+    this.location.back();
+  }
   show() {
-    this.tiepnhanList.forEach(item => {
+    /* this.tiepnhanList.forEach(item => {
       console.log(item);
-    });
+    }); */
+    console.log(this.tiepnhantemp);
   }
 }

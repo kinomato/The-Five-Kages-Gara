@@ -81,7 +81,7 @@ export class PhieuthutienNewComponent implements OnInit {
       })
       .finally(() => {
         this.toastr.success('Submited Succesful!', 'Phiếu sửa chữa');
-        this.refresh();
+        /* this.refresh(); */
       });
   }
   refresh() {
@@ -102,6 +102,9 @@ export class PhieuthutienNewComponent implements OnInit {
       this.dienthoai = this.tiepnhantemp.dienthoai;
       this.sotienthu = this.tiepnhantemp.tienno;
     }
+  }
+  goBack() {
+    this.location.back();
   }
   show() {
     this.tiepnhanList.forEach(item => {
