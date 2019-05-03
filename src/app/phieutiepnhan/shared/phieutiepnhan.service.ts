@@ -34,6 +34,7 @@ export class PhieutiepnhanService {
     const datakhachhang = Object.assign({}, dataform.value);
     delete datakhachhang.bienso;
     delete datakhachhang.hieuxe;
+    delete datakhachhang.ngaytiepnhan;
     this.khachhangService.Find(datakhachhang).subscribe(res => {
       if (res.empty) { // kiểm tra xem queries xong có trả về kết quả nào không
         this.khachhangService.submitAndReturnId(datakhachhang)
@@ -129,6 +130,7 @@ export class PhieutiepnhanService {
     return this.getTiepnhans().pipe(
       flatMap(res => {
         return res.map(item => {
+          console.log(item.payload.doc.data());
           return {
             idphieutiepnhan: item.payload.doc.id,
             ...item.payload.doc.data()
@@ -136,6 +138,7 @@ export class PhieutiepnhanService {
         });
       }),
       flatMap(res1 => {
+        console.log(res1);
         return this.khachhangService.getKhachhang(res1.idkhachhang).pipe(
           map(res2 => {
             const datakhach = res2.data();

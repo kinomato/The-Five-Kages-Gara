@@ -47,6 +47,16 @@ export class PhieuthutienService {
       return '';
     }
   }
+  Update(id: string, data: any) {
+    this.fireStore.collection('thutien').doc(id).update(data);
+  }
+  Delete(id: string) {
+    /* this.DeleteSub(id); */
+    this.fireStore.collection('thutien').doc(id).delete();
+    /* .then(() => {
+      this.changeWhendeleted(id);
+    }); */
+  }
   changePhieutiepnhan(id: string, data: any, tienthu: number) {
     const newobj = Object.assign({} as Phieutiepnhan, data);
     delete newobj.tenkhachhang;
@@ -59,5 +69,14 @@ export class PhieuthutienService {
       newobj.tiennostt = false;
     }
     this.tiepnhanService.Update(data.idphieutiepnhan, newobj);
+  }
+  getPhieuthutien(id: string) {
+    return this.fireStore.collection('thutien').doc(id).valueChanges();
+  }
+  getPhieuthutiens() {
+    return this.fireStore.collection('thutien').snapshotChanges();
+  }
+  getPhieutiepnhan(bienso?: string) {
+    return this.tiepnhanService.getTiepnhanQuery(bienso);
   }
 }

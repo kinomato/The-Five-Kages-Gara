@@ -9,6 +9,8 @@ import { HieuxeService } from 'src/app/hieuxe/shared/hieuxe.service';
 import {FormControl} from '@angular/forms';
 import { Observable } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { KhachhangService } from 'src/app/khachhang/shared/khachhang.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-phieutiepnhan-detail',
@@ -20,12 +22,15 @@ export class PhieutiepnhanDetailComponent implements OnInit {
   hieuxeList: Hieuxe[];
   hieuxeFilter: any;
   filteredOptions: any;
+  model;
   constructor(
     private tiepnhanService: PhieutiepnhanService,
     private location: Location,
     private activetedRoute: ActivatedRoute,
     private hieuxeService: HieuxeService,
     private fireStore: AngularFirestore,
+    private khachhangService: KhachhangService,
+    private toarst: ToastrService
   ) { }
 
   ngOnInit() {
@@ -33,10 +38,7 @@ export class PhieutiepnhanDetailComponent implements OnInit {
     this.getHieuxes();
     this.getThongtin();
   }
-  formReset(form?: NgForm) {
-    if (form !== null) {
-      return;
-    }
+  formReset() {
     this.phieutiepnhan = {
       tenkhachhang: '',
       hieuxe: '',
@@ -62,16 +64,28 @@ export class PhieutiepnhanDetailComponent implements OnInit {
       result => {
         console.log(result);
         this.phieutiepnhan = Object.assign({}, result);
+        console.log(this.phieutiepnhan.ngaytiepnhan);
+        this.model = Object.assign({}, this.phieutiepnhan.ngaytiepnhan);
+        console.log(this.model);
       },
       err => console.log(err));
   }
   onSave(form: NgForm) {
     /* const id = form.value.id; */
     const id = this.activetedRoute.snapshot.paramMap.get('id'); // id: string
-    console.log(id);
-    const data = Object.assign({}, form.value);
-    /* delete data.id; */
-    this.hieuxeService.Update(id, data);
+    const datatn = Object.assign({}, form.value);
+    const datakh = Object.assign({}, form.value);
+    delete datatn.diachi;
+    delete datatn.dienthoai;
+    delete datatn.tenkhachhang;
+    delete datakh.bienso;
+    delete datakh.ngaytiepnhan;
+    delete datakh.hieuxe;
+    /* console.log(datatn);
+    console.log(datakh); */
+    this.tiepnhanService.Update(id, datatn);
+    this.khachhangService.Update(this.phieutiepnhan.idkhachhang, datakh);
+    this.toarst.success('Submitted Succesful!', 'sửa phiếu tiếp nhận');
   }
   getHieuxes() {
     this.hieuxeService.getHieuXes().subscribe(actionArray => {

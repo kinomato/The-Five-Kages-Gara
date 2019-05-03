@@ -31,6 +31,7 @@ export class PhieutiepnhanNewComponent implements OnInit {
   hieuxeList: Hieuxe[];
   currentdate: Date = new Date();
   khachhangList: Khachhang[];
+  model;
 
   constructor(
     private tiepnhanService: PhieutiepnhanService,
@@ -44,6 +45,7 @@ export class PhieutiepnhanNewComponent implements OnInit {
 
   ngOnInit() {
     this.getHieuxes();
+    this.getDate();
     this.formReset();
   }
   getHieuxes() {
@@ -61,30 +63,20 @@ export class PhieutiepnhanNewComponent implements OnInit {
     this.toastr.success('Submitted Succesfully!', 'Tiếp nhận xe');
     this.formReset(form);
   }
+  getDate() {
+    const day = this.currentdate.getDate();
+    const month = this.currentdate.getMonth();
+    const year = this.currentdate.getFullYear();
+    this.model = {
+      year,
+      month,
+      day
+    };
+  }
   formReset(form?: NgForm) {
     if (form != null) {
       form.resetForm();
     }
-    /* this.tenkhachhang = '';
-    this.diachikhach = '';
-    this.sodienthoai = '';
-    this.biensoxe = '';
-    this.khachhang = {
-      idkhachhang: '',
-      tenkhachhang: '',
-      dienthoai: '',
-      diachi: ''
-    };
-    this.hieuxe = {
-      idhieuxe: '',
-      hieuxe: ''
-    };
-    this.xesua = {
-      idxesua: null,
-      idhieuxe: '',
-      idkhachhang: '',
-      bienso: ''
-    }; */
   }
   goBack() {
     this.location.back();
