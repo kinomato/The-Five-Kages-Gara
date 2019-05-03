@@ -13,15 +13,15 @@
     <tr *ngFor="let item of dataList">
         <td >{{item.bienso}}</td>
         <td > {{item.hieuxe}} </td>
-        <td > {{item.ngaytiepnhan}} </td>
+        <td > {{item.ngaytiepnhan | customdatetime}} </td>
         <td > {{item.tenkhachhang}} </td>
         <td > {{item.diachi}} </td>
         <td > {{item.dienthoai}} </td>
-        <td> <a matTooltip="Edit" click class="btn text-warning"  [routerLink]="[ '/phieutiepnhan/detail/', item.idphieutiepnhan ]">
-          <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+        <td> <a matTooltip="Edit" type="button" click class="btn text-warning"  [routerLink]="[ '/phieutiepnhan/detail/', item.idphieutiepnhan ]">
+          <i class="fa fa-cog" aria-hidden="true"></i>
           </a></td>
-        <td> <a matTooltip="Delete" class="btn text-danger" (click)="onDelete(item.idphieutiepnhan)">
-        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+        <td> <a matTooltip="Delete" type="button" class="btn text-danger" (click)="onDelete(item.idphieutiepnhan)">
+        <i class="fa fa-trash" aria-hidden="true"></i>
         </a></td>
     </tr>
   </tbody>

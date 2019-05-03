@@ -1,3 +1,53 @@
-<p>
-  phieuthutien-detail works!
-</p>
+<h1 class="display-4">Phiếu Thu Tiền</h1>
+<div class="shadow" style="padding: 10px">
+<form #form="ngForm" (submit)="onSubmit(form)" autocomplete="off">
+  <div class="form-group row">
+    <div class="col">
+      <div class="form-group">
+        <label for="bienso">Biển số:</label>
+        <ngx-select-dropdown id="bienso" (change)="change()" [required]="true" [config]="config" name="bienso" [options]="tiepnhanList"
+          [(ngModel)]="tiepnhantemp">
+        </ngx-select-dropdown>
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <label for="ngay">Ngày thu tiền:</label>
+        <div class="input-group">
+          <input id="ngay" class="form-control" placeholder="yyyy-mm-dd" name="ngaythutien" [(ngModel)]="model" ngbDatepicker
+            #d="ngbDatepicker">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button"><i class="fa fa-calendar"
+                aria-hidden="true"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="form-group row">
+    <div class="col">
+      <label for="ten">Tên chủ xe:</label>
+        <input id="ten" readonly="true" name="tenchuxe" #tenkhach="ngModel" [(ngModel)]="tenchuxe" placeholder="Tên chủ xe" class="form-control" required>
+        <!-- <div class="validation-error" *ngIf="tenkhach.invalid && tenkhach.touched">this field is required</div> -->
+    </div>
+    <div class="col">
+      <label for="dienthoai">Điện thoại:</label>
+        <input id="dienthoai" readonly="true" class="form-control" #sodienthoai="ngModel" [(ngModel)]="dienthoai" name="dienthoai" placeholder="điện thoại">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="diachi">Địa chỉ:</label>
+      <input id="diachi" readonly="true" class="form-control" #sodiachi="ngModel" [(ngModel)]="diachi" name="diachi" placeholder="địa chỉ">
+    </div>
+  <div class="form-group">
+    <label for="tien">Số tiền thu:</label>
+      <ngx-numeric-textbox id="tien" [disabled]="true" name="tienthu" [(ngModel)]="sotienthu" [format]="0.000.000" [min]="0"
+        [placeholder]="'Số tiền thu'"
+        [rangeValidation]="true">
+      </ngx-numeric-textbox>
+  </div>
+  <div class="form-group">
+    <button class="form-control" [disabled]="form.invalid" type="submit" class="btn btn-block btn-info">submit</button>
+  </div>
+</form>
+</div>

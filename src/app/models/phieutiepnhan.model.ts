@@ -1,7 +1,11 @@
 export class Phieutiepnhan {
     constructor(
         public idphieutiepnhan: string,
-        public ngaytiepnhan: Date,
+        public ngaytiepnhan: {
+            day: string,
+            month: string,
+            year: string
+        },
         public bienso: string,
         public hieuxe: string,
         public idkhachhang: string,

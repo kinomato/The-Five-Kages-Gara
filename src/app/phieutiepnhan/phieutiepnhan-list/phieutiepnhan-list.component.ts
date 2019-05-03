@@ -16,7 +16,7 @@ import { Hieuxe } from 'src/app/models/hieuxe.model';
   styleUrls: ['./phieutiepnhan-list.component.css']
 })
 export class PhieutiepnhanListComponent implements OnInit {
-  dataList: any[];
+  dataList = [];
   phieuList: Phieutiepnhan[];
 
   constructor(
@@ -24,7 +24,7 @@ export class PhieutiepnhanListComponent implements OnInit {
     private khachhangService: KhachhangService,
     private xesuaService: XesuaService,
     private hieuxeService: HieuxeService
-  ) { this.dataList = new Array(); }
+  ) {  }
 
   ngOnInit() {
     this.getThongtin();
