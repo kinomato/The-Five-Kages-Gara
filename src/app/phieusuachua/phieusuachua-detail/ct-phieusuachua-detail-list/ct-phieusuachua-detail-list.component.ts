@@ -3,9 +3,9 @@ import { CTPhieusuachua } from 'src/app/models/ct-phieusuachua.model';
 import { Phieutiepnhan } from 'src/app/models/phieutiepnhan.model';
 import { Phutung } from 'src/app/models/phutung.model';
 import { Tiencong } from 'src/app/models/tiencong.model';
-import { PhieusuachuaService } from '../../shared/phieusuachua.service';
-import { TiencongService } from 'src/app/tiencong/shared/tiencong.service';
-import { PhutungService } from 'src/app/phutung/shared/phutung.service';
+import { PhieusuachuaService } from '../../../services/phieusuachua.service';
+import { TiencongService } from 'src/app/services/tiencong.service';
+import { PhutungService } from 'src/app/services/phutung.service';
 import {Location} from '@angular/common';
 
 @Component({

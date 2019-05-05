@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { KhachhangService } from './khachhang.service';
+import { KhachhangService } from '../../services/khachhang.service';
 
 describe('KhachhangService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));

@@ -1,13 +1,13 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Phieusuachua } from 'src/app/models/phieusuachua.model';
 import { CTPhieusuachua } from 'src/app/models/ct-phieusuachua.model';
-import { PhieusuachuaService } from '../../shared/phieusuachua.service';
+import { PhieusuachuaService } from '../../../services/phieusuachua.service';
 import { Phieutiepnhan } from 'src/app/models/phieutiepnhan.model';
 import { Phutung } from 'src/app/models/phutung.model';
 import { Tiencong } from 'src/app/models/tiencong.model';
-import { PhieutiepnhanService } from 'src/app/phieutiepnhan/shared/phieutiepnhan.service';
-import { TiencongService } from 'src/app/tiencong/shared/tiencong.service';
-import { PhutungService } from 'src/app/phutung/shared/phutung.service';
+import { PhieutiepnhanService } from 'src/app/services/phieutiepnhan.service';
+import { TiencongService } from 'src/app/services/tiencong.service';
+import { PhutungService } from 'src/app/services/phutung.service';
 
 @Component({
   selector: 'app-ct-phieusuachua-list',

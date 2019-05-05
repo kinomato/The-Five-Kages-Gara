@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { PhieutiepnhanService } from 'src/app/phieutiepnhan/shared/phieutiepnhan.service';
+import { PhieutiepnhanService } from 'src/app/services/phieutiepnhan.service';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { KhachhangService } from 'src/app/khachhang/shared/khachhang.service';
+import { KhachhangService } from 'src/app/services/khachhang.service';
 import { ToastrService } from 'ngx-toastr';
 import { flatMap, map } from 'rxjs/operators';
 import { Phieutiepnhan } from 'src/app/models/phieutiepnhan.model';

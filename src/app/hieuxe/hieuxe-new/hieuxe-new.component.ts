@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HieuxeService } from '../shared/hieuxe.service';
+import { HieuxeService } from '../../services/hieuxe.service';
 import { NgForm } from '@angular/forms';
 import { Hieuxe } from 'src/app/models/hieuxe.model';
 
@@ -29,7 +29,7 @@ export class HieuxeNewComponent implements OnInit {
   }
   onSubmit(form: NgForm) {
     const data = form.value;
-    this.hieuxeService.Submit(data);
+    this.hieuxeService.Submit1(data);
     this.resetForm(form);
   }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PhutungService } from '../shared/phutung.service';
+import { PhutungService } from '../../services/phutung.service';
 import { Phutung } from 'src/app/models/phutung.model';
 
 @Component({

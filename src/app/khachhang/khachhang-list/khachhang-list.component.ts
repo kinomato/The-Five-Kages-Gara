@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Khachhang } from 'src/app/models/khachhang.model';
-import { KhachhangService } from '../shared/khachhang.service';
+import { KhachhangService } from '../../services/khachhang.service';
 
 @Component({
   selector: 'app-khachhang-list',

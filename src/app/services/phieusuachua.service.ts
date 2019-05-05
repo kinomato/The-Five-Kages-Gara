@@ -3,7 +3,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { NgForm } from '@angular/forms';
 import { CTPhieusuachua } from 'src/app/models/ct-phieusuachua.model';
 import { forEach } from '@angular/router/src/utils/collection';
-import { PhieutiepnhanService } from 'src/app/phieutiepnhan/shared/phieutiepnhan.service';
+import { PhieutiepnhanService } from 'src/app/services/phieutiepnhan.service';
 import { Phieutiepnhan } from 'src/app/models/phieutiepnhan.model';
 import { reject } from 'q';
 

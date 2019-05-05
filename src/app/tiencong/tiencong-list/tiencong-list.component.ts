@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TiencongService } from '../shared/tiencong.service';
+import { TiencongService } from '../../services/tiencong.service';
 import { Tiencong } from 'src/app/models/tiencong.model';
 
 @Component({

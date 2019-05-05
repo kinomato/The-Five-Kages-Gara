@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { PhieutiepnhanService } from 'src/app/phieutiepnhan/shared/phieutiepnhan.service';
-import { PhieuthutienService } from '../shared/phieuthutien.service';
+import { PhieutiepnhanService } from 'src/app/services/phieutiepnhan.service';
+import { PhieuthutienService } from '../../services/phieuthutien.service';
 import { Location } from '@angular/common';
 import { NgForm } from '@angular/forms';
 import { Phieuthutien } from 'src/app/models/phieuthutien.model';

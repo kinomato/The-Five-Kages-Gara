@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HieuxeService } from '../shared/hieuxe.service';
+import { HieuxeService } from '../../services/hieuxe.service';
 import { Hieuxe } from 'src/app/models/hieuxe.model';
 
 @Component({

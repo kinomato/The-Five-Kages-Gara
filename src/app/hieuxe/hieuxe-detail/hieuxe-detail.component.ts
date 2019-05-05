@@ -4,7 +4,7 @@ import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { Hieuxe } from 'src/app/models/hieuxe.model';
-import { HieuxeService } from '../shared/hieuxe.service';
+import { HieuxeService } from '../../services/hieuxe.service';
 
 @Component({
   selector: 'app-hieuxe-detail',

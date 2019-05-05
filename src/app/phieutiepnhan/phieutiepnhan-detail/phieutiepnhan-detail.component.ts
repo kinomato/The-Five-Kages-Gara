@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { PhieutiepnhanService } from '../shared/phieutiepnhan.service';
+import { PhieutiepnhanService } from '../../services/phieutiepnhan.service';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { Phieutiepnhan } from 'src/app/models/phieutiepnhan.model';
 import { Hieuxe } from 'src/app/models/hieuxe.model';
 import { NgForm } from '@angular/forms';
-import { HieuxeService } from 'src/app/hieuxe/shared/hieuxe.service';
+import { HieuxeService } from 'src/app/services/hieuxe.service';
 import {FormControl} from '@angular/forms';
 import { Observable } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { KhachhangService } from 'src/app/khachhang/shared/khachhang.service';
+import { KhachhangService } from 'src/app/services/khachhang.service';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Thamso } from 'src/app/models/thamso.model';
-import { ThamsoService } from '../shared/thamso.service';
+import { ThamsoService } from '../../services/thamso.service';
 
 @Component({
   selector: 'app-thamso-list',

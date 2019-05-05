@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { PhutungService } from '../shared/phutung.service';
+import { PhutungService } from '../../services/phutung.service';
 import { Phutung } from 'src/app/models/phutung.model';
 
 @Component({
