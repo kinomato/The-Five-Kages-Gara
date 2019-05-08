@@ -1,21 +1,19 @@
 
   <table class="table table-condensed table-hover">
     <thead>
-      <th>Nội dung</th>
       <th>Phụ tùng</th>
       <th>Số lượng</th>
       <th>Đơn giá</th>
-      <th>Tiền công</th>
       <th>Thành tiền</th>
       <th><a class="btn btn-default" type="button" (click)="add()"><i class="fa fa-plus-circle"
             aria-hidden="true"></i></a></th>
     </thead>
     <tbody>
-      <tr *ngFor="let ctsuachua of ctsuachuaList">
-        <td class="form-group">
+      <tr *ngFor="let ctsuachua of ctphutungList">
+        <!-- <td class="form-group">
           <input class="form-control" type="text" name="noidung" 
           [(ngModel)]="ctsuachua.noidung">
-        </td>
+        </td> -->
         <td class="form-group">
           <!-- <input class="form-control" type="text" name="phutung" 
           [(ngModel)]="ctsuachua.phutung"> -->
@@ -36,18 +34,14 @@
           <input class="form-control" type="text" name="dongia" readonly="true"
             [(ngModel)]="ctsuachua.dongia">
         </td>
-        <td class="form-group">
-          <!-- <input class="form-control" (keyup)="calculate(ctsuachua)" type="text" name="tiencong"
-            [(ngModel)]="ctsuachua.tiencong"> -->
-            <!-- <ngx-select-dropdown [required]="true" [config]="configtc" (change)="calculate(ctsuachua)" name="tiencong" [options]="tiencongList" [(ngModel)]="ctsuachua.tiencong">
-            </ngx-select-dropdown> -->
+        <!-- <td class="form-group">
             <mat-form-field appearance="outline">
               <mat-label>Chọn tiền công</mat-label>
               <mat-select aria-placeholder="chọn phụ tùng" (selectionChange)="calculate(ctsuachua)" [(value)]="ctsuachua.tiencong">
                 <mat-option *ngFor="let tiencong of tiencongList" [value]="tiencong">{{tiencong.tenloaitiencong}}</mat-option>
               </mat-select>
             </mat-form-field>
-        </td>
+        </td> -->
         <td class="form-group">
           <input class="form-control" readonly="true" type="text" name="thanhtien" 
           [(ngModel)]="ctsuachua.thanhtien">

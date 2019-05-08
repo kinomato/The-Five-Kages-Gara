@@ -19,6 +19,7 @@ export class KhachhangDetailComponent implements OnInit {
     ) { }
 
   ngOnInit() {
+    this.getkhachhang();
   }
   onSave(form: NgForm) {
     /* const id = form.value.id; */

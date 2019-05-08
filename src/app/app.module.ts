@@ -51,7 +51,7 @@ import { XesuaListComponent } from './xesua/xesua-list/xesua-list.component';
 import { KhachhangListComponent } from './khachhang/khachhang-list/khachhang-list.component';
 import { KhachhangNewComponent } from './khachhang/khachhang-new/khachhang-new.component';
 import { KhachhangDetailComponent } from './khachhang/khachhang-detail/khachhang-detail.component';
-import { MatAutocompleteModule, MatInputModule, MatFormFieldModule} from '@angular/material';
+import { MatAutocompleteModule, MatInputModule, MatFormFieldModule, MatSelectModule, MatSelect} from '@angular/material';
 import { PhieusuachuaComponent } from './phieusuachua/phieusuachua.component';
 import { PhieusuachuaNewComponent } from './phieusuachua/phieusuachua-new/phieusuachua-new.component';
 import { CTPhieusuachuaListComponent } from './phieusuachua/phieusuachua-new/ct-phieusuachua-list/ct-phieusuachua-list.component';
@@ -65,6 +65,10 @@ import { PhieuthutienComponent } from './phieuthutien/phieuthutien.component';
 import { PhieuthutienNewComponent } from './phieuthutien/phieuthutien-new/phieuthutien-new.component';
 import { PhieuthutienListComponent } from './phieuthutien/phieuthutien-list/phieuthutien-list.component';
 import { PhieuthutienDetailComponent } from './phieuthutien/phieuthutien-detail/phieuthutien-detail.component';
+import { NhapphutungComponent } from './nhapphutung/nhapphutung.component';
+import { NhapphutungNewComponent } from './nhapphutung/nhapphutung-new/nhapphutung-new.component';
+import { NhapphutungListComponent } from './nhapphutung/nhapphutung-list/nhapphutung-list.component';
+import { CtNhapphutungListComponent } from './nhapphutung/nhapphutung-new/ct-nhapphutung-list/ct-nhapphutung-list.component';
 
 @NgModule({
   declarations: [
@@ -111,7 +115,11 @@ import { PhieuthutienDetailComponent } from './phieuthutien/phieuthutien-detail/
     PhieuthutienComponent,
     PhieuthutienNewComponent,
     PhieuthutienListComponent,
-    PhieuthutienDetailComponent
+    PhieuthutienDetailComponent,
+    NhapphutungComponent,
+    NhapphutungNewComponent,
+    NhapphutungListComponent,
+    CtNhapphutungListComponent
   ],
   imports: [
     BrowserModule,
@@ -127,6 +135,7 @@ import { PhieuthutienDetailComponent } from './phieuthutien/phieuthutien-detail/
     MatInputModule,
     MatAutocompleteModule,
     MatFormFieldModule,
+    MatSelectModule,
     NgbModule,
     NgbDatepickerModule,
     SelectDropDownModule,
@@ -136,6 +145,7 @@ import { PhieuthutienDetailComponent } from './phieuthutien/phieuthutien-detail/
     MatAutocompleteModule,
     MatInputModule,
     MatFormFieldModule,
+    MatSelectModule,
     NgbDatepickerModule
   ],
   providers: [EmployeeService],

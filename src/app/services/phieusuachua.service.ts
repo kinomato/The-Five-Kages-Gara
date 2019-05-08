@@ -6,6 +6,7 @@ import { forEach } from '@angular/router/src/utils/collection';
 import { PhieutiepnhanService } from 'src/app/services/phieutiepnhan.service';
 import { Phieutiepnhan } from 'src/app/models/phieutiepnhan.model';
 import { reject } from 'q';
+import { PhutungService } from './phutung.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,8 @@ export class PhieusuachuaService {
 
   constructor(
     private fireStore: AngularFirestore,
-    private tiepnhanService: PhieutiepnhanService) { }
+    private tiepnhanService: PhieutiepnhanService,
+    private phutungService: PhutungService) { }
   async Submit(data: any) {
     try {
       const docref = await this.fireStore.collection('suachua').add(data);
@@ -28,7 +30,13 @@ export class PhieusuachuaService {
     ctdata.forEach(ctphieusuachua => {
       const data = Object.assign({}, ctphieusuachua);
       delete data.idctsuachua;
-      this.fireStore.collection('suachua/' + id + '/ctsuachua').add(data);
+      this.fireStore.collection('suachua/' + id + '/ctsuachua').add(data)
+      .then(() => {
+        const sl = data.phutung.soluongconlai - data.soluong;
+        const newObj = Object.assign({}, data.phutung);
+        newObj.soluongconlai = sl;
+        this.phutungService.Update(newObj.idphutung, newObj);
+      });
     });
   }
   Update(id: string, data: any ) {

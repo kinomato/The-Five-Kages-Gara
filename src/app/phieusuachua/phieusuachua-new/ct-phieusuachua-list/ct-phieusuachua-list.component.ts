@@ -1,13 +1,13 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { Phieusuachua } from 'src/app/models/phieusuachua.model';
+
 import { CTPhieusuachua } from 'src/app/models/ct-phieusuachua.model';
 import { PhieusuachuaService } from '../../../services/phieusuachua.service';
-import { Phieutiepnhan } from 'src/app/models/phieutiepnhan.model';
 import { Phutung } from 'src/app/models/phutung.model';
 import { Tiencong } from 'src/app/models/tiencong.model';
 import { PhieutiepnhanService } from 'src/app/services/phieutiepnhan.service';
 import { TiencongService } from 'src/app/services/tiencong.service';
 import { PhutungService } from 'src/app/services/phutung.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-ct-phieusuachua-list',
@@ -16,13 +16,13 @@ import { PhutungService } from 'src/app/services/phutung.service';
 })
 export class CTPhieusuachuaListComponent implements OnInit {
   ctsuachuaList: CTPhieusuachua[] = [];
-  /* ctsuachua: CTPhieusuachua; */
-  tiepnhantemp: any;
-  phutungtemp: any;
-  tiencongtemp: any;
-  tiepnhanList: Phieutiepnhan[];
-  phutungList: Phutung[];
-  tiencongList: Tiencong[];
+  /* itemptlist = new BehaviorSubject([]); */
+  ptbooleanlist = [];
+  /* tcbooleanlist = []; */
+  selectedPTList = [];
+  /* selectedTCList = []; */
+  phutungList = [];
+  tiencongList = [];
   configpt;
   configtc;
   isunvalid = true;
@@ -67,14 +67,17 @@ export class CTPhieusuachuaListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getPhieutiepnhans();
     this.getPhutungs();
     this.getTiencongs();
+
   }
   onDelete(data: any) {
     const index = this.ctsuachuaList.indexOf(data, 0);
     if (index > -1) {
       this.ctsuachuaList.splice(index, 1);
+      this.selectedPTList.splice(index, 1);
+      this.updateStatusPT();
+      this.tinhTongTien();
     } else {
       console.log('something gone wrong');
     }
@@ -86,24 +89,15 @@ export class CTPhieusuachuaListComponent implements OnInit {
     /* this.onDelete(temp);
     this.ctsuachuaList.push(temp); */
   }
-  getPhieutiepnhans() {
-    this.tiepnhanService.getTiepnhans().subscribe(res => {
-      return this.tiepnhanList = res.map(item => {
-        return {
-          idphieutiepnhan: item.payload.doc.id,
-          ...item.payload.doc.data()
-        } as Phieutiepnhan;
-      });
-    });
-  }
   getPhutungs() {
     this.phutungService.getPhutungs().subscribe(res => {
-      return this.phutungList = res.map(item => {
+      this.phutungList = res.map(item => {
         return {
           idphutung: item.payload.doc.id,
           ...item.payload.doc.data()
         } as Phutung;
       });
+      return this.updateStatusPT();
     });
   }
   getTiencongs() {
@@ -122,7 +116,8 @@ export class CTPhieusuachuaListComponent implements OnInit {
     const dongia = this.ctsuachuaList[index].dongia;
     const tiencong = this.ctsuachuaList[index].tiencong;
     if (tiencong === undefined || tiencong === null) {
-      return this.ctsuachuaList[index].thanhtien = dongia * sl + 0;
+      this.ctsuachuaList[index].thanhtien = dongia * sl + 0;
+      return this.tinhTongTien();
     }
     this.ctsuachuaList[index].thanhtien = dongia * sl + +tiencong.muctiencong;
     this.tinhTongTien();
@@ -138,23 +133,48 @@ export class CTPhieusuachuaListComponent implements OnInit {
   changePT(selecteditem1: CTPhieusuachua) {
     const index1 = this.ctsuachuaList.indexOf(selecteditem1, 0);
     const item = this.ctsuachuaList[index1];
+    this.selectedPTList[index1] = item.phutung.tenphutung;
+    this.updateStatusPT();
     if (item.phutung === undefined || item.phutung === null) {
-      /* this.ctsuachuaList[index1].phutung = {} as Phutung; */
       this.ctsuachuaList[index1].dongia = 0;
       this.calculate(selecteditem1);
     } else {
-      /* this.ctsuachuaList[index1].phutung = JSON.parse(JSON.stringify(this.phutungtemp)); */ // deep cloning object
-      console.log(item.phutung);
-      item.dongia = + item.phutung.giaphutung;
+      item.dongia = +item.phutung.giaphutung;
       this.calculate(selecteditem1);
     }
   }
+  /* changeTC(selecteditem1: CTPhieusuachua) {
+    const index1 = this.ctsuachuaList.indexOf(selecteditem1, 0);
+    const item = this.ctsuachuaList[index1];
+    this.selectedTCList[index1] = item.tiencong.tenloaitiencong;
+    this.updateStatusTC();
+    this.calculate(selecteditem1);
+  } */
+  updateStatusPT() {
+    let i = 0;
+    this.phutungList.forEach(item => {
+      const selected = this.selectedPTList.includes(item.tenphutung);
+      this.ptbooleanlist[i] = selected;
+      i ++;
+    });
+  }
+  /* updateStatusTC() {
+    let i = 0;
+    this.tiencongList.forEach(item => {
+      const selected = this.selectedTCList.includes(item.tenloaitiencong);
+      this.tcbooleanlist[i] = selected;
+      i ++;
+    });
+  } */
   show() {
-    this.ctsuachuaList.forEach(item => {
+    /* this.ctsuachuaList.forEach(item => {
       console.log(item);
       console.log(this.ctsuachuaList.indexOf(item));
-    });
-    console.log(this.ctsuachuaList.length);
+    }); */
+    /* console.log(this.ctsuachuaList.length);
+    this.itemptlist.forEach(item => {
+      console.log(item);
+    }); */
   }
   onSubmit(id: string) {
     this.suachuaService.ctSubmit(id, this.ctsuachuaList);
