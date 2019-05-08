@@ -33,6 +33,8 @@ import { DanhsachxeComponent } from './danhsachxe/danhsachxe.component';
 import { PhieuthutienListComponent } from './phieuthutien/phieuthutien-list/phieuthutien-list.component';
 import { PhieuthutienNewComponent } from './phieuthutien/phieuthutien-new/phieuthutien-new.component';
 import { PhieuthutienDetailComponent } from './phieuthutien/phieuthutien-detail/phieuthutien-detail.component';
+import { NhapphutungNewComponent } from './nhapphutung/nhapphutung-new/nhapphutung-new.component';
+import { NhapphutungListComponent } from './nhapphutung/nhapphutung-list/nhapphutung-list.component';
 
 
 
@@ -70,6 +72,8 @@ const routes: Routes = [
   { path: 'thutien/detail/:id', component: PhieuthutienDetailComponent },
   { path: 'thutien/new', component: PhieuthutienNewComponent },
   { path: 'thutien', component: PhieuthutienListComponent },
+  { path: 'nhapphutung/new', component: NhapphutungNewComponent },
+  { path: 'nhapphutung', component: NhapphutungListComponent },
 ];
 @NgModule({
   declarations: [],

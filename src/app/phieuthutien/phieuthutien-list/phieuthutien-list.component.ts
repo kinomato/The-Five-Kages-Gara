@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PhieuthutienService } from '../shared/phieuthutien.service';
+import { PhieuthutienService } from '../../services/phieuthutien.service';
 import { Phieuthutien } from 'src/app/models/phieuthutien.model';
 
 @Component({

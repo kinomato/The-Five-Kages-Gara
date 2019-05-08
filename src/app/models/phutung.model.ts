@@ -3,6 +3,6 @@ export class Phutung {
         public idphutung: string,
         public tenphutung: string,
         public giaphutung: string,
-        public soluongconlai: Int16Array
+        public soluongconlai: number
     ) {}
 }

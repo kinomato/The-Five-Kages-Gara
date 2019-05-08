@@ -15,7 +15,7 @@ export class PhutungService {
   Submit(data: Phutung) {
     this.fireStore.collection('phutung').add(data);
   }
-  Update(id: string, data: NgForm ) {
+  Update(id: string, data: any ) {
     this.fireStore.collection('phutung').doc(id).update(data);
   }
   Delete(id: string) {

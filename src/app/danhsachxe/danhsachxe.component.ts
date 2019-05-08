@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Phieutiepnhan } from '../models/phieutiepnhan.model';
-import { PhieutiepnhanService } from '../phieutiepnhan/shared/phieutiepnhan.service';
+import { PhieutiepnhanService } from '../services/phieutiepnhan.service';
 
 @Component({
   selector: 'app-danhsachxe',

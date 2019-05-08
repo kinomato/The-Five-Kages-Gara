@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
 import { Phieusuachua } from 'src/app/models/phieusuachua.model';
-import { PhieusuachuaService } from '../shared/phieusuachua.service';
+import { PhieusuachuaService } from '../../services/phieusuachua.service';
 import { NgForm } from '@angular/forms';
 import { CTPhieusuachuaListComponent } from './ct-phieusuachua-list/ct-phieusuachua-list.component';
 import { ToastrService } from 'ngx-toastr';
 import { Phieutiepnhan } from 'src/app/models/phieutiepnhan.model';
-import { PhieutiepnhanService } from 'src/app/phieutiepnhan/shared/phieutiepnhan.service';
+import { PhieutiepnhanService } from 'src/app/services/phieutiepnhan.service';
 
 @Component({
   selector: 'app-phieusuachua-new',

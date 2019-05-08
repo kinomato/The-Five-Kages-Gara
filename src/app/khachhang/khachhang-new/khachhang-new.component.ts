@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { KhachhangService } from '../shared/khachhang.service';
+import { KhachhangService } from '../../services/khachhang.service';
 import { Khachhang } from 'src/app/models/khachhang.model';
 import { NgForm } from '@angular/forms';
 

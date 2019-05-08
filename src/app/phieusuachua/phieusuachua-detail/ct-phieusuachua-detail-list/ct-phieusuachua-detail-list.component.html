@@ -19,8 +19,14 @@
         <td class="form-group">
           <!-- <input class="form-control" type="text" name="phutung" 
           [(ngModel)]="ctsuachua.phutung"> -->
-          <ngx-select-dropdown [required]="true" [config]="configpt" (change)="changePT(ctsuachua)" name="phutung" [options]="phutungList" [(ngModel)]="ctsuachua.phutung">
-          </ngx-select-dropdown>
+          <!-- <ngx-select-dropdown [required]="true" [config]="configpt" (change)="changePT(ctsuachua)" name="phutung" [options]="phutungList" [(ngModel)]="ctsuachua.phutung">
+          </ngx-select-dropdown> -->
+          <mat-form-field appearance="outline">
+            <mat-label>Chọn phụ tùng</mat-label>
+            <mat-select aria-placeholder="chọn phụ tùng" [compareWith]="customComparePT" (selectionChange)="changePT(ctsuachua)" [(value)]="ctsuachua.phutung">
+              <mat-option *ngFor="let phutung of phutungList, let i = index" [disabled]="ptbooleanlist[i]" [value]="phutung">{{phutung.tenphutung}}</mat-option>
+            </mat-select>
+          </mat-form-field>
         </td>
         <td class="form-group">
           <input class="form-control" (keyup)="calculate(ctsuachua)" (change)="calculate(ctsuachua)" type="number" [min]="0" name="soluong"
@@ -33,8 +39,14 @@
         <td class="form-group">
           <!-- <input class="form-control" (keyup)="calculate(ctsuachua)" type="text" name="tiencong"
             [(ngModel)]="ctsuachua.tiencong"> -->
-            <ngx-select-dropdown [required]="true" [config]="configtc" (change)="calculate(ctsuachua)" name="tiencong" [options]="tiencongList" [(ngModel)]="ctsuachua.tiencong">
-            </ngx-select-dropdown>
+            <!-- <ngx-select-dropdown [required]="true" [config]="configtc" (change)="calculate(ctsuachua)" name="tiencong" [options]="tiencongList" [(ngModel)]="ctsuachua.tiencong">
+            </ngx-select-dropdown> -->
+            <mat-form-field appearance="outline">
+              <mat-label>Chọn tiền công</mat-label>
+              <mat-select aria-placeholder="chọn phụ tùng" [compareWith]="customCompareTC" (selectionChange)="calculate(ctsuachua)" [(value)]="ctsuachua.tiencong">
+                <mat-option *ngFor="let tiencong of tiencongList" [value]="tiencong">{{tiencong.tenloaitiencong}}</mat-option>
+              </mat-select>
+            </mat-form-field>
         </td>
         <td class="form-group">
           <input class="form-control" readonly="true" type="text" name="thanhtien" 
@@ -49,3 +61,4 @@
       </tr>
     </tbody>
   </table>
+  <!-- <a type="button" (click)="show()">show</a> -->

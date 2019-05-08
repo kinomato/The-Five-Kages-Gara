@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Location, getLocaleDateFormat } from '@angular/common';
 import { Phieutiepnhan } from 'src/app/models/phieutiepnhan.model';
 import { ToastrService } from 'ngx-toastr';
-import { PhieutiepnhanService } from 'src/app/phieutiepnhan/shared/phieutiepnhan.service';
-import { PhieuthutienService } from '../shared/phieuthutien.service';
+import { PhieutiepnhanService } from 'src/app/services/phieutiepnhan.service';
+import { PhieuthutienService } from '../../services/phieuthutien.service';
 import { NgForm } from '@angular/forms';
 import { Phieuthutien } from 'src/app/models/phieuthutien.model';
 

@@ -3,8 +3,8 @@ import { CtPhieusuachuaDetailListComponent } from './ct-phieusuachua-detail-list
 import { Phieutiepnhan } from 'src/app/models/phieutiepnhan.model';
 import { Phieusuachua } from 'src/app/models/phieusuachua.model';
 import { ToastrService } from 'ngx-toastr';
-import { PhieusuachuaService } from '../shared/phieusuachua.service';
-import { PhieutiepnhanService } from 'src/app/phieutiepnhan/shared/phieutiepnhan.service';
+import { PhieusuachuaService } from '../../services/phieusuachua.service';
+import { PhieutiepnhanService } from 'src/app/services/phieutiepnhan.service';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';

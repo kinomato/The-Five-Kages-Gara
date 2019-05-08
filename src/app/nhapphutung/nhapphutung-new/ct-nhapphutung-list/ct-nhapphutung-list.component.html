@@ -1,0 +1,58 @@
+
+  <table class="table table-condensed table-hover">
+    <thead>
+      <th>Phụ tùng</th>
+      <th>Số lượng</th>
+      <th>Đơn giá</th>
+      <th>Thành tiền</th>
+      <th><a class="btn btn-default" type="button" (click)="add()"><i class="fa fa-plus-circle"
+            aria-hidden="true"></i></a></th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let ctsuachua of ctphutungList">
+        <!-- <td class="form-group">
+          <input class="form-control" type="text" name="noidung" 
+          [(ngModel)]="ctsuachua.noidung">
+        </td> -->
+        <td class="form-group">
+          <!-- <input class="form-control" type="text" name="phutung" 
+          [(ngModel)]="ctsuachua.phutung"> -->
+          <!-- <ngx-select-dropdown [required]="true" [config]="configpt" (change)="changePT(ctsuachua)" name="phutung" [options]="phutungList" [(ngModel)]="ctsuachua.phutung">
+          </ngx-select-dropdown> -->
+          <mat-form-field appearance="outline">
+            <mat-label>Chọn phụ tùng</mat-label>
+            <mat-select aria-placeholder="chọn phụ tùng" (selectionChange)="changePT(ctsuachua)" [(value)]="ctsuachua.phutung">
+              <mat-option *ngFor="let phutung of phutungList, let i = index" [disabled]="ptbooleanlist[i]" [value]="phutung">{{phutung.tenphutung}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+        <td class="form-group">
+          <input class="form-control" (keyup)="calculate(ctsuachua)" (change)="calculate(ctsuachua)" type="number" [min]="0" name="soluong"
+            [(ngModel)]="ctsuachua.soluong">
+        </td>
+        <td class="form-group">
+          <input class="form-control" type="text" name="dongia" readonly="true"
+            [(ngModel)]="ctsuachua.dongia">
+        </td>
+        <!-- <td class="form-group">
+            <mat-form-field appearance="outline">
+              <mat-label>Chọn tiền công</mat-label>
+              <mat-select aria-placeholder="chọn phụ tùng" (selectionChange)="calculate(ctsuachua)" [(value)]="ctsuachua.tiencong">
+                <mat-option *ngFor="let tiencong of tiencongList" [value]="tiencong">{{tiencong.tenloaitiencong}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+        </td> -->
+        <td class="form-group">
+          <input class="form-control" readonly="true" type="text" name="thanhtien" 
+          [(ngModel)]="ctsuachua.thanhtien">
+        </td>
+        <!-- <td> <a matTooltip="Edit" class="btn text-warning"  [routerLink]="[ '/ctsuachuas/detail/', ctsuachua.idctsuachua ]">
+        <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+        </a></td> -->
+        <td> <a matTooltip="Delete" type="button" class="btn text-danger" (click)="onDelete(ctsuachua)">
+            <i class="fa fa-trash" aria-hidden="true"></i>
+          </a></td>
+      </tr>
+    </tbody>
+  </table>
+<!-- <a class="btn btn-default" (click)="show()">show</a> -->

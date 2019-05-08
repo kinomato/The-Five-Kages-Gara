@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { KhachhangService } from '../shared/khachhang.service';
+import { KhachhangService } from '../../services/khachhang.service';
 import { Khachhang } from 'src/app/models/khachhang.model';
 
 @Component({
@@ -19,6 +19,7 @@ export class KhachhangDetailComponent implements OnInit {
     ) { }
 
   ngOnInit() {
+    this.getkhachhang();
   }
   onSave(form: NgForm) {
     /* const id = form.value.id; */

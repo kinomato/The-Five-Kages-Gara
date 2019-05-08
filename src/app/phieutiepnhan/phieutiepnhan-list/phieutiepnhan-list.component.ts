@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { PhieutiepnhanService } from '../shared/phieutiepnhan.service';
-import { KhachhangService } from 'src/app/khachhang/shared/khachhang.service';
+import { PhieutiepnhanService } from '../../services/phieutiepnhan.service';
+import { KhachhangService } from 'src/app/services/khachhang.service';
 import { XesuaService } from 'src/app/xesua/shared/xesua.service';
-import { HieuxeService } from 'src/app/hieuxe/shared/hieuxe.service';
+import { HieuxeService } from 'src/app/services/hieuxe.service';
 import { Phieutiepnhan } from 'src/app/models/phieutiepnhan.model';
 import { Xesua } from 'src/app/models/xesua.model';
 import { map } from 'rxjs/operators';

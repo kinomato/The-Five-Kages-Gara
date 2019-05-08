@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Tiencong } from 'src/app/models/tiencong.model';
-import { TiencongService } from '../shared/tiencong.service';
+import { TiencongService } from '../../services/tiencong.service';
 
 @Component({
   selector: 'app-tiencong-new',

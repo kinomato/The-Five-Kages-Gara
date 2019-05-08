@@ -1,0 +1,25 @@
+<button routerLink="/nhapphutung/new" class="btn btn-success">Nhập phụ tùng</button>
+<h1>Danh sách phiếu nhập phụ tùng</h1>
+<div class="shadow-lg">
+  <table class="table table-hover">
+    <thead>
+      <th>STT</th>
+      <th>Ngày nhập</th>
+      <th>Tổng tiền</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let phutung of nhapptList, let i = index">
+        <th scope="row">{{i + 1}}</th>
+        <td>{{phutung.ngaynhap | customdatetime}}</td>
+        <td>{{phutung.tongtien}}</td>
+        <!-- <td> <a matTooltip="Edit" type="button" class="btn text-warning"
+            [routerLink]="[ '/suachua/detail/', suachua.idphieusuachua ]">
+            <i class="fa fa-cog" aria-hidden="true"></i>
+          </a></td> -->
+        <td> <a matTooltip="Delete" type="button" class="btn text-danger" (click)="onDelete(phutung.idnhappt)">
+            <i class="fa fa-trash" aria-hidden="true"></i>
+          </a></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

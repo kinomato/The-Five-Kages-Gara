@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { ThamsoService } from '../shared/thamso.service';
+import { ThamsoService } from '../../services/thamso.service';
 import { Thamso } from 'src/app/models/thamso.model';
 
 @Component({

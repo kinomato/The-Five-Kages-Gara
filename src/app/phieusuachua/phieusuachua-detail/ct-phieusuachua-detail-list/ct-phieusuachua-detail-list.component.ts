@@ -3,9 +3,9 @@ import { CTPhieusuachua } from 'src/app/models/ct-phieusuachua.model';
 import { Phieutiepnhan } from 'src/app/models/phieutiepnhan.model';
 import { Phutung } from 'src/app/models/phutung.model';
 import { Tiencong } from 'src/app/models/tiencong.model';
-import { PhieusuachuaService } from '../../shared/phieusuachua.service';
-import { TiencongService } from 'src/app/tiencong/shared/tiencong.service';
-import { PhutungService } from 'src/app/phutung/shared/phutung.service';
+import { PhieusuachuaService } from '../../../services/phieusuachua.service';
+import { TiencongService } from 'src/app/services/tiencong.service';
+import { PhutungService } from 'src/app/services/phutung.service';
 import {Location} from '@angular/common';
 
 @Component({
@@ -15,11 +15,9 @@ import {Location} from '@angular/common';
 })
 export class CtPhieusuachuaDetailListComponent implements OnInit {
   ctsuachuaList: CTPhieusuachua[] = [];
-  /* ctsuachua: CTPhieusuachua; */
- /*  tiepnhantemp: any;
-  phutungtemp: any;
-  tiencongtemp: any;
-  tiepnhanList: Phieutiepnhan[]; */
+  ptbooleanlist = [];
+  /* tcbooleanlist = []; */
+  selectedPTList = [];
   deleteList: string[] = [];
   idphieutiepnhan: string;
   phutungList: Phutung[];
@@ -27,6 +25,7 @@ export class CtPhieusuachuaDetailListComponent implements OnInit {
   configpt;
   configtc;
   tongtien = 0;
+  ishow = false;
   @Output() tinhtien = new EventEmitter<number>();
   constructor(
     private suachuaService: PhieusuachuaService,
@@ -77,6 +76,8 @@ export class CtPhieusuachuaDetailListComponent implements OnInit {
         /* this.suachuaService.ctDelete(this.idphieutiepnhan, data.idctsuachua); */
         this.ctsuachuaList.splice(index, 1);
         this.deleteList.push(data.idctsuachua);
+        this.selectedPTList.splice(index, 1);
+        this.updateStatusPT();
       } else {
         console.log('something gone wrong');
       }
@@ -128,6 +129,8 @@ export class CtPhieusuachuaDetailListComponent implements OnInit {
   changePT(selecteditem1: CTPhieusuachua) {
     const index1 = this.ctsuachuaList.indexOf(selecteditem1, 0);
     const item = this.ctsuachuaList[index1];
+    this.selectedPTList[index1] = item.phutung.tenphutung;
+    this.updateStatusPT();
     if (item.phutung === undefined || item.phutung === null) {
       /* this.ctsuachuaList[index1].phutung = {} as Phutung; */
       this.ctsuachuaList[index1].dongia = 0;
@@ -139,12 +142,31 @@ export class CtPhieusuachuaDetailListComponent implements OnInit {
       this.calculate(selecteditem1);
     }
   }
+  valueChange() {
+    /* const index1 = this.ctsuachuaList.indexOf(selecteditem, 0);
+    const item = this.ctsuachuaList[index1];
+    this.selectedPTList[index1] = item.phutung.tenphutung; */
+    let i = 0;
+    this.ctsuachuaList.forEach(item => {
+      this.selectedPTList[i] = item.phutung.tenphutung;
+      i++;
+    });
+    this.updateStatusPT();
+  }
+  updateStatusPT() {
+    let i = 0;
+    this.phutungList.forEach(item => {
+      const selected = this.selectedPTList.includes(item.tenphutung);
+      this.ptbooleanlist[i] = selected;
+      i ++;
+    });
+  }
   show() {
     this.ctsuachuaList.forEach(item => {
       console.log(item);
       console.log(this.ctsuachuaList.indexOf(item));
     });
-    console.log(this.ctsuachuaList.length);
+    this.ishow = !this.ishow;
   }
   onSubmit(id: string) {
     this.suachuaService.ctSubmit(id, this.ctsuachuaList);
@@ -160,12 +182,19 @@ export class CtPhieusuachuaDetailListComponent implements OnInit {
   getCTphieusuachua(id: string) {
     this.idphieutiepnhan = id;
     this.suachuaService.getCTphieusuachuas(id).subscribe(array => {
-      return this.ctsuachuaList = array.map(item => {
+      this.ctsuachuaList = array.map(item => {
         return {
           idctsuachua: item.payload.doc.id,
           ...item.payload.doc.data()
         } as CTPhieusuachua;
       });
+      return this.valueChange();
     });
+  }
+  customComparePT(phutung1: Phutung, phutung2: Phutung) {
+    return phutung1.idphutung === phutung2.idphutung;
+  }
+  customCompareTC(tc1: Tiencong, tc2: Tiencong) {
+    return tc1.idtiencong === tc2.idtiencong;
   }
 }
