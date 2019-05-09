@@ -18,7 +18,8 @@ import { Hieuxe } from 'src/app/models/hieuxe.model';
 export class PhieutiepnhanListComponent implements OnInit {
   dataList = [];
   phieuList: Phieutiepnhan[];
-
+  searchvalue: string;
+  templist = [];
   constructor(
     private tiepnhanService: PhieutiepnhanService,
     private khachhangService: KhachhangService,
@@ -38,6 +39,7 @@ export class PhieutiepnhanListComponent implements OnInit {
   onDelete(id: string) {
     if (confirm('are you sure ?')) {
       this.tiepnhanService.Delete(id);
+      this.dataList = [];
     }
   }
 }

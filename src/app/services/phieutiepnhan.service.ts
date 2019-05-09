@@ -24,7 +24,6 @@ export class PhieutiepnhanService {
   phieuList: Phieutiepnhan[];
   constructor(
     private fireStore: AngularFirestore,
-    private xesuaService: XesuaService,
     private hieuxeService: HieuxeService,
     private khachhangService: KhachhangService,
     private toastr: ToastrService
@@ -35,7 +34,7 @@ export class PhieutiepnhanService {
     delete datakhachhang.bienso;
     delete datakhachhang.hieuxe;
     delete datakhachhang.ngaytiepnhan;
-    this.khachhangService.Find(datakhachhang).subscribe(res => {
+    return this.khachhangService.Find(datakhachhang).subscribe(res => {
       if (res.empty) { // kiểm tra xem queries xong có trả về kết quả nào không
         this.khachhangService.submitAndReturnId(datakhachhang)
           .then(idkhach => {
@@ -51,10 +50,17 @@ export class PhieutiepnhanService {
               tienno: 0,
               idthutien: ''
             });
-            this.fireStore.collection('tiepnhan').add(datatiepnhan);
-            /* this.toastr.success('Submitted Succesfully!', 'Tiếp nhận xe'); */
+            return this.fireStore.collection('tiepnhan').add(datatiepnhan)
+            .then(() => {
+              this.toastr.success('Thêm thành công', 'Tiếp nhận xe');
+            })
+            .catch(err => {
+              this.toastr.error('Thêm thất bại', err);
+            });
           })
-          .catch((err: any) => console.log('lấy idkhachhang bị lỗi' + err));
+          .catch(err => {
+            this.toastr.error('Lỗi trong quá trình submit', err);
+          });
       } else {
         res.docs.map(item => {
           const datatiepnhan = Object.assign({}, {
@@ -69,19 +75,36 @@ export class PhieutiepnhanService {
             tienno: 0,
             idthutien: ''
           });
-          this.fireStore.collection('tiepnhan').add(datatiepnhan);
-          /*  this.toastr.success('Submitted Succesfully!', 'Tiếp nhận xe'); */
+          return this.fireStore.collection('tiepnhan').add(datatiepnhan)
+          .then(() => {
+            this.toastr.success('Thêm thành công', 'Tiếp nhận xe');
+          })
+          .catch(err => {
+            this.toastr.error('Thêm thất bại', err);
+          });
         });
       }
     }, err => this.toastr.error(err, 'error'));
   }
   Update(id: string, data: any) {
-    console.log(id);
-    console.log(data);
-    this.fireStore.collection('tiepnhan').doc(id).update(data);
+    /* console.log(id);
+    console.log(data); */
+    this.fireStore.collection('tiepnhan').doc(id).update(data)
+    .then(() => {
+      this.toastr.success('Cập nhật thành công', 'Cập nhật phiếu nhập');
+    })
+    .catch(err => {
+      this.toastr.error('Cập nhật thất bại', err);
+    });
   }
   Delete(id: string) {
-    this.fireStore.collection('tiepnhan').doc(id).delete();
+    this.fireStore.collection('tiepnhan').doc(id).delete()
+    .then(() => {
+      this.toastr.warning('Xóa thành công', 'Xóa phiếu nhập');
+    })
+    .catch(err => {
+      this.toastr.error('Xóa thất bại', err);
+    });
   }
   getTiepnhans() {
     return this.fireStore.collection('tiepnhan').snapshotChanges();
@@ -130,7 +153,7 @@ export class PhieutiepnhanService {
     return this.getTiepnhans().pipe(
       flatMap(res => {
         return res.map(item => {
-          console.log(item.payload.doc.data());
+          /* console.log(item.payload.doc.data()); */
           return {
             idphieutiepnhan: item.payload.doc.id,
             ...item.payload.doc.data()
@@ -138,7 +161,7 @@ export class PhieutiepnhanService {
         });
       }),
       flatMap(res1 => {
-        console.log(res1);
+        /* console.log(res1); */
         return this.khachhangService.getKhachhang(res1.idkhachhang).pipe(
           map(res2 => {
             const datakhach = res2.data();

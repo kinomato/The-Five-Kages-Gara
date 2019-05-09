@@ -8,7 +8,7 @@ import { Hieuxe } from 'src/app/models/hieuxe.model';
 import { Xesua } from 'src/app/models/xesua.model';
 import { Khachhang } from 'src/app/models/khachhang.model';
 import { Observable, throwError } from 'rxjs';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Location } from '@angular/common';
 import { CustomResObject } from 'src/app/interfaces/custom-res-object';
@@ -19,33 +19,40 @@ import { CustomResObject } from 'src/app/interfaces/custom-res-object';
   styleUrls: ['./phieutiepnhan-new.component.css']
 })
 export class PhieutiepnhanNewComponent implements OnInit {
+  dtregex = '[0-9]*';
   tenkhachhang: '';
   biensoxe: '';
   sodienthoai: '';
   diachikhach: '';
   tenhieuxe: string = null;
   selectedHieuxe: Observable<Hieuxe> = null;
-  tiepnhan: Phieutiepnhan;
-  hieuxe: Hieuxe;
-  xesua: Xesua;
-  khachhang: Khachhang;
   hieuxeList: Hieuxe[];
   currentdate: Date = new Date();
-  khachhangList: Khachhang[];
   model;
   temp = [];
+  form: FormGroup;
+  form1: FormGroup;
 
   constructor(
     private tiepnhanService: PhieutiepnhanService,
     private hieuxeService: HieuxeService,
-    private xesuaService: XesuaService,
-    private khachhangService: KhachhangService,
     private toastr: ToastrService,
     private location: Location,
   ) {
   }
 
   ngOnInit() {
+    /* this.form1 = new FormGroup({
+      bienso: new FormControl('', [Validators.maxLength(10), Validators.required]),
+    });
+    this.form = new FormGroup({
+      tenkhachhang: new FormControl('', [Validators.maxLength(20), Validators.required, Validators.pattern('[a-zA-Z]')]),
+      dienthoai: new FormControl('', [Validators.minLength(10), Validators.maxLength(10),
+                                      Validators.pattern('[0-9]'), Validators.required]),
+      diachi: new FormControl('', [Validators.maxLength(50), Validators.pattern('[a-zA-Z0-9]')])
+
+
+    }); */
     this.getHieuxes();
     this.getDate();
     this.formReset();
@@ -75,12 +82,11 @@ export class PhieutiepnhanNewComponent implements OnInit {
   }
   onSubmit(form: NgForm) {
     this.tiepnhanService.Submit(form);
-    this.toastr.success('Submitted Succesfully!', 'Tiếp nhận xe');
     this.formReset(form);
   }
   getDate() {
     const day = this.currentdate.getDate();
-    const month = this.currentdate.getMonth();
+    const month = this.currentdate.getMonth() + 1;
     const year = this.currentdate.getFullYear();
     this.model = {
       year,
