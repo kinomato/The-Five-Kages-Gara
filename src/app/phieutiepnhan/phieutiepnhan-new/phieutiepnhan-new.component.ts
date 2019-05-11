@@ -8,7 +8,7 @@ import { Hieuxe } from 'src/app/models/hieuxe.model';
 import { Xesua } from 'src/app/models/xesua.model';
 import { Khachhang } from 'src/app/models/khachhang.model';
 import { Observable, throwError } from 'rxjs';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Location } from '@angular/common';
 import { CustomResObject } from 'src/app/interfaces/custom-res-object';
@@ -25,21 +25,15 @@ export class PhieutiepnhanNewComponent implements OnInit {
   diachikhach: '';
   tenhieuxe: string = null;
   selectedHieuxe: Observable<Hieuxe> = null;
-  tiepnhan: Phieutiepnhan;
-  hieuxe: Hieuxe;
-  xesua: Xesua;
-  khachhang: Khachhang;
   hieuxeList: Hieuxe[];
   currentdate: Date = new Date();
-  khachhangList: Khachhang[];
   model;
   temp = [];
+  isshow = true;
 
   constructor(
     private tiepnhanService: PhieutiepnhanService,
     private hieuxeService: HieuxeService,
-    private xesuaService: XesuaService,
-    private khachhangService: KhachhangService,
     private toastr: ToastrService,
     private location: Location,
   ) {
@@ -48,7 +42,6 @@ export class PhieutiepnhanNewComponent implements OnInit {
   ngOnInit() {
     this.getHieuxes();
     this.getDate();
-    this.formReset();
   }
   /* getHieuxes() {
     this.hieuxeService.getHieuXes().subscribe(actionArray => {
@@ -74,13 +67,18 @@ export class PhieutiepnhanNewComponent implements OnInit {
     });
   }
   onSubmit(form: NgForm) {
-    this.tiepnhanService.Submit(form);
-    this.toastr.success('Submitted Succesfully!', 'Tiếp nhận xe');
-    this.formReset(form);
+    this.isshow = false;
+    this.tiepnhanService.Submit(form).subscribe(() => {
+      this.isshow = true;
+      this.formReset(form);
+    });
+    /* setTimeout(() => {
+      this.isshow = true;
+    }, 3500); */
   }
   getDate() {
     const day = this.currentdate.getDate();
-    const month = this.currentdate.getMonth();
+    const month = this.currentdate.getMonth() + 1;
     const year = this.currentdate.getFullYear();
     this.model = {
       year,

@@ -8,6 +8,7 @@ import { PhieutiepnhanService } from 'src/app/services/phieutiepnhan.service';
 import { TiencongService } from 'src/app/services/tiencong.service';
 import { PhutungService } from 'src/app/services/phutung.service';
 import { BehaviorSubject } from 'rxjs';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-ct-phieusuachua-list',
@@ -27,6 +28,8 @@ export class CTPhieusuachuaListComponent implements OnInit {
   configtc;
   isunvalid = true;
   tongtien = 0;
+  isreadonly = true;
+  maxsl = 1;
   @Output() tinhtien = new EventEmitter<number>();
   constructor(
     private suachuaService: PhieusuachuaService,
@@ -83,9 +86,10 @@ export class CTPhieusuachuaListComponent implements OnInit {
     }
   }
   add() {
-    const newObj = new CTPhieusuachua('', '', undefined, 0, 0, undefined, 0);
+    const newObj = new CTPhieusuachua('', '', undefined, 1, null, undefined, null);
     const temp = JSON.parse(JSON.stringify(newObj));
     this.ctsuachuaList.push(temp);
+    this.tinhTongTien();
     /* this.onDelete(temp);
     this.ctsuachuaList.push(temp); */
   }
@@ -110,13 +114,23 @@ export class CTPhieusuachuaListComponent implements OnInit {
       });
     });
   }
+  checkSL(ctsuachua: CTPhieusuachua) {
+    const index = this.phutungList.indexOf(ctsuachua.phutung, 0);
+    if (ctsuachua.soluong > this.phutungList[index].soluongconlai) {
+      ctsuachua.soluong = this.phutungList[index].soluongconlai;
+    }
+    if ( ctsuachua.soluong < 1 ) {
+      ctsuachua.soluong = 1;
+    }
+    this.calculate(ctsuachua);
+  }
   calculate(ctsuachua: CTPhieusuachua) {
     const index = this.ctsuachuaList.indexOf(ctsuachua, 0);
     const sl = this.ctsuachuaList[index].soluong;
     const dongia = this.ctsuachuaList[index].dongia;
     const tiencong = this.ctsuachuaList[index].tiencong;
     if (tiencong === undefined || tiencong === null) {
-      this.ctsuachuaList[index].thanhtien = dongia * sl + 0;
+      this.ctsuachuaList[index].thanhtien = null;
       return this.tinhTongTien();
     }
     this.ctsuachuaList[index].thanhtien = dongia * sl + +tiencong.muctiencong;
@@ -124,9 +138,17 @@ export class CTPhieusuachuaListComponent implements OnInit {
   }
   tinhTongTien() {
     let temptong = 0;
-    this.ctsuachuaList.forEach(item => {
+    const count = this.ctsuachuaList.length;
+    for (let i = 0; i < count; i++) {
+      if (this.ctsuachuaList[i].thanhtien === null) {
+        temptong = null;
+        break;
+      }
+      temptong += this.ctsuachuaList[i].thanhtien;
+    }
+    /* this.ctsuachuaList.forEach(item => {
       temptong += item.thanhtien;
-    });
+    }); */
     this.tongtien = temptong;
     this.tinhtien.emit(this.tongtien);
   }
@@ -136,11 +158,13 @@ export class CTPhieusuachuaListComponent implements OnInit {
     this.selectedPTList[index1] = item.phutung.tenphutung;
     this.updateStatusPT();
     if (item.phutung === undefined || item.phutung === null) {
-      this.ctsuachuaList[index1].dongia = 0;
-      this.calculate(selecteditem1);
+      this.ctsuachuaList[index1].dongia = null;
+      /* this.calculate(selecteditem1); */
+      this.checkSL(selecteditem1);
     } else {
       item.dongia = +item.phutung.giaphutung;
-      this.calculate(selecteditem1);
+      /* this.calculate(selecteditem1); */
+      this.checkSL(selecteditem1);
     }
   }
   /* changeTC(selecteditem1: CTPhieusuachua) {
@@ -176,12 +200,15 @@ export class CTPhieusuachuaListComponent implements OnInit {
       console.log(item);
     }); */
   }
-  onSubmit(id: string) {
+  /* onSubmit(id: string) {
     this.suachuaService.ctSubmit(id, this.ctsuachuaList);
     this.formReset();
-  }
+  } */
   formReset() {
     const length = this.ctsuachuaList.length;
     this.ctsuachuaList.splice(0, length);
+  }
+  test(form: NgForm) {
+    console.log(form.value);
   }
 }

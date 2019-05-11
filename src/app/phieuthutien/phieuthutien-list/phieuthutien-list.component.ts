@@ -9,6 +9,8 @@ import { Phieuthutien } from 'src/app/models/phieuthutien.model';
 })
 export class PhieuthutienListComponent implements OnInit {
   thutienList = [];
+  searchvalue: string;
+
   constructor(private thutienService: PhieuthutienService) { }
 
   ngOnInit() {

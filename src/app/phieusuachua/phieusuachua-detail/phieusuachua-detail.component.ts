@@ -17,12 +17,13 @@ import { forkJoin, observable } from 'rxjs';
   styleUrls: ['./phieusuachua-detail.component.css']
 })
 export class PhieusuachuaDetailComponent implements OnInit {
-  phieusuachua = new Phieusuachua('', '', { day: '', month: '', year: ''}, 0);
+  phieusuachua = new Phieusuachua('', '', { day: '', month: '', year: '' }, 0);
   currentdate: Date = new Date();
   model = {};
   tiepnhantemp: any;
   tiepnhanList: Phieutiepnhan[] = [];
   config;
+  invalid = false;
   isshow = true;
   tongtien = 0;
   @ViewChild(CtPhieusuachuaDetailListComponent)
@@ -49,27 +50,27 @@ export class PhieusuachuaDetailComponent implements OnInit {
       searchOnKey: 'bienso' // key on which search should be performed this will be selective search.
       // if undefined this will be extensive search on all keys
     };
-   }
+  }
 
   ngOnInit() {
     this.getPhieutiepnhans();
     this.getPhieusuachua();
   }
   onSave(data: NgForm) {
+    this.isshow = false;
     const id = this.activetedRoute.snapshot.paramMap.get('id');
     const temp = Object.assign({}, data.value);
     temp.bienso = this.tiepnhantemp.bienso;
-    this.suachuaService.Update(id, temp);
-    this.mychild.onSave(id);
-    this.toastr.success('Updated Succesful!', 'Phiếu sửa chữa');
-      /* .then(id => {
-        this.mychild.onSubmit(id);
-      })
-      .finally(() => {
-        this.toastr.success('Submited Succesful!', 'Phiếu sửa chữa');
-        this.formReset(data);
-      }); */
-    this.location.back();
+    const deleteList = this.mychild.deleteList;
+    const ctsuachuaList = this.mychild.ctsuachuaList;
+    this.suachuaService.UpdateUtl(id, temp, ctsuachuaList, deleteList)
+    .then(() => {
+      this.suachuaService.changeWhendeleted(id);
+      this.toastr.success('Cập nhật thành công', 'Phiếu sửa chữa');
+    })
+    .catch(err => {
+      this.toastr.error(err, 'Đã xảy ra lỗi');
+    });
   }
   initialize(bienso: string) {
     this.suachuaService.getPhieutiepnhan(bienso).subscribe(actionArray => {
@@ -93,14 +94,14 @@ export class PhieusuachuaDetailComponent implements OnInit {
   }
   getPhieutiepnhans() {
     return this.tiepnhanService.getTiepnhans().subscribe(res => {
-      return  this.tiepnhanList = res.map(item => {
+      return this.tiepnhanList = res.map(item => {
         return {
           idphieutiepnhan: item.payload.doc.id,
           ...item.payload.doc.data()
         } as Phieutiepnhan;
       });
     },
-    err => console.log(err),
+      err => console.log(err),
     );
   }
   /* getPhieutiepnhanstest() {
@@ -119,8 +120,8 @@ export class PhieusuachuaDetailComponent implements OnInit {
       this.initialize(data.bienso);
       this.mychild.getCTphieusuachua(id);
     },
-    err => console.log(err),
-    () => console.log('complete'));
+      err => console.log(err),
+      () => console.log('complete'));
   }
   formReset(form?: NgForm) {
     if (form) {
@@ -140,5 +141,12 @@ export class PhieusuachuaDetailComponent implements OnInit {
     this.mychild.ctsuachuaList.forEach(element => {
       console.log(element);
     });
+  }
+  tinhTien(event: any) {
+    if (event === null) {
+      this.invalid = true;
+    } else {
+      this.invalid = false;
+    }
   }
 }

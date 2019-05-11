@@ -10,7 +10,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AngularFireModule } from '@angular/fire';
-import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFirestoreModule, AngularFirestore } from '@angular/fire/firestore';
 
 import { SelectDropDownModule } from 'ngx-select-dropdown';
 import { NumericTextboxModule } from 'ngx-numeric-textbox';
@@ -51,7 +51,7 @@ import { XesuaListComponent } from './xesua/xesua-list/xesua-list.component';
 import { KhachhangListComponent } from './khachhang/khachhang-list/khachhang-list.component';
 import { KhachhangNewComponent } from './khachhang/khachhang-new/khachhang-new.component';
 import { KhachhangDetailComponent } from './khachhang/khachhang-detail/khachhang-detail.component';
-import { MatAutocompleteModule, MatInputModule, MatFormFieldModule, MatSelectModule, MatSelect} from '@angular/material';
+import { MatAutocompleteModule, MatInputModule, MatFormFieldModule, MatSelectModule, MatProgressSpinnerModule} from '@angular/material';
 import { PhieusuachuaComponent } from './phieusuachua/phieusuachua.component';
 import { PhieusuachuaNewComponent } from './phieusuachua/phieusuachua-new/phieusuachua-new.component';
 import { CTPhieusuachuaListComponent } from './phieusuachua/phieusuachua-new/ct-phieusuachua-list/ct-phieusuachua-list.component';
@@ -69,6 +69,10 @@ import { NhapphutungComponent } from './nhapphutung/nhapphutung.component';
 import { NhapphutungNewComponent } from './nhapphutung/nhapphutung-new/nhapphutung-new.component';
 import { NhapphutungListComponent } from './nhapphutung/nhapphutung-list/nhapphutung-list.component';
 import { CtNhapphutungListComponent } from './nhapphutung/nhapphutung-new/ct-nhapphutung-list/ct-nhapphutung-list.component';
+import { DsxesearchPipe } from './custompipe/dsxesearch.pipe';
+import { NumbersOnlyDirective } from './directives/numbers-only.directive';
+import { TnlistsearchPipe } from './custompipe/tnlistsearch.pipe';
+import { TtlistsearchPipe } from './custompipe/ttlistsearch.pipe';
 
 @NgModule({
   declarations: [
@@ -119,7 +123,11 @@ import { CtNhapphutungListComponent } from './nhapphutung/nhapphutung-new/ct-nha
     NhapphutungComponent,
     NhapphutungNewComponent,
     NhapphutungListComponent,
-    CtNhapphutungListComponent
+    CtNhapphutungListComponent,
+    DsxesearchPipe,
+    NumbersOnlyDirective,
+    TnlistsearchPipe,
+    TtlistsearchPipe
   ],
   imports: [
     BrowserModule,
@@ -128,7 +136,7 @@ import { CtNhapphutungListComponent } from './nhapphutung/nhapphutung-new/ct-nha
     HttpClientModule,
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule,
+    AngularFirestoreModule.enablePersistence(), // cho phép hoạt động offline
     AppRoutingModule,
     BrowserAnimationsModule, // required animations module
     ToastrModule.forRoot(),
@@ -136,6 +144,7 @@ import { CtNhapphutungListComponent } from './nhapphutung/nhapphutung-new/ct-nha
     MatAutocompleteModule,
     MatFormFieldModule,
     MatSelectModule,
+    MatProgressSpinnerModule,
     NgbModule,
     NgbDatepickerModule,
     SelectDropDownModule,
@@ -146,6 +155,7 @@ import { CtNhapphutungListComponent } from './nhapphutung/nhapphutung-new/ct-nha
     MatInputModule,
     MatFormFieldModule,
     MatSelectModule,
+    MatProgressSpinnerModule,
     NgbDatepickerModule
   ],
   providers: [EmployeeService],

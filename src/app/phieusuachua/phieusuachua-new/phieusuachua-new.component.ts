@@ -7,6 +7,7 @@ import { CTPhieusuachuaListComponent } from './ct-phieusuachua-list/ct-phieusuac
 import { ToastrService } from 'ngx-toastr';
 import { Phieutiepnhan } from 'src/app/models/phieutiepnhan.model';
 import { PhieutiepnhanService } from 'src/app/services/phieutiepnhan.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-phieusuachua-new',
@@ -21,6 +22,8 @@ export class PhieusuachuaNewComponent implements OnInit {
   tiepnhanList: Phieutiepnhan[];
   tongtien: number;
   config;
+  invalid = false;
+  isshow = true;
   @ViewChild(CTPhieusuachuaListComponent)
   mychild: CTPhieusuachuaListComponent;
 
@@ -28,7 +31,8 @@ export class PhieusuachuaNewComponent implements OnInit {
     private toastr: ToastrService,
     private suachuaService: PhieusuachuaService,
     private tiepnhanService: PhieutiepnhanService,
-    private location: Location
+    private location: Location,
+    private router: Router
   ) {
     this.config = {
       displayKey: 'bienso', // if objects array passed which key to be displayed defaults to description
@@ -53,10 +57,25 @@ export class PhieusuachuaNewComponent implements OnInit {
     this.getPhieutiepnhans();
   }
   onSubmit(data: NgForm) {
-    const temp = Object.assign({ tongtien: this.tongtien}, data.value);
+    this.isshow = false;
+    const temp = Object.assign({ tongtien: this.tongtien }, data.value);
     temp.bienso = this.tiepnhantemp.bienso;
-    console.log(temp);
-    this.suachuaService.Submit(temp)
+    /* console.log(temp); */
+    const tempList = this.mychild.ctsuachuaList;
+    this.suachuaService.SubmitUlt(temp, tempList, this.tiepnhantemp.idphieutiepnhan)
+    .then(() => {
+      this.suachuaService.subTransaction(tempList);
+    })
+    .then(() => {
+      this.isshow = true;
+      this.toastr.success('Thêm thành công', 'Thêm phiếu sửa');
+      this.router.navigate(['/suachua']);
+    })
+    .catch(err => {
+      this.isshow = true;
+      this.toastr.error('Thất bại. Hãy thử lại', err);
+    });
+    /* this.suachuaService.Submit(temp)
       .then(id => {
         this.mychild.onSubmit(id);
         this.suachuaService.changePhieutiepnhan(id, this.tiepnhantemp, temp.tongtien);
@@ -64,11 +83,11 @@ export class PhieusuachuaNewComponent implements OnInit {
       .finally(() => {
         this.toastr.success('Submited Succesful!', 'Phiếu sửa chữa');
         this.location.back();
-      });
+      }); */
   }
   getDate() {
     const day = this.currentdate.getDate();
-    const month = this.currentdate.getMonth();
+    const month = this.currentdate.getMonth() + 1;
     const year = this.currentdate.getFullYear();
     this.model = {
       year,
@@ -98,5 +117,12 @@ export class PhieusuachuaNewComponent implements OnInit {
   }
   change() {
     this.getPhieutiepnhans();
+  }
+  tinhTien(event: any) {
+    if (event === null) {
+      this.invalid = true;
+    } else {
+      this.invalid = false;
+    }
   }
 }

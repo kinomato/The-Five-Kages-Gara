@@ -1,28 +1,36 @@
 <button type="button" class="btn btn-success" routerLink="/phieutiepnhan/new">Tiếp nhận xe</button>
 <h1>Danh sách phiếu</h1>
-<table class="table table-hover">
-  <thead>
-    <th>biển số</th>
-    <th>hiệu xe</th>
-    <th>ngày nhận</th>
-    <th>tên chủ xe</th>
-    <th>địa chỉ</th>
-    <th>điện thoại</th>
-  </thead>
-  <tbody>
-    <tr *ngFor="let item of dataList">
-        <td >{{item.bienso}}</td>
-        <td > {{item.hieuxe}} </td>
-        <td > {{item.ngaytiepnhan | customdatetime}} </td>
-        <td > {{item.tenkhachhang}} </td>
-        <td > {{item.diachi}} </td>
-        <td > {{item.dienthoai}} </td>
-        <td> <a matTooltip="Edit" type="button" click class="btn text-warning"  [routerLink]="[ '/phieutiepnhan/detail/', item.idphieutiepnhan ]">
-          <i class="fa fa-cog" aria-hidden="true"></i>
+<div class="shadow">
+  <form class="form-inline">
+    <label for="search"> <button disabled="true" class="btn btn-outline-secondary"><i class="fa fa-search" aria-hidden="true"></i></button>  </label>
+    <input type="text" id="search" name="search" [(ngModel)]="searchvalue" class="form-control" placeholder="Search any field">
+  </form>
+  <table class="table table-hover">
+    <thead>
+      <th>STT</th>
+      <th>biển số</th>
+      <th>hiệu xe</th>
+      <th>ngày nhận</th>
+      <th>tên chủ xe</th>
+      <th>địa chỉ</th>
+      <th>điện thoại</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of dataList | tnlistsearch: searchvalue, let i = index">
+          <th scope="row">{{i + 1}}</th>
+          <td >{{item.bienso}}</td>
+          <td > {{item.hieuxe}} </td>
+          <td > {{item.ngaytiepnhan | customdatetime}} </td>
+          <td > {{item.tenkhachhang}} </td>
+          <td > {{item.diachi}} </td>
+          <td > {{item.dienthoai}} </td>
+          <td> <a matTooltip="Edit" type="button" click class="btn text-warning"  [routerLink]="[ '/phieutiepnhan/detail/', item.idphieutiepnhan ]">
+            <i class="fa fa-cog" aria-hidden="true"></i>
+            </a></td>
+          <td> <a matTooltip="Delete" type="button" class="btn text-danger" (click)="onDelete(item.idphieutiepnhan)">
+          <i class="fa fa-trash" aria-hidden="true"></i>
           </a></td>
-        <td> <a matTooltip="Delete" type="button" class="btn text-danger" (click)="onDelete(item.idphieutiepnhan)">
-        <i class="fa fa-trash" aria-hidden="true"></i>
-        </a></td>
-    </tr>
-  </tbody>
-</table>
+      </tr>
+    </tbody>
+  </table>
+</div>

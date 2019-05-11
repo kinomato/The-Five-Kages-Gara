@@ -8,10 +8,12 @@ import { PhieutiepnhanService } from '../services/phieutiepnhan.service';
   styleUrls: ['./danhsachxe.component.css']
 })
 export class DanhsachxeComponent implements OnInit {
- dataList = [];
+  dataList = [];
+  searchvalue: any;
+  number: number;
   constructor(
     private tiepnhanService: PhieutiepnhanService,
-    ) { }
+  ) { }
 
   ngOnInit() {
     this.getThongtin();

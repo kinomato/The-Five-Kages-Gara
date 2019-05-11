@@ -1,16 +1,15 @@
-<button routerLink="/tiencongs/new" class="btn btn-success">New tiencong</button>
-<h1>tiencong table</h1>
+<button routerLink="/tiencong/new" class="btn btn-success">New tiencong</button>
+<h1>Danh sách tiền công</h1>
 <table class="table table-hover">
   <thead>
-    <th>Name</th>
-    <th>Position</th>
-    <th>Mobile</th>
+    <th>Tên</th>
+    <th>Mức tiền công</th>
   </thead>
   <tbody>
     <tr *ngFor="let tiencong of tiencongList">
         <td > {{tiencong.tenloaitiencong}} </td>
         <td > {{tiencong.muctiencong}} </td>       
-        <td> <a matTooltip="Edit" class="btn text-warning"  [routerLink]="[ '/tiencongs/detail/', tiencong.idtiencong ]">
+        <td> <a matTooltip="Edit" class="btn text-warning"  [routerLink]="[ '/tiencong/detail/', tiencong.idtiencong ]">
           <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
           </a></td>
         <td> <a matTooltip="Delete" class="btn text-danger" (click)="onDelete(tiencong.idtiencong)">

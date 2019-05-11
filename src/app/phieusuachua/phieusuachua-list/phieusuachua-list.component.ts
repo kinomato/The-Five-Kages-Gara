@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PhieusuachuaService } from '../../services/phieusuachua.service';
 import { Phieusuachua } from 'src/app/models/phieusuachua.model';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-phieusuachua-list',
@@ -12,6 +13,7 @@ export class PhieusuachuaListComponent implements OnInit {
 
   constructor(
     private suachuaService: PhieusuachuaService,
+    private toastr: ToastrService,
     ) { }
 
   ngOnInit() {
@@ -29,7 +31,13 @@ export class PhieusuachuaListComponent implements OnInit {
   }
   onDelete(id: string) {
     if (confirm('Are you sure ?')) {
-      this.suachuaService.Delete(id);
+      this.suachuaService.DeleteUlt(id)
+      .then(() => {
+        this.toastr.success('Xóa thành công', 'Phiếu sửa chữa');
+      })
+      .catch(err => {
+        this.toastr.error('Đã xảy ra lỗi', err);
+      });
     }
   }
 }
