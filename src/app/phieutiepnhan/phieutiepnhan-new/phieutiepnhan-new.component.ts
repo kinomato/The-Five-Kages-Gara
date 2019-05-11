@@ -19,7 +19,6 @@ import { CustomResObject } from 'src/app/interfaces/custom-res-object';
   styleUrls: ['./phieutiepnhan-new.component.css']
 })
 export class PhieutiepnhanNewComponent implements OnInit {
-  dtregex = '[0-9]*';
   tenkhachhang: '';
   biensoxe: '';
   sodienthoai: '';
@@ -30,8 +29,7 @@ export class PhieutiepnhanNewComponent implements OnInit {
   currentdate: Date = new Date();
   model;
   temp = [];
-  form: FormGroup;
-  form1: FormGroup;
+  isshow = true;
 
   constructor(
     private tiepnhanService: PhieutiepnhanService,
@@ -42,20 +40,8 @@ export class PhieutiepnhanNewComponent implements OnInit {
   }
 
   ngOnInit() {
-    /* this.form1 = new FormGroup({
-      bienso: new FormControl('', [Validators.maxLength(10), Validators.required]),
-    });
-    this.form = new FormGroup({
-      tenkhachhang: new FormControl('', [Validators.maxLength(20), Validators.required, Validators.pattern('[a-zA-Z]')]),
-      dienthoai: new FormControl('', [Validators.minLength(10), Validators.maxLength(10),
-                                      Validators.pattern('[0-9]'), Validators.required]),
-      diachi: new FormControl('', [Validators.maxLength(50), Validators.pattern('[a-zA-Z0-9]')])
-
-
-    }); */
     this.getHieuxes();
     this.getDate();
-    this.formReset();
   }
   /* getHieuxes() {
     this.hieuxeService.getHieuXes().subscribe(actionArray => {
@@ -81,8 +67,14 @@ export class PhieutiepnhanNewComponent implements OnInit {
     });
   }
   onSubmit(form: NgForm) {
-    this.tiepnhanService.Submit(form);
-    this.formReset(form);
+    this.isshow = false;
+    this.tiepnhanService.Submit(form).subscribe(() => {
+      this.isshow = true;
+      this.formReset(form);
+    });
+    /* setTimeout(() => {
+      this.isshow = true;
+    }, 3500); */
   }
   getDate() {
     const day = this.currentdate.getDate();

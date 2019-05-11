@@ -73,8 +73,11 @@
       <small class="validation-error" *ngIf="diachi.invalid && diachi.touched">Không hợp lệ</small>
     </div>
     <div class="form-group">
-      <button class="form-control" [disabled]="form.invalid" type="submit"
-        class="btn btn-block btn-info">submit</button>
+        <button class="form-control btn btn-block btn-info" [disabled]="form.invalid" type="submit"
+        style="display: flex; justify-content: center">
+        <h5 *ngIf="isshow">Submit</h5>
+        <mat-spinner diameter="25" *ngIf="!isshow"></mat-spinner>
+      </button>
     </div>
   </form>
 </div>

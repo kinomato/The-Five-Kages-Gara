@@ -34,15 +34,43 @@ export class PhieutiepnhanService {
     delete datakhachhang.bienso;
     delete datakhachhang.hieuxe;
     delete datakhachhang.ngaytiepnhan;
-    return this.khachhangService.Find(datakhachhang).subscribe(res => {
-      if (res.empty) { // kiểm tra xem queries xong có trả về kết quả nào không
-        this.khachhangService.submitAndReturnId(datakhachhang)
-          .then(idkhach => {
+    return this.khachhangService.Find(datakhachhang).pipe(
+      map(res => {
+        if (res.empty) { // kiểm tra xem queries xong có trả về kết quả nào không
+          const batch = this.fireStore.firestore.batch();
+          const khref = this.fireStore.firestore.collection('khachhang').doc();
+          const tnref = this.fireStore.firestore.collection('tiepnhan').doc();
+          const datatiepnhan = Object.assign({}, {
+            bienso: data.bienso,
+            ngaytiepnhan: data.ngaytiepnhan,
+            hieuxe: data.hieuxe,
+            idkhachhang: khref.id,
+            tenkhachhang: data.tenkhachhang,
+            dienthoai: data.dienthoai,
+            diachi: data.diachi,
+            suachuastt: false,
+            tiennostt: false,
+            thutienstt: false,
+            idsuachua: '',
+            tienno: 0,
+            idthutien: ''
+          });
+          batch.set(khref, datakhachhang);
+          batch.set(tnref, datatiepnhan);
+          return batch.commit()
+          .then(() => {
+            this.toastr.success('Thêm thành công', 'Tiếp nhận xe');
+          })
+          .catch(err => {
+            this.toastr.error('Thêm thất bại', err);
+          });
+        } else {
+          return res.docs.map(item => {
             const datatiepnhan = Object.assign({}, {
               bienso: data.bienso,
               ngaytiepnhan: data.ngaytiepnhan,
               hieuxe: data.hieuxe,
-              idkhachhang: idkhach,
+              idkhachhang: item.id,
               suachuastt: false,
               tiennostt: false,
               thutienstt: false,
@@ -51,60 +79,40 @@ export class PhieutiepnhanService {
               idthutien: ''
             });
             return this.fireStore.collection('tiepnhan').add(datatiepnhan)
-            .then(() => {
-              this.toastr.success('Thêm thành công', 'Tiếp nhận xe');
-            })
-            .catch(err => {
-              this.toastr.error('Thêm thất bại', err);
-            });
-          })
-          .catch(err => {
-            this.toastr.error('Lỗi trong quá trình submit', err);
+              .then(() => {
+                this.toastr.success('Thêm thành công', 'Tiếp nhận xe');
+              })
+              .catch(err => {
+                this.toastr.error('Thêm thất bại', err);
+              });
           });
-      } else {
-        res.docs.map(item => {
-          const datatiepnhan = Object.assign({}, {
-            bienso: data.bienso,
-            ngaytiepnhan: data.ngaytiepnhan,
-            hieuxe: data.hieuxe,
-            idkhachhang: item.id,
-            suachuastt: false,
-            tiennostt: false,
-            thutienstt: false,
-            idsuachua: '',
-            tienno: 0,
-            idthutien: ''
-          });
-          return this.fireStore.collection('tiepnhan').add(datatiepnhan)
-          .then(() => {
-            this.toastr.success('Thêm thành công', 'Tiếp nhận xe');
-          })
-          .catch(err => {
-            this.toastr.error('Thêm thất bại', err);
-          });
-        });
-      }
-    }, err => this.toastr.error(err, 'error'));
+        }
+      }, err => this.toastr.error(err, 'error')));
   }
   Update(id: string, data: any) {
     /* console.log(id);
     console.log(data); */
     this.fireStore.collection('tiepnhan').doc(id).update(data)
-    .then(() => {
-      this.toastr.success('Cập nhật thành công', 'Cập nhật phiếu nhập');
-    })
-    .catch(err => {
-      this.toastr.error('Cập nhật thất bại', err);
-    });
+      .then(() => {
+        this.toastr.success('Cập nhật thành công', 'Cập nhật phiếu nhập');
+      })
+      .catch(err => {
+        this.toastr.error('Cập nhật thất bại', err);
+      });
+  }
+  UpdateTNandKhach(idtn: string, datatn: any, idkh: string, datakh: any) {
+    const batch = this.fireStore.firestore.batch();
+    const tnref = this.fireStore.collection('tiepnhan').doc(idtn).ref;
+    const khref = this.fireStore.collection('khachhang').doc(idkh).ref;
+    batch.update(tnref, datatn);
+    batch.update(khref, datakh);
+    return batch.commit();
   }
   Delete(id: string) {
-    this.fireStore.collection('tiepnhan').doc(id).delete()
-    .then(() => {
-      this.toastr.warning('Xóa thành công', 'Xóa phiếu nhập');
-    })
-    .catch(err => {
-      this.toastr.error('Xóa thất bại', err);
-    });
+    const batch = this.fireStore.firestore.batch();
+    const tnref = this.fireStore.collection('tiepnhan').doc(id).ref;
+    batch.delete(tnref);
+    return batch.commit();
   }
   getTiepnhans() {
     return this.fireStore.collection('tiepnhan').snapshotChanges();
@@ -117,9 +125,9 @@ export class PhieutiepnhanService {
   getTiepnhanspt() {
     return this.fireStore.collection('tiepnhan', ref => {
       return ref.where('suachuastt', '==', true)
-      /* .orderBy('suachuastt')
-                .startAt(true).endAt(true) */
-                .where('thutienstt', '==', false);
+        /* .orderBy('suachuastt')
+                  .startAt(true).endAt(true) */
+        .where('thutienstt', '==', false);
     }).snapshotChanges();
   }
   getTiepnhan(id: string) {
@@ -171,35 +179,4 @@ export class PhieutiepnhanService {
       })
     );
   }
-  /* getThongtin_Test1() {
-    return this.getTiepnhans().pipe(
-      flatMap(res => {
-        return res.map(item => {
-          return {
-            idphieutiepnhan: item.payload.doc.id,
-            ...item.payload.doc.data()
-          } as Phieutiepnhan;
-        });
-      }),
-      flatMap(res1 => {
-        return this.xesuaService.getXesua(res1.idxesua).pipe(
-          map((xesua: Xesua) => {
-            return Object.assign(res1, xesua);
-          })
-        );
-      }),
-      flatMap(res2 => {
-        return forkJoin(
-          this.khachhangService.getKhachhang(res2.idkhachhang),
-          this.hieuxeService.getHieuxe(res2.idhieuxe)
-        ).pipe(
-          map(([res3, res4]) => {
-            const datakhach = res3.data();
-            const datahieuxe = res4.data();
-            return Object.assign(res2, datakhach, datahieuxe);
-          })
-        );
-      }),
-    );
-  } */
 }

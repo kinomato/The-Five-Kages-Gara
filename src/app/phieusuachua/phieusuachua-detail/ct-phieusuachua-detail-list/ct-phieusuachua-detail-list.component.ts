@@ -6,7 +6,7 @@ import { Tiencong } from 'src/app/models/tiencong.model';
 import { PhieusuachuaService } from '../../../services/phieusuachua.service';
 import { TiencongService } from 'src/app/services/tiencong.service';
 import { PhutungService } from 'src/app/services/phutung.service';
-import {Location} from '@angular/common';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-ct-phieusuachua-detail-list',
@@ -78,14 +78,17 @@ export class CtPhieusuachuaDetailListComponent implements OnInit {
         this.deleteList.push(data.idctsuachua);
         this.selectedPTList.splice(index, 1);
         this.updateStatusPT();
+        this.tinhTongTien();
       } else {
         console.log('something gone wrong');
       }
     }
   }
   add() {
-    const temp = new CTPhieusuachua('', '', null, 0, 0, null, 0);
+    const newObj = new CTPhieusuachua('', '', undefined, 1, null, undefined, null);
+    const temp = JSON.parse(JSON.stringify(newObj));
     this.ctsuachuaList.push(temp);
+    this.tinhTongTien();
   }
   getPhutungs() {
     this.phutungService.getPhutungs().subscribe(res => {
@@ -113,16 +116,46 @@ export class CtPhieusuachuaDetailListComponent implements OnInit {
     const dongia = this.ctsuachuaList[index].dongia;
     const tiencong = this.ctsuachuaList[index].tiencong;
     if (tiencong === undefined || tiencong === null) {
-      return this.ctsuachuaList[index].thanhtien = dongia * sl + 0;
+      return this.ctsuachuaList[index].thanhtien = null;
     }
     this.ctsuachuaList[index].thanhtien = dongia * sl + +tiencong.muctiencong;
     this.tinhTongTien();
   }
+  findIndex(objarray: Phutung[], value: any): number {
+    for (const item of objarray) {
+      if (item.idphutung === value) {
+        return objarray.indexOf(item);
+        break;
+      }
+    }
+    return -1;
+  }
+  checkSL(ctsuachua: CTPhieusuachua) {
+    const index = this.findIndex(this.phutungList, ctsuachua.phutung.idphutung);
+    if (index < 0) {
+      return console.log('something gone wrong');
+    }
+    if (ctsuachua.soluong > this.phutungList[index].soluongconlai) {
+      ctsuachua.soluong = this.phutungList[index].soluongconlai;
+    }
+    if (ctsuachua.soluong < 1) {
+      ctsuachua.soluong = 1;
+    }
+    this.calculate(ctsuachua);
+  }
   tinhTongTien() {
     let temptong = 0;
-    this.ctsuachuaList.forEach(item => {
+    const count = this.ctsuachuaList.length;
+    for (let i = 0; i < count; i++) {
+      if (this.ctsuachuaList[i].thanhtien === null) {
+        temptong = null;
+        break;
+      }
+      temptong += this.ctsuachuaList[i].thanhtien;
+    }
+    /* this.ctsuachuaList.forEach(item => {
       temptong += item.thanhtien;
-    });
+    }); */
     this.tongtien = temptong;
     this.tinhtien.emit(this.tongtien);
   }
@@ -133,13 +166,13 @@ export class CtPhieusuachuaDetailListComponent implements OnInit {
     this.updateStatusPT();
     if (item.phutung === undefined || item.phutung === null) {
       /* this.ctsuachuaList[index1].phutung = {} as Phutung; */
-      this.ctsuachuaList[index1].dongia = 0;
-      this.calculate(selecteditem1);
+      this.ctsuachuaList[index1].dongia = null;
+      this.checkSL(selecteditem1);
     } else {
       /* this.ctsuachuaList[index1].phutung = JSON.parse(JSON.stringify(this.phutungtemp)); */ // deep cloning object
       console.log(item.phutung);
       item.dongia = + item.phutung.giaphutung;
-      this.calculate(selecteditem1);
+      this.checkSL(selecteditem1);
     }
   }
   valueChange() {
@@ -158,7 +191,7 @@ export class CtPhieusuachuaDetailListComponent implements OnInit {
     this.phutungList.forEach(item => {
       const selected = this.selectedPTList.includes(item.tenphutung);
       this.ptbooleanlist[i] = selected;
-      i ++;
+      i++;
     });
   }
   show() {
