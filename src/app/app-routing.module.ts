@@ -35,6 +35,7 @@ import { PhieuthutienNewComponent } from './phieuthutien/phieuthutien-new/phieut
 import { PhieuthutienDetailComponent } from './phieuthutien/phieuthutien-detail/phieuthutien-detail.component';
 import { NhapphutungNewComponent } from './nhapphutung/nhapphutung-new/nhapphutung-new.component';
 import { NhapphutungListComponent } from './nhapphutung/nhapphutung-list/nhapphutung-list.component';
+import { UserProfileComponent } from './users/user-profile/user-profile.component';
 
 
 
@@ -74,6 +75,7 @@ const routes: Routes = [
   { path: 'thutien', component: PhieuthutienListComponent },
   { path: 'nhapphutung/new', component: NhapphutungNewComponent },
   { path: 'nhapphutung', component: NhapphutungListComponent },
+  { path: 'user/profile', component: UserProfileComponent },
 ];
 @NgModule({
   declarations: [],

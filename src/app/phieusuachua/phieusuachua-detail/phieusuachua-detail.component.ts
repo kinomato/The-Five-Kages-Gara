@@ -67,6 +67,10 @@ export class PhieusuachuaDetailComponent implements OnInit {
     .then(() => {
       this.suachuaService.changeWhendeleted(id);
       this.toastr.success('Cập nhật thành công', 'Phiếu sửa chữa');
+      this.location.back();
+    },
+    () => {
+      this.toastr.error('Bạn không đủ quyền lực', 'Thất bại');
     })
     .catch(err => {
       this.toastr.error(err, 'Đã xảy ra lỗi');
@@ -84,7 +88,7 @@ export class PhieusuachuaDetailComponent implements OnInit {
   }
   getDate() {
     const day = this.currentdate.getDate();
-    const month = this.currentdate.getMonth();
+    const month = this.currentdate.getMonth() + 1;
     const year = this.currentdate.getFullYear();
     this.model = {
       year,

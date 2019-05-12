@@ -10,7 +10,8 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AngularFireModule } from '@angular/fire';
-import { AngularFirestoreModule, AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireAuthModule } from '@angular/fire/auth';
 
 import { SelectDropDownModule } from 'ngx-select-dropdown';
 import { NumericTextboxModule } from 'ngx-numeric-textbox';
@@ -73,6 +74,8 @@ import { DsxesearchPipe } from './custompipe/dsxesearch.pipe';
 import { NumbersOnlyDirective } from './directives/numbers-only.directive';
 import { TnlistsearchPipe } from './custompipe/tnlistsearch.pipe';
 import { TtlistsearchPipe } from './custompipe/ttlistsearch.pipe';
+import { LoginFormComponent } from './users/login-form/login-form.component';
+import { UserProfileComponent } from './users/user-profile/user-profile.component';
 
 @NgModule({
   declarations: [
@@ -127,7 +130,9 @@ import { TtlistsearchPipe } from './custompipe/ttlistsearch.pipe';
     DsxesearchPipe,
     NumbersOnlyDirective,
     TnlistsearchPipe,
-    TtlistsearchPipe
+    TtlistsearchPipe,
+    LoginFormComponent,
+    UserProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -136,6 +141,7 @@ import { TtlistsearchPipe } from './custompipe/ttlistsearch.pipe';
     HttpClientModule,
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebase),
+    AngularFireAuthModule,
     AngularFirestoreModule.enablePersistence(), // cho phép hoạt động offline
     AppRoutingModule,
     BrowserAnimationsModule, // required animations module

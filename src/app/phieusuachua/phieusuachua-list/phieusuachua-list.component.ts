@@ -34,6 +34,9 @@ export class PhieusuachuaListComponent implements OnInit {
       this.suachuaService.DeleteUlt(id)
       .then(() => {
         this.toastr.success('Xóa thành công', 'Phiếu sửa chữa');
+      },
+      reject => {
+        this.toastr.error('Bạn không đủ quyền lực', 'Thất bại');
       })
       .catch(err => {
         this.toastr.error('Đã xảy ra lỗi', err);

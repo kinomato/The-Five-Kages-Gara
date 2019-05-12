@@ -34,6 +34,7 @@ export class PhieutiepnhanService {
     delete datakhachhang.bienso;
     delete datakhachhang.hieuxe;
     delete datakhachhang.ngaytiepnhan;
+    /* const query = await this.khachhangService.Find(datakhachhang); */
     return this.khachhangService.Find(datakhachhang).pipe(
       map(res => {
         if (res.empty) { // kiểm tra xem queries xong có trả về kết quả nào không
@@ -58,36 +59,50 @@ export class PhieutiepnhanService {
           batch.set(khref, datakhachhang);
           batch.set(tnref, datatiepnhan);
           return batch.commit()
-          .then(() => {
-            this.toastr.success('Thêm thành công', 'Tiếp nhận xe');
-          })
-          .catch(err => {
-            this.toastr.error('Thêm thất bại', err);
-          });
-        } else {
-          return res.docs.map(item => {
-            const datatiepnhan = Object.assign({}, {
-              bienso: data.bienso,
-              ngaytiepnhan: data.ngaytiepnhan,
-              hieuxe: data.hieuxe,
-              idkhachhang: item.id,
-              suachuastt: false,
-              tiennostt: false,
-              thutienstt: false,
-              idsuachua: '',
-              tienno: 0,
-              idthutien: ''
-            });
-            return this.fireStore.collection('tiepnhan').add(datatiepnhan)
-              .then(() => {
-                this.toastr.success('Thêm thành công', 'Tiếp nhận xe');
+            .then(() => {
+              this.toastr.success('Thêm thành công', 'Tiếp nhận xe');
+              return true;
+            },
+              (reject) => {
+                this.toastr.error('Bạn không đủ quyền lực', 'Thất bại');
+                return true;
               })
-              .catch(err => {
-                this.toastr.error('Thêm thất bại', err);
-              });
+            .catch(err => {
+              this.toastr.error(err, 'Đã xảy ra lỗi');
+              return true;
+            });
+        } else {
+          const snapshot = res.docs.pop();
+          const datatiepnhan = Object.assign({}, {
+            bienso: data.bienso,
+            ngaytiepnhan: data.ngaytiepnhan,
+            hieuxe: data.hieuxe,
+            idkhachhang: snapshot.id,
+            tenkhachhang: data.tenkhachhang,
+            dienthoai: data.dienthoai,
+            diachi: data.diachi,
+            suachuastt: false,
+            tiennostt: false,
+            thutienstt: false,
+            idsuachua: '',
+            tienno: 0,
+            idthutien: ''
           });
+          return this.fireStore.collection('tiepnhan').add(datatiepnhan)
+            .then(() => {
+              this.toastr.success('Thêm thành công', 'Tiếp nhận xe');
+              return true;
+            },
+              (reject) => {
+                this.toastr.error('Bạn không đủ quyền lực', 'Thất bại');
+                return true;
+              })
+            .catch(err => {
+              this.toastr.error(err, 'Đã xảy ra lỗi');
+              return true;
+            });
         }
-      }, err => this.toastr.error(err, 'error')));
+      }));
   }
   Update(id: string, data: any) {
     /* console.log(id);

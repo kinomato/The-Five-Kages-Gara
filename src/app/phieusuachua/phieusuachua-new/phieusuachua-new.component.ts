@@ -65,11 +65,13 @@ export class PhieusuachuaNewComponent implements OnInit {
     this.suachuaService.SubmitUlt(temp, tempList, this.tiepnhantemp.idphieutiepnhan)
     .then(() => {
       this.suachuaService.subTransaction(tempList);
-    })
-    .then(() => {
       this.isshow = true;
       this.toastr.success('Thêm thành công', 'Thêm phiếu sửa');
       this.router.navigate(['/suachua']);
+    },
+    reject => {
+      this.toastr.error('Bạn không đủ quyền lực', 'Thất bại');
+      this.isshow = true;
     })
     .catch(err => {
       this.isshow = true;

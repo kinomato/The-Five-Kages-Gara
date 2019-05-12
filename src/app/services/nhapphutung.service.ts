@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
+import { FirebaseFirestore } from '@angular/fire';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { CTNhapphutung } from '../models/ct-nhapphutung.model';
 import { PhutungService } from './phutung.service';
+import * as firebase from '@angular/fire';
 
 @Injectable({
   providedIn: 'root'
