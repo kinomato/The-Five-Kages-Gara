@@ -24,7 +24,7 @@ export class PhieuthutienDetailComponent implements OnInit {
   tiepnhanList = [{bienso: 'None'}];
   model;
   config;
-  ishow = false;
+  isshow = true;
   constructor(
     private toastr: ToastrService,
     private tiepnhanService: PhieutiepnhanService,
@@ -86,8 +86,14 @@ export class PhieuthutienDetailComponent implements OnInit {
     const id = this.activetedRoute.snapshot.paramMap.get('id');
     const newObj = Object.assign({ sotienthu: +this.sotienthu } as Phieuthutien, form.value);
     newObj.bienso = this.tiepnhantemp.bienso;
-    this.thutienService.Update(id, newObj);
-    this.toastr.success('Save Succesful!', 'Phiếu sửa chữa');
+    this.thutienService.Update(id, newObj)
+      .then(() => {
+        this.toastr.success('Cập nhật thành công', 'Phiếu sửa chữa');
+      },
+      reject => {
+        this.toastr.error('Bạn không đủ quyền', 'Thất bại');
+      })
+      .catch(err => console.log(err));
       /* .then(id => {
         this.thutienService.changePhieutiepnhan(id, this.tiepnhantemp, +this.sotienthu);
       })

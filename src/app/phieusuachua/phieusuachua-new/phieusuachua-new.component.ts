@@ -64,7 +64,7 @@ export class PhieusuachuaNewComponent implements OnInit {
     const tempList = this.mychild.ctsuachuaList;
     this.suachuaService.SubmitUlt(temp, tempList, this.tiepnhantemp.idphieutiepnhan)
     .then(() => {
-      this.suachuaService.subTransaction(tempList);
+      /* this.suachuaService.subTransaction(tempList); */
       this.isshow = true;
       this.toastr.success('Thêm thành công', 'Thêm phiếu sửa');
       this.router.navigate(['/suachua']);

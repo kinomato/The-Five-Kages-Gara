@@ -33,6 +33,7 @@ export class PhieusuachuaListComponent implements OnInit {
     if (confirm('Are you sure ?')) {
       this.suachuaService.DeleteUlt(id)
       .then(() => {
+        this.suachuaService.changeWhendeleted(id);
         this.toastr.success('Xóa thành công', 'Phiếu sửa chữa');
       },
       reject => {
