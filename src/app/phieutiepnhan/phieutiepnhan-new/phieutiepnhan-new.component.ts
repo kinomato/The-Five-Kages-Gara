@@ -43,7 +43,7 @@ export class PhieutiepnhanNewComponent implements OnInit {
     this.getHieuxes();
     this.getDate();
   }
-  /* getHieuxes() {
+  getHieuxes() {
     this.hieuxeService.getHieuXes().subscribe(actionArray => {
       this.hieuxeList = actionArray.map(item => {
         return {
@@ -52,25 +52,25 @@ export class PhieutiepnhanNewComponent implements OnInit {
         } as Hieuxe;
       });
     });
-  } */
-  getHieuxes() {
+  }
+  /* getHieuxes() {
     this.hieuxeService.getHieuxes().subscribe(res => {
       this.hieuxeList = res.documents.map((item: CustomResObject) => {
         const id = item.name.split('/');
-        /* console.log(id[6]);
-        console.log(item.fields.hieuxe.stringValue); */
         return {
           idhieuxe: id[6],
           hieuxe: item.fields.hieuxe.stringValue
         } as Hieuxe;
       });
     });
-  }
+  } */
   onSubmit(form: NgForm) {
     this.isshow = false;
-    this.tiepnhanService.Submit(form).subscribe(() => {
-      this.isshow = true;
-      this.formReset(form);
+    this.tiepnhanService.Submit(form).subscribe(res => {
+      res.then(booleen => {
+        this.isshow = true;
+        this.formReset(form);
+      });
     });
     /* setTimeout(() => {
       this.isshow = true;

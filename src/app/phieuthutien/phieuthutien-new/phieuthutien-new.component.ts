@@ -53,7 +53,7 @@ export class PhieuthutienNewComponent implements OnInit {
   }
   getDate() {
     const day = this.currentdate.getDate();
-    const month = this.currentdate.getMonth();
+    const month = this.currentdate.getMonth() + 1;
     const year = this.currentdate.getFullYear();
     this.model = {
       year,
@@ -81,6 +81,7 @@ export class PhieuthutienNewComponent implements OnInit {
       })
       .finally(() => {
         this.toastr.success('Submited Succesful!', 'Phiếu sửa chữa');
+        location.reload();
         /* this.refresh(); */
       });
   }

@@ -89,6 +89,10 @@ export class PhieutiepnhanDetailComponent implements OnInit {
         this.toarst.success('Thành công', 'Cập nhật');
         this.isshow = true;
         this.goBack();
+      },
+      reject => {
+        this.toarst.error('Bạn không đủ quyền lực', 'Thất bại');
+        this.isshow = true;
       })
       .catch(err => {
         this.toarst.error('Đã xảy ra lỗi', err);

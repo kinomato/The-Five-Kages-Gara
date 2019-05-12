@@ -51,7 +51,7 @@ export class PhieusuachuaService {
     }); */
   }
   subTransaction(ctdata: CTPhieusuachua[]) {
-    ctdata.forEach(item => {
+    return ctdata.forEach(item => {
       const ptref = this.fireStore.collection('phutung').doc(item.phutung.idphutung).ref;
       return this.fireStore.firestore.runTransaction(transaction => {
         return transaction.get(ptref)
@@ -97,8 +97,7 @@ export class PhieusuachuaService {
         batch.delete(doc.ref);
       });
       return batch.commit();
-    })
-    .catch(reject);
+    });
   }
   changeWhendeleted(id: string) {
     this.tiepnhanService.getTiepnhanQuery2(id).subscribe(actionArray => {
