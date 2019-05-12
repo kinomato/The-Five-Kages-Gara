@@ -78,12 +78,25 @@ export class PhieusuachuaService {
     const subcolref = this.fireStore.collection('suachua' + id + 'ctsuachua').ref;
     const query = subcolref.orderBy('soluong');
     return query.get()
-    .then(snapshot => {
+    .then(async snapshot => {
       batch.delete(scref);
       snapshot.docs.forEach(doc => {
         batch.delete(doc.ref);
       });
-      return batch.commit();
+      const querytn = await this.tiepnhanService.getTiepnhanQuery2(id);
+      querytn.pipe(
+        map(res => {
+          if (res.empty) {
+            return batch.commit();
+          } else {
+            const snapshotquery = res.docs.pop();
+            const tnref = this.fireStore.collection('tiepnhan').doc(snapshotquery.id).ref;
+            const newobj = {suachuastt: false, tiennostt: false, idsuachua: '', tienno: 0};
+            batch.update(tnref, newobj);
+            return batch.commit();
+          }
+        })
+      );
     });
   }
   subChangeWhenDeleted(id: string) {
@@ -94,8 +107,8 @@ export class PhieusuachuaService {
         } else {
           const snapshot = res.docs.pop();
           const tnref = this.fireStore.collection('tiepnhan').doc(snapshot.id).ref;
-          const newobj = {suachuastt: false, tiennostt: false, idsuachua: '', tienno: 0}
-          return tnref.update(newobj, {merge: 'true'})
+          const newobj = {suachuastt: false, tiennostt: false, idsuachua: '', tienno: 0};
+          return tnref.set(newobj);
         }
       })
     );
@@ -201,13 +214,13 @@ export class PhieusuachuaService {
     });
   }
   // --2 function dưới đây đã được cải thiện và gộp vào DeleteUlt--
-  Delete(id: string) {
+  /* Delete(id: string) {
     this.DeleteSub(id);
     this.fireStore.collection('suachua').doc(id).delete()
       .then(() => {
         this.changeWhendeleted(id);
       });
-  }
+  } */
   ctDelete(id: string, idct: string) {
     this.fireStore.collection('suachua/' + id + '/ctsuachua').doc(idct).delete();
   }

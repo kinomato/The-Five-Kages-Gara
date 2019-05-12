@@ -36,15 +36,17 @@ import { PhieuthutienDetailComponent } from './phieuthutien/phieuthutien-detail/
 import { NhapphutungNewComponent } from './nhapphutung/nhapphutung-new/nhapphutung-new.component';
 import { NhapphutungListComponent } from './nhapphutung/nhapphutung-list/nhapphutung-list.component';
 import { UserProfileComponent } from './users/user-profile/user-profile.component';
+import { HomeComponent } from './home/home.component';
 
 
 
 
 const routes: Routes = [
-  { path: '', redirectTo: '/phieutiepnhan', pathMatch: 'full' },
+  { path: '', redirectTo: '/trangchu', pathMatch: 'full' },
   { path: 'employees/detail/:id', component: EmployeeDetailComponent },
   { path: 'employees/new', component: EmployeeComponent },
   { path: 'employees', component: EmployeeListComponent },
+  { path: 'trangchu', component: HomeComponent },
   { path: 'phieutiepnhan/detail/:id', component: PhieutiepnhanDetailComponent },
   { path: 'phieutiepnhan/new', component: PhieutiepnhanNewComponent },
   { path: 'phieutiepnhan', component: PhieutiepnhanListComponent },

@@ -20,7 +20,7 @@
           </ngx-select-dropdown> -->
         <mat-form-field appearance="outline">
           <mat-label>Chọn phụ tùng</mat-label>
-          <mat-select aria-placeholder="chọn phụ tùng" (selectionChange)="changePT(ctsuachua)" name="phutung"
+          <mat-select aria-placeholder="chọn phụ tùng" [compareWith]="customComparePT" (selectionChange)="changePT(ctsuachua)" name="phutung"
             [(value)]="ctsuachua.phutung">
             <mat-option *ngFor="let phutung of phutungList, let i = index" [disabled]="ptbooleanlist[i]"
               [value]="phutung">{{phutung.tenphutung}}</mat-option>
@@ -43,7 +43,7 @@
             </ngx-select-dropdown> -->
         <mat-form-field appearance="outline">
           <mat-label>Chọn tiền công</mat-label>
-          <mat-select aria-placeholder="chọn phụ tùng" (selectionChange)="calculate(ctsuachua)" name="tiencong"
+          <mat-select aria-placeholder="chọn phụ tùng" [compareWith]="customCompareTC" (selectionChange)="calculate(ctsuachua)" name="tiencong"
             [(value)]="ctsuachua.tiencong">
             <mat-option *ngFor="let tiencong of tiencongList" [value]="tiencong">{{tiencong.tenloaitiencong}}
             </mat-option>

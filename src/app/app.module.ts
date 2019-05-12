@@ -76,6 +76,8 @@ import { TnlistsearchPipe } from './custompipe/tnlistsearch.pipe';
 import { TtlistsearchPipe } from './custompipe/ttlistsearch.pipe';
 import { LoginFormComponent } from './users/login-form/login-form.component';
 import { UserProfileComponent } from './users/user-profile/user-profile.component';
+import { HomeComponent } from './home/home.component';
+import { DoanhsoComponent } from './doanhso/doanhso.component';
 
 @NgModule({
   declarations: [
@@ -132,7 +134,9 @@ import { UserProfileComponent } from './users/user-profile/user-profile.componen
     TnlistsearchPipe,
     TtlistsearchPipe,
     LoginFormComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    HomeComponent,
+    DoanhsoComponent
   ],
   imports: [
     BrowserModule,

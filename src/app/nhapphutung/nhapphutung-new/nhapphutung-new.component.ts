@@ -4,7 +4,7 @@ import { CtNhapphutungListComponent } from './ct-nhapphutung-list/ct-nhapphutung
 import { ToastrService } from 'ngx-toastr';
 import { NgForm } from '@angular/forms';
 import { NhapphutungService } from 'src/app/services/nhapphutung.service';
-import {Router} from "@angular/router"
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-nhapphutung-new',
@@ -15,6 +15,8 @@ export class NhapphutungNewComponent implements OnInit {
   tongtien: number;
   currentdate: Date = new Date();
   model;
+  isshow = true;
+  invalid = true;
   @ViewChild(CtNhapphutungListComponent)
   mychild: CtNhapphutungListComponent;
   constructor(
@@ -28,24 +30,35 @@ export class NhapphutungNewComponent implements OnInit {
     this.getDate();
   }
   onSubmit(data: NgForm) {
+    this.isshow = false;
     const temp = Object.assign({ tongtien: this.tongtien}, data.value);
-    this.nhapphutungService.Submit(temp)
-      .then(id => {
-        this.mychild.onSubmit(id);
-      })
-      .finally(() => {
-        this.toastr.success('Submited Succesful!', 'Nhập phụ tùng');
+    const ctdata = this.mychild.ctphutungList;
+    this.nhapphutungService.SubmitUlt(temp, ctdata)
+      .then(() => {
+        this.toastr.success('Thành công', 'Nhập phụ tùng');
         this.route.navigate(['/nhapphutung']);
-      });
+      },
+      reject => {
+        this.toastr.error('Bạn không có quyền', 'Thất bại');
+        this.isshow = true;
+      })
+      .catch(err => console.log(err));
   }
   getDate() {
     const day = this.currentdate.getDate();
-    const month = this.currentdate.getMonth();
+    const month = this.currentdate.getMonth() + 1;
     const year = this.currentdate.getFullYear();
     this.model = {
       year,
       month,
       day
     };
+  }
+  tinhTien(event: any) {
+    if (event === null) {
+      this.invalid = true;
+    } else {
+      this.invalid = false;
+    }
   }
 }
