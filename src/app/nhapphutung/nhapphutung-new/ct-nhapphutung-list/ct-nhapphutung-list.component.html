@@ -5,8 +5,7 @@
       <th>Số lượng</th>
       <th>Đơn giá</th>
       <th>Thành tiền</th>
-      <th><a class="btn btn-default" type="button" (click)="add()"><i class="fa fa-plus-circle"
-            aria-hidden="true"></i></a></th>
+      <th></th>
     </thead>
     <tbody>
       <tr *ngFor="let ctsuachua of ctphutungList">
@@ -21,7 +20,7 @@
           </ngx-select-dropdown> -->
           <mat-form-field appearance="outline">
             <mat-label>Chọn phụ tùng</mat-label>
-            <mat-select aria-placeholder="chọn phụ tùng" (selectionChange)="changePT(ctsuachua)" [(value)]="ctsuachua.phutung">
+            <mat-select aria-placeholder="chọn phụ tùng" [compareWith]="customComparePT" (selectionChange)="changePT(ctsuachua)" [(value)]="ctsuachua.phutung">
               <mat-option *ngFor="let phutung of phutungList, let i = index" [disabled]="ptbooleanlist[i]" [value]="phutung">{{phutung.tenphutung}}</mat-option>
             </mat-select>
           </mat-form-field>
@@ -52,6 +51,10 @@
         <td> <a matTooltip="Delete" type="button" class="btn text-danger" (click)="onDelete(ctsuachua)">
             <i class="fa fa-trash" aria-hidden="true"></i>
           </a></td>
+      </tr>
+      <tr>
+        <td id="special" colspan="5"><a class="btn btn-default btn-block" type="button" (click)="add()"><i class="fa fa-plus-circle"
+          aria-hidden="true"></i></a></td>
       </tr>
     </tbody>
   </table>

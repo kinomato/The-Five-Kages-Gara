@@ -7,6 +7,9 @@ import { PhieutiepnhanService } from 'src/app/services/phieutiepnhan.service';
 import { Phieutiepnhan } from 'src/app/models/phieutiepnhan.model';
 import { PhutungService } from './phutung.service';
 import { reject } from 'q';
+import * as firebase from 'firebase/app';
+import { mergeMap, flatMap, map, switchMap } from 'rxjs/operators';
+import { promise } from 'protractor';
 
 
 @Injectable({
@@ -30,40 +33,16 @@ export class PhieusuachuaService {
       const tempdata = Object.assign({}, ctphieusuachua);
       delete tempdata.idctsuachua;
       const ctref = this.fireStore.firestore.collection('suachua/' + idsc + '/ctsuachua').doc();
+      const ptref = this.fireStore.collection('phutung').doc(ctphieusuachua.phutung.idphutung).ref; // 3 dòng code
+      const decrement = firebase.firestore.FieldValue.increment(-`${ctphieusuachua.soluong}`); // thay thế
+      batch.update(ptref, {soluongconlai: decrement});                                        // function Subtransaction
       batch.set(ctref, tempdata);
     });
     const newobj = { suachuastt: true, tiennostt: true, tienno: data.tongtien, idsuachua: idsc };
     batch.update(tnref, newobj);
     return batch.commit();
-    /* return this.fireStore.firestore.runTransaction(transaction => {
-      return transaction.get(tnref)
-        .then(res => {
-          transaction.set(scref, data);
-          ctdata.forEach(ctphieusuachua => {
-            const tempdata = Object.assign({}, ctphieusuachua);
-            delete tempdata.idctsuachua;
-            const ctref = this.fireStore.firestore.collection('suachua/' + idsc + '/ctsuachua').doc();
-            transaction.set(ctref, tempdata);
-          });
-          const newobj = { suachuastt: true, tiennostt: true, tienno: data.tongtien, idsuachua: idsc };
-          transaction.update(tnref, newobj);
-        });
-    }); */
   }
-  subTransaction(ctdata: CTPhieusuachua[]) {
-    return ctdata.forEach(item => {
-      const ptref = this.fireStore.collection('phutung').doc(item.phutung.idphutung).ref;
-      return this.fireStore.firestore.runTransaction(transaction => {
-        return transaction.get(ptref)
-          .then(res => {
-            const sl = res.data().soluongconlai - item.soluong;
-            const newobj = { soluongconlai: sl };
-            transaction.update(ptref, newobj);
-          });
-      });
-    });
-  }
-  UpdateUtl(idsc: string, datasc: any, ctdata: CTPhieusuachua[], deletelist: string[]) {
+  UpdateUtl(idsc: string, datasc: any, ctdata: CTPhieusuachua[], oldctdata: CTPhieusuachua[], deletelist: string[]) {
     const scref = this.fireStore.collection('suachua').doc(idsc).ref;
     const batch = this.fireStore.firestore.batch();
     batch.update(scref, datasc);
@@ -71,10 +50,18 @@ export class PhieusuachuaService {
       const ctderef = this.fireStore.collection('suachua/' + idsc + '/ctsuachua').doc(idct).ref;
       batch.delete(ctderef);
     });
+    oldctdata.forEach(ctphieusuachua => {
+      const ptref = this.fireStore.collection('phutung').doc(ctphieusuachua.phutung.idphutung).ref;
+      const increment = firebase.firestore.FieldValue.increment(ctphieusuachua.soluong);
+      batch.update(ptref, {soluongconlai: increment});
+    });
     ctdata.forEach(ctphieusuachua => {
       const datact = Object.assign({}, ctphieusuachua);
       delete datact.idctsuachua;
       const idct = ctphieusuachua.idctsuachua;
+      const ptref = this.fireStore.collection('phutung').doc(ctphieusuachua.phutung.idphutung).ref;
+      const decrement = firebase.firestore.FieldValue.increment(-ctphieusuachua.soluong);
+      batch.update(ptref, {soluongconlai: decrement});
       if (idct === '' || idct === undefined || idct === null) {
         const ctref = this.fireStore.firestore.collection('suachua/' + idsc + '/ctsuachua').doc();
         batch.set(ctref, datact);
@@ -91,15 +78,42 @@ export class PhieusuachuaService {
     const subcolref = this.fireStore.collection('suachua' + id + 'ctsuachua').ref;
     const query = subcolref.orderBy('soluong');
     return query.get()
-    .then(snapshot => {
+    .then(async snapshot => {
       batch.delete(scref);
       snapshot.docs.forEach(doc => {
         batch.delete(doc.ref);
       });
-      return batch.commit();
+      const querytn = await this.tiepnhanService.getTiepnhanQuery2(id);
+      querytn.pipe(
+        map(res => {
+          if (res.empty) {
+            return batch.commit();
+          } else {
+            const snapshotquery = res.docs.pop();
+            const tnref = this.fireStore.collection('tiepnhan').doc(snapshotquery.id).ref;
+            const newobj = {suachuastt: false, tiennostt: false, idsuachua: '', tienno: 0};
+            batch.update(tnref, newobj);
+            return batch.commit();
+          }
+        })
+      );
     });
   }
-  changeWhendeleted(id: string) {
+  subChangeWhenDeleted(id: string) {
+    return this.tiepnhanService.getTiepnhanQuery2(id).pipe(
+      map((res) => {
+        if (res.empty) {
+          return false;
+        } else {
+          const snapshot = res.docs.pop();
+          const tnref = this.fireStore.collection('tiepnhan').doc(snapshot.id).ref;
+          const newobj = {suachuastt: false, tiennostt: false, idsuachua: '', tienno: 0};
+          return tnref.set(newobj);
+        }
+      })
+    );
+  }
+  /* changeWhendeleted(id: string) {
     this.tiepnhanService.getTiepnhanQuery2(id).subscribe(actionArray => {
       return actionArray.map(item => {
         const idphieutiepnhan = item.payload.doc.id;
@@ -117,7 +131,7 @@ export class PhieusuachuaService {
     newObj.idsuachua = '';
     newObj.tienno = 0;
     this.tiepnhanService.Update(idphieutiepnhan, newObj);
-  }
+  } */
   getPhieusuachuas() {
     return this.fireStore.collection('suachua').snapshotChanges();
   }
@@ -135,7 +149,7 @@ export class PhieusuachuaService {
   }
   /* --- các function dưới đây không còn dùng --- */
 
-  // --3 function dưới đây đã được cải thiện và gộp vào SubmitUlt và subTransection--
+  // --4 function dưới đây đã được cải thiện và gộp vào SubmitUlt--
   changePhieutiepnhan(id: string, data: Phieutiepnhan, tongtien: number) {
     const newObj = Object.assign({}, data);
     delete newObj.idphieutiepnhan;
@@ -167,6 +181,19 @@ export class PhieusuachuaService {
         });
     });
   }
+  subTransaction(ctdata: CTPhieusuachua[]) {
+    return ctdata.forEach(item => {
+      const ptref = this.fireStore.collection('phutung').doc(item.phutung.idphutung).ref;
+      return this.fireStore.firestore.runTransaction(transaction => {
+        return transaction.get(ptref)
+          .then(res => {
+            const sl = res.data().soluongconlai - item.soluong;
+            const newobj = { soluongconlai: sl };
+            transaction.set(ptref, newobj, {merge: true});
+          });
+      });
+    });
+  }
   // --2 function dưới đây đã được cải thiện và gộp vào UpdateUlt--
   Update(id: string, data: any) {
     this.fireStore.collection('suachua').doc(id).update(data);
@@ -187,13 +214,13 @@ export class PhieusuachuaService {
     });
   }
   // --2 function dưới đây đã được cải thiện và gộp vào DeleteUlt--
-  Delete(id: string) {
+  /* Delete(id: string) {
     this.DeleteSub(id);
     this.fireStore.collection('suachua').doc(id).delete()
       .then(() => {
         this.changeWhendeleted(id);
       });
-  }
+  } */
   ctDelete(id: string, idct: string) {
     this.fireStore.collection('suachua/' + id + '/ctsuachua').doc(idct).delete();
   }

@@ -86,7 +86,7 @@ export class CTPhieusuachuaListComponent implements OnInit {
     }
   }
   add() {
-    const newObj = new CTPhieusuachua('', '', undefined, 1, null, undefined, null);
+    const newObj = new CTPhieusuachua('', '', undefined, null, null, undefined, null);
     const temp = JSON.parse(JSON.stringify(newObj));
     this.ctsuachuaList.push(temp);
     this.tinhTongTien();
@@ -210,5 +210,11 @@ export class CTPhieusuachuaListComponent implements OnInit {
   }
   test(form: NgForm) {
     console.log(form.value);
+  }
+  customComparePT(phutung1: Phutung, phutung2: Phutung) {
+    return phutung1.idphutung === phutung2.idphutung;
+  }
+  customCompareTC(tc1: Tiencong, tc2: Tiencong) {
+    return tc1.idtiencong === tc2.idtiencong;
   }
 }

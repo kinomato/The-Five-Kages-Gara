@@ -3,8 +3,7 @@ import { FirebaseFirestore } from '@angular/fire';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { CTNhapphutung } from '../models/ct-nhapphutung.model';
 import { PhutungService } from './phutung.service';
-import * as firebase from '@angular/fire';
-
+import * as firebase from 'firebase/app';
 @Injectable({
   providedIn: 'root'
 })
@@ -13,7 +12,7 @@ export class NhapphutungService {
   constructor(
     private fireStore: AngularFirestore,
     private phutungService: PhutungService) { }
-  async Submit(data: any) {
+  /* async Submit(data: any) {
     try {
       const docref = await this.fireStore.collection('nhapphutung').add(data);
       return docref.id;
@@ -21,8 +20,24 @@ export class NhapphutungService {
       console.log('submit nhập phụ tùng' + err);
       return '';
     }
+  } */
+  SubmitUlt(data: any, ctdata: CTNhapphutung[]) {
+    const nptref = this.fireStore.firestore.collection('nhapphutung').doc();
+    const idsc = nptref.id;
+    const batch = this.fireStore.firestore.batch();
+    batch.set(nptref, data);
+    ctdata.forEach(ctnhapphutung => {
+      const tempdata = Object.assign({}, ctnhapphutung);
+      delete tempdata.idctnhappt;
+      const ctref = this.fireStore.firestore.collection('nhapphutung/' + idsc + '/ctnhapphutung').doc();
+      const ptref = this.fireStore.collection('phutung').doc(ctnhapphutung.phutung.idphutung).ref;
+      const increment = firebase.firestore.FieldValue.increment(ctnhapphutung.soluong);
+      batch.update(ptref, {soluongconlai: increment, phatsinh: increment});
+      batch.set(ctref, tempdata);
+    });
+    return batch.commit();
   }
-  ctSubmit(id: string, ctdata: CTNhapphutung[]) {
+  /* ctSubmit(id: string, ctdata: CTNhapphutung[]) {
     ctdata.forEach(ctphutung => {
       const data = Object.assign({}, ctphutung);
       delete data.idctnhappt;
@@ -37,6 +52,20 @@ export class NhapphutungService {
   }
   Update(id: string, data: any ) {
     this.fireStore.collection('nhapphutung').doc(id).update(data);
+  } */
+  DeleteUlt(id: string) {
+    const batch = this.fireStore.firestore.batch();
+    const scref = this.fireStore.collection('nhapphutung').doc(id).ref;
+    const subcolref = this.fireStore.collection('nhapphutung' + id + 'ctnhapphutung').ref;
+    const query = subcolref.orderBy('soluong');
+    return query.get()
+    .then(async snapshot => {
+      batch.delete(scref);
+      snapshot.docs.forEach(doc => {
+        batch.delete(doc.ref);
+      });
+      return batch.commit();
+    });
   }
   Delete(id: string) {
     this.DeleteSub(id);

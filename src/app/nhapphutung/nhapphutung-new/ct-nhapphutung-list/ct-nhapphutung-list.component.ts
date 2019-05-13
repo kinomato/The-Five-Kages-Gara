@@ -24,9 +24,9 @@ export class CtNhapphutungListComponent implements OnInit {
   ngOnInit() {
     this.getPhutungs();
   }
-  onSubmit(id: string) {
+  /* onSubmit(id: string) {
     this.nhapphutungService.ctSubmit(id, this.ctphutungList);
-  }
+  } */
   onDelete(data: any) {
     const index = this.ctphutungList.indexOf(data, 0);
     if (index > -1) {
@@ -39,9 +39,10 @@ export class CtNhapphutungListComponent implements OnInit {
     }
   }
   add() {
-    const newObj = new CTNhapphutung('', undefined, 0 , 0 , 0);
+    const newObj = new CTNhapphutung('', undefined, 1, null, null);
     const temp = JSON.parse(JSON.stringify(newObj));
     this.ctphutungList.push(temp);
+    this.tinhTongTien();
     /* this.onDelete(temp);
     this.ctphutungList.push(temp); */
   }
@@ -70,9 +71,17 @@ export class CtNhapphutungListComponent implements OnInit {
   }
   tinhTongTien() {
     let temptong = 0;
-    this.ctphutungList.forEach(item => {
+    const count = this.ctphutungList.length;
+    for (let i = 0; i < count; i++) {
+      if (this.ctphutungList[i].thanhtien === null) {
+        temptong = null;
+        break;
+      }
+      temptong += this.ctphutungList[i].thanhtien;
+    }
+    /* this.ctphutungList.forEach(item => {
       temptong += item.thanhtien;
-    });
+    }); */
     this.tongtien = temptong;
     this.tinhtien.emit(this.tongtien);
   }
@@ -82,7 +91,7 @@ export class CtNhapphutungListComponent implements OnInit {
     this.selectedPTList[index1] = item.phutung.tenphutung;
     this.updateStatusPT();
     if (item.phutung === undefined || item.phutung === null) {
-      this.ctphutungList[index1].dongia = 0;
+      this.ctphutungList[index1].dongia = null;
       this.calculate(selecteditem1);
     } else {
       item.dongia = +item.phutung.giaphutung;
@@ -96,5 +105,8 @@ export class CtNhapphutungListComponent implements OnInit {
       this.ptbooleanlist[i] = selected;
       i ++;
     });
+  }
+  customComparePT(phutung1: Phutung, phutung2: Phutung) {
+    return phutung1.idphutung === phutung2.idphutung;
   }
 }

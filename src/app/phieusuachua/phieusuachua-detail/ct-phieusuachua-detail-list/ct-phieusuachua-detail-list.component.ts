@@ -15,6 +15,7 @@ import { Location } from '@angular/common';
 })
 export class CtPhieusuachuaDetailListComponent implements OnInit {
   ctsuachuaList: CTPhieusuachua[] = [];
+  oldctsuachuaList: CTPhieusuachua[] = [];
   ptbooleanlist = [];
   /* tcbooleanlist = []; */
   selectedPTList = [];
@@ -215,7 +216,7 @@ export class CtPhieusuachuaDetailListComponent implements OnInit {
   getCTphieusuachua(id: string) {
     this.idphieutiepnhan = id;
     this.suachuaService.getCTphieusuachuas(id).subscribe(array => {
-      this.ctsuachuaList = array.map(item => {
+      this.oldctsuachuaList = this.ctsuachuaList = array.map(item => {
         return {
           idctsuachua: item.payload.doc.id,
           ...item.payload.doc.data()

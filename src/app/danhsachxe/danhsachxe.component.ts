@@ -19,9 +19,16 @@ export class DanhsachxeComponent implements OnInit {
     this.getThongtin();
   }
   getThongtin() {
-    this.tiepnhanService.getThongtins().subscribe(res => {
-      this.dataList.push(res);
-      /* console.log('im still running'); */
+    this.tiepnhanService.getTiepnhans().subscribe(res => {
+      this.dataList = res.map(item => {
+        return {
+          idphieutiepnhan: item.payload.doc.id,
+          ...item.payload.doc.data()
+        } as Phieutiepnhan;
+      });
     });
+    /* this.tiepnhanService.getThongtins().subscribe(res => {
+      this.dataList.push(res);
+    }); */
   }
 }

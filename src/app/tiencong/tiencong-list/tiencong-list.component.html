@@ -1,4 +1,4 @@
-<button routerLink="/tiencong/new" class="btn btn-success">New tiencong</button>
+<button routerLink="/tiencong/new" class="btn btn-success">Thêm tiền công</button>
 <h1>Danh sách tiền công</h1>
 <table class="table table-hover">
   <thead>
@@ -10,10 +10,10 @@
         <td > {{tiencong.tenloaitiencong}} </td>
         <td > {{tiencong.muctiencong}} </td>       
         <td> <a matTooltip="Edit" class="btn text-warning"  [routerLink]="[ '/tiencong/detail/', tiencong.idtiencong ]">
-          <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+          <i class="fa fa-cog" aria-hidden="true"></i>
           </a></td>
         <td> <a matTooltip="Delete" class="btn text-danger" (click)="onDelete(tiencong.idtiencong)">
-        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+        <i class="fa fa-trash" aria-hidden="true"></i>
         </a></td>
     </tr>
   </tbody>

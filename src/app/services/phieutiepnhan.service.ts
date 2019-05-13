@@ -158,7 +158,7 @@ export class PhieutiepnhanService {
   getTiepnhanQuery2(idsuachua: string) {
     return this.fireStore.collection('tiepnhan', ref => {
       return ref.limit(1).where('idsuachua', '==', idsuachua);
-    }).snapshotChanges();
+    }).get();
   }
   getThongtin(id: string) {
     return this.getTiepnhan(id).pipe(
