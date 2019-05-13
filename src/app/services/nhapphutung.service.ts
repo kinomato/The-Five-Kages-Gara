@@ -3,7 +3,7 @@ import { FirebaseFirestore } from '@angular/fire';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { CTNhapphutung } from '../models/ct-nhapphutung.model';
 import { PhutungService } from './phutung.service';
-import * as firebase from 'firebase';
+import * as firebase from 'firebase/app';
 @Injectable({
   providedIn: 'root'
 })
@@ -32,7 +32,7 @@ export class NhapphutungService {
       const ctref = this.fireStore.firestore.collection('nhapphutung/' + idsc + '/ctnhapphutung').doc();
       const ptref = this.fireStore.collection('phutung').doc(ctnhapphutung.phutung.idphutung).ref;
       const increment = firebase.firestore.FieldValue.increment(ctnhapphutung.soluong);
-      batch.update(ptref, {soluongconlai: increment});
+      batch.update(ptref, {soluongconlai: increment, phatsinh: increment});
       batch.set(ctref, tempdata);
     });
     return batch.commit();

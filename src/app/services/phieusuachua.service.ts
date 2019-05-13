@@ -7,7 +7,7 @@ import { PhieutiepnhanService } from 'src/app/services/phieutiepnhan.service';
 import { Phieutiepnhan } from 'src/app/models/phieutiepnhan.model';
 import { PhutungService } from './phutung.service';
 import { reject } from 'q';
-import * as firebase from 'firebase';
+import * as firebase from 'firebase/app';
 import { mergeMap, flatMap, map, switchMap } from 'rxjs/operators';
 import { promise } from 'protractor';
 

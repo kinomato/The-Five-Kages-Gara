@@ -10,6 +10,8 @@ import { NgForm } from '@angular/forms';
 })
 export class PhutungNewComponent implements OnInit {
   phutung: Phutung;
+  tenphutung: '';
+  giaphutung: '';
   constructor(private phutungService: PhutungService) { }
 
   ngOnInit() {
@@ -23,12 +25,14 @@ export class PhutungNewComponent implements OnInit {
       idphutung: null,
       tenphutung: '',
       giaphutung: '',
+      soluong: null,
       soluongconlai: null,
+      phatsinh: null,
     };
   }
   onSubmit(form: NgForm) {
     const data = form.value;
-    this.phutungService.Submit(data);
+    this.phutungService.Submit({...data, soluong: 0, soluongconlai: 0, phatsinh: 0});
     this.resetForm(form);
   }
 

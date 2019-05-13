@@ -1,0 +1,26 @@
+<h6 class="display-4 text-center"><strong>Tồn tháng này</strong></h6>
+<div class="shadow" style="padding: 10px">
+  <form #form="ngForm" autocomplete="off">
+    <div class="container">
+      <div class="form-group row">
+        <div class="col"></div>
+        <div class="col form-inline">
+          <label for="thang">Tháng:</label>
+          <input id="thang" type="number" readonly="true" [min]="1" [max]="12" class="form-control" (keyup)="checkSL()"
+            name="soluong" [(ngModel)]="soluong" required>
+        </div>
+        <div class="col"></div>
+      </div>
+    </div>
+    <div class="form-group">
+      <app-ct-baocaoton-list></app-ct-baocaoton-list>
+    </div>
+    <div class="form-group">
+      <!-- <button class="form-control btn btn-block btn-info" [disabled]="form.invalid || invalid" type="submit"
+        style="display: flex; justify-content: center">
+        <h5 *ngIf="isshow">Submit</h5>
+        <mat-spinner diameter="25" *ngIf="!isshow"></mat-spinner>
+      </button> -->
+    </div>
+  </form>
+</div>
