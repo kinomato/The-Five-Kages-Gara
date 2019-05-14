@@ -155,7 +155,7 @@ export class CTPhieusuachuaListComponent implements OnInit {
   changePT(selecteditem1: CTPhieusuachua) {
     const index1 = this.ctsuachuaList.indexOf(selecteditem1, 0);
     const item = this.ctsuachuaList[index1];
-    this.selectedPTList[index1] = item.phutung.tenphutung;
+    this.selectedPTList[index1] = item.phutung.idphutung;
     this.updateStatusPT();
     if (item.phutung === undefined || item.phutung === null) {
       this.ctsuachuaList[index1].dongia = null;
@@ -177,7 +177,7 @@ export class CTPhieusuachuaListComponent implements OnInit {
   updateStatusPT() {
     let i = 0;
     this.phutungList.forEach(item => {
-      const selected = this.selectedPTList.includes(item.tenphutung);
+      const selected = this.selectedPTList.includes(item.idphutung);
       this.ptbooleanlist[i] = selected;
       i ++;
     });
