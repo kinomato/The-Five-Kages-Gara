@@ -16,6 +16,17 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { SelectDropDownModule } from 'ngx-select-dropdown';
 import { NumericTextboxModule } from 'ngx-numeric-textbox';
 
+import {
+  MatAutocompleteModule,
+  MatInputModule,
+  MatFormFieldModule,
+  MatSelectModule,
+  MatProgressSpinnerModule,
+  MatTableModule,
+  MatPaginatorModule
+} from '@angular/material';
+/* import { MatSelectModule, MatProgressSpinnerModule} from '@angular/material'; */
+
 
 
 /* import { BoardComponent } from './board/board.component'; */
@@ -52,7 +63,6 @@ import { XesuaListComponent } from './xesua/xesua-list/xesua-list.component';
 import { KhachhangListComponent } from './khachhang/khachhang-list/khachhang-list.component';
 import { KhachhangNewComponent } from './khachhang/khachhang-new/khachhang-new.component';
 import { KhachhangDetailComponent } from './khachhang/khachhang-detail/khachhang-detail.component';
-import { MatAutocompleteModule, MatInputModule, MatFormFieldModule, MatSelectModule, MatProgressSpinnerModule} from '@angular/material';
 import { PhieusuachuaComponent } from './phieusuachua/phieusuachua.component';
 import { PhieusuachuaNewComponent } from './phieusuachua/phieusuachua-new/phieusuachua-new.component';
 import { CTPhieusuachuaListComponent } from './phieusuachua/phieusuachua-new/ct-phieusuachua-list/ct-phieusuachua-list.component';
@@ -76,6 +86,10 @@ import { TnlistsearchPipe } from './custompipe/tnlistsearch.pipe';
 import { TtlistsearchPipe } from './custompipe/ttlistsearch.pipe';
 import { LoginFormComponent } from './users/login-form/login-form.component';
 import { UserProfileComponent } from './users/user-profile/user-profile.component';
+import { HomeComponent } from './home/home.component';
+import { DoanhsoComponent } from './doanhso/doanhso.component';
+import { BaocaotonComponent } from './baocaoton/baocaoton.component';
+import { CtBaocaotonListComponent } from './baocaoton/ct-baocaoton-list/ct-baocaoton-list.component';
 
 @NgModule({
   declarations: [
@@ -132,7 +146,11 @@ import { UserProfileComponent } from './users/user-profile/user-profile.componen
     TnlistsearchPipe,
     TtlistsearchPipe,
     LoginFormComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    HomeComponent,
+    DoanhsoComponent,
+    BaocaotonComponent,
+    CtBaocaotonListComponent
   ],
   imports: [
     BrowserModule,
@@ -151,10 +169,12 @@ import { UserProfileComponent } from './users/user-profile/user-profile.componen
     MatFormFieldModule,
     MatSelectModule,
     MatProgressSpinnerModule,
+    MatTableModule,
     NgbModule,
     NgbDatepickerModule,
     SelectDropDownModule,
-    NumericTextboxModule
+    NumericTextboxModule,
+    MatPaginatorModule
   ],
   exports: [
     MatAutocompleteModule,
@@ -162,7 +182,9 @@ import { UserProfileComponent } from './users/user-profile/user-profile.componen
     MatFormFieldModule,
     MatSelectModule,
     MatProgressSpinnerModule,
-    NgbDatepickerModule
+    NgbDatepickerModule,
+    MatTableModule,
+    MatPaginatorModule
   ],
   providers: [EmployeeService],
   bootstrap: [AppComponent]
