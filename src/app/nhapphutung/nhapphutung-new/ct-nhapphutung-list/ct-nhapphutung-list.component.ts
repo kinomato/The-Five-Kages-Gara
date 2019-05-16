@@ -39,7 +39,7 @@ export class CtNhapphutungListComponent implements OnInit {
     }
   }
   add() {
-    const newObj = new CTNhapphutung('', undefined, 1, null, null);
+    const newObj = new CTNhapphutung(undefined, 1, null, null);
     const temp = JSON.parse(JSON.stringify(newObj));
     this.ctphutungList.push(temp);
     this.tinhTongTien();
@@ -108,5 +108,14 @@ export class CtNhapphutungListComponent implements OnInit {
   }
   customComparePT(phutung1: Phutung, phutung2: Phutung) {
     return phutung1.idphutung === phutung2.idphutung;
+  }
+  checkSL(ctsuachua: CTNhapphutung) {
+    if (ctsuachua.soluong > 200) {
+      ctsuachua.soluong = 200;
+    }
+    if ( ctsuachua.soluong < 1 ) {
+      ctsuachua.soluong = 1;
+    }
+    this.calculate(ctsuachua);
   }
 }

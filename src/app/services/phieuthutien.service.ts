@@ -38,7 +38,6 @@ export class PhieuthutienService {
       })
     );
   }
-  
   SubmitUlt(datatt: any, datatn: any , tienthu: number ) {
     const ttref = this.fireStore.firestore.collection('thutien').doc();
     const batch = this.fireStore.firestore.batch();
@@ -48,9 +47,14 @@ export class PhieuthutienService {
       thutienstt : true,
       tienno : datatn.tienno - tienthu
     };
-    batch.set(ttref, datatt);
-    batch.update(tnref, newobj);
-    return batch.commit();
+    return tnref.get()
+      .then(res => {
+        const scref = this.fireStore.collection('suachua').doc(res.data().idsuachua).ref;
+        batch.update(scref, { thutienstt: true });
+        batch.set(ttref, datatt);
+        batch.update(tnref, newobj);
+        return batch.commit();
+      });
   }
   Update(id: string, data: any) {
     return this.fireStore.collection('thutien').doc(id).update(data);
@@ -67,6 +71,11 @@ export class PhieuthutienService {
   }
   getPhieuthutiens() {
     return this.fireStore.collection('thutien').snapshotChanges();
+  }
+  getPhieuthutiensQuery(field: string, value: number) {
+    return this.fireStore.collection('thutien', ref => {
+      return ref.where(field, '==', value);
+    }).snapshotChanges();
   }
   getPhieutiepnhan(bienso?: string) {
     return this.tiepnhanService.getTiepnhanQuery(bienso);

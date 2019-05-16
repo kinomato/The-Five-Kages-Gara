@@ -21,7 +21,12 @@ export class PhieutiepnhanListComponent implements OnInit {
   phieuList: Phieutiepnhan[];
   searchvalue: string;
   templist = [];
-  newList = new BehaviorSubject([]);
+  newList = new BehaviorSubject(null as any);
+  isshow = false;
+  key = 'bienso'; // set default
+  reverse = false;
+  p = 1;
+
   constructor(
     private tiepnhanService: PhieutiepnhanService,
     private khachhangService: KhachhangService,
@@ -40,13 +45,10 @@ export class PhieutiepnhanListComponent implements OnInit {
    /*  this.tiepnhanService.getThongtins1().subscribe(res => {
       this.newList.next(res);
     }); */
-    this.tiepnhanService.getTiepnhans().subscribe(res => {
-      return this.dataList = res.map(item => {
-        return {
-          idphieutiepnhan: item.payload.doc.id,
-          ...item.payload.doc.data()
-        } as Phieutiepnhan;
-      });
+    this.tiepnhanService.getThongtinsUlt().subscribe(res => {
+      console.log('tiepnhan still running');
+      this.newList.next(res);
+      /* console.log(this.newList.value); */
     });
   }
   onDelete(id: string) {
@@ -56,11 +58,15 @@ export class PhieutiepnhanListComponent implements OnInit {
         this.toastr.success('Xóa thành công', 'Xóa phiếu nhập');
       },
       () => {
-        this.toastr.error('Bạn không đủ quyền lực', 'Thất bại');
+        this.toastr.warning('Bạn không đủ quyền lực', 'Thất bại');
       })
       .catch(err => {
         this.toastr.error('Xóa thất bại', err);
       });
     }
+  }
+  sort(key) {
+    this.key = key;
+    this.reverse = !this.reverse;
   }
 }

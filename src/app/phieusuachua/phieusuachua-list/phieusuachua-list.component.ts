@@ -9,7 +9,11 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./phieusuachua-list.component.css']
 })
 export class PhieusuachuaListComponent implements OnInit {
-  suachuaList: Phieusuachua[];
+  suachuaList: Phieusuachua[] = [];
+  searchvalue;
+  key = 'bienso'; // set default
+  reverse = false;
+  p = 1;
 
   constructor(
     private suachuaService: PhieusuachuaService,
@@ -36,11 +40,15 @@ export class PhieusuachuaListComponent implements OnInit {
         this.toastr.success('Xóa thành công', 'Phiếu sửa chữa');
       },
       reject => {
-        this.toastr.error('Bạn không đủ quyền lực', 'Thất bại');
+        this.toastr.warning('Bạn không đủ quyền lực', 'Thất bại');
       })
       .catch(err => {
         this.toastr.error('Đã xảy ra lỗi', err);
       });
     }
+  }
+  sort(key) {
+    this.key = key;
+    this.reverse = !this.reverse;
   }
 }

@@ -32,6 +32,8 @@
     "jquery": "^3.4.0",
     "lodash": "^4.17.11",
     "ngx-numeric-textbox": "^6.0.0",
+    "ngx-order-pipe": "^2.0.2",
+    "ngx-pagination": "^3.2.1",
     "ngx-select-dropdown": "^1.0.1",
     "ngx-toastr": "^10.0.2",
     "numeral": "^2.0.6",

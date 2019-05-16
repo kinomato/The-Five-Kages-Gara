@@ -1,28 +1,47 @@
-<h1>Danh sách xe</h1>
-<form class="form-inline">
-  <label for="search"> <button disabled="true" class="btn btn-outline-secondary"><i class="fa fa-search"
-        aria-hidden="true"></i></button> </label>
-  <input type="text" id="search" name="search" [(ngModel)]="searchvalue" class="form-control"
-    placeholder="Search any field">
-</form>
+<h1 class="text-center">Danh sách xe</h1>
+<div class="row">
+  <div class="col-md-12">
+    <div class="input-group input-group-lg">
+      <div class="input-group-append"></div>
+        <span class="input-group-text">
+          <i class="fa fa-search"aria-hidden="true"></i>
+        </span>
+      <input type="text" name="search" [(ngModel)]="searchvalue" class="form-control" placeholder="Search any field">
+    </div>
+  </div>
+</div>
 <div class="shadow-lg">
   <table class="table table-hover">
     <thead>
       <th>STT</th>
-      <th>Biển số</th>
-      <th>Hiệu xe</th>
-      <th>Chủ xe</th>
-      <th>Tiền nợ</th>
+      <th (click)="sort('bienso')">Biển số
+          <i class="fas" *ngIf="key =='bienso'" [ngClass]="{'fa-sort-up': reverse,'fa-sort-down': !reverse}"></i>
+      </th>
+      <th (click)="sort('hieuxe')">Hiệu xe
+          <i class="fas" *ngIf="key =='hieuxe'" [ngClass]="{'fa-sort-up': reverse,'fa-sort-down': !reverse}"></i>
+      </th>
+      <th (click)="sort('tenkhachhang')">Chủ xe
+          <i class="fas" *ngIf="key =='tenkhachhang'" [ngClass]="{'fa-sort-up': reverse,'fa-sort-down': !reverse}"></i>
+      </th>
+      <th (click)="sort('tienno')">Tiền nợ
+          <i class="fas" *ngIf="key =='tienno'" [ngClass]="{'fa-sort-up': reverse,'fa-sort-down': !reverse}"></i>
+      </th>
     </thead>
     <tbody>
-      <tr *ngFor="let tiepnhan of dataList | dsxesearch: searchvalue; let i = index">
-        <th scope="row">{{i + 1}}</th>
+      <tr *ngIf="!datasub.value">
+        <td colspan="6">
+          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        </td>
+      </tr>
+      <tr *ngFor="let tiepnhan of datasub | async | dsxesearch: searchvalue | orderBy:key:reverse | paginate:{ itemsPerPage: 5, currentPage: p }; let i = index">
+        <td scope="row">{{i + 1}}</td>
         <td>{{tiepnhan.bienso}}</td>
         <td>{{tiepnhan.hieuxe}}</td>
         <td>{{tiepnhan.tenkhachhang}}</td>
         <td>{{tiepnhan.tienno}}</td>
         <td>
-          <button id="phieunhan" type="button" class="btn btn-outline-primary text-primary" style="margin-top: 4px;margin-right: 4px"
+          <button id="phieunhan" type="button" class="btn btn-outline-primary text-primary"
+            style="margin-top: 4px;margin-right: 4px"
             [routerLink]="[ '/phieutiepnhan/detail/', tiepnhan.idphieutiepnhan ]">
             <i class="fa fa-address-card" aria-hidden="true"></i></button>
           <button *ngIf="tiepnhan.suachuastt" id="phieusua" type="button" style=" margin-top: 4px; margin-right: 4px"
@@ -45,6 +64,7 @@
       </tr>
     </tbody>
   </table>
+  <pagination-controls (pageChange)="p = $event"></pagination-controls>
 </div>
 <!-- <div class="container">
     <ul class="list-group">

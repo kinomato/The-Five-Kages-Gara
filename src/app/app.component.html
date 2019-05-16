@@ -1,8 +1,12 @@
 <app-header></app-header>
 <div class="container">
   <div class="row">
-    <div class="col-md-8 offset-md-2">
+    <div class="col-md-8 offset-md-2" style="margin-top: 20px">
+      <button class="btn btn-outline-secondary" (click)="goBack()">
+        <i class="fas fa-caret-square-left"></i> Back</button>
+      <div class="shadow-lg" style="margin-top: 20px">
         <router-outlet></router-outlet>
+      </div>
     </div>
   </div>
 </div>

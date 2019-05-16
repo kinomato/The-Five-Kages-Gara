@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TiencongService } from '../../services/tiencong.service';
 import { Tiencong } from 'src/app/models/tiencong.model';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-tiencong-list',
@@ -8,8 +9,10 @@ import { Tiencong } from 'src/app/models/tiencong.model';
   styleUrls: ['./tiencong-list.component.css']
 })
 export class TiencongListComponent implements OnInit {
-  tiencongList: Tiencong[];
-  constructor(private tiencongService: TiencongService) { }
+  tiencongList: Tiencong[] = [];
+  constructor(
+    private tiencongService: TiencongService,
+    private toastr: ToastrService) { }
 
   ngOnInit() {
     this.getTiencongs();
@@ -25,7 +28,16 @@ export class TiencongListComponent implements OnInit {
   }
   onDelete(id: string) {
     if (confirm('are you sure ?')) {
-      this.tiencongService.Delete(id);
+      this.tiencongService.Delete(id)
+      .then(() => {
+        this.toastr.success('Thêm thành công', 'Tiền công');
+      },
+      reject => {
+        this.toastr.warning('Bạn không đủ quyền', 'Thất bại');
+      })
+      .catch(err => {
+        this.toastr.error(err, 'Đã xảy ra lỗi');
+      });
     }
   }
 }

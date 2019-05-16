@@ -16,7 +16,9 @@ export class TtlistsearchPipe implements PipeTransform {
         (val.bienso.toLocaleLowerCase().includes(args)) ||
         (val.diachi.toLocaleLowerCase().includes(args)) ||
         (val.dienthoai.toLocaleLowerCase().includes(args)) ||
-        (val.ngaythutien.toString().includes(args));
+        (val.ngaythutien.day.toString().includes(args)) ||
+        (val.ngaythutien.month.toString().includes(args)) ||
+        (val.ngaythutien.year.toString().includes(args));
       return rval;
     });
   }

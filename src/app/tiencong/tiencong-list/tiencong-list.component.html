@@ -1,20 +1,30 @@
 <button routerLink="/tiencong/new" class="btn btn-success">Thêm tiền công</button>
 <h1>Danh sách tiền công</h1>
-<table class="table table-hover">
-  <thead>
-    <th>Tên</th>
-    <th>Mức tiền công</th>
-  </thead>
-  <tbody>
-    <tr *ngFor="let tiencong of tiencongList">
-        <td > {{tiencong.tenloaitiencong}} </td>
-        <td > {{tiencong.muctiencong}} </td>       
-        <td> <a matTooltip="Edit" class="btn text-warning"  [routerLink]="[ '/tiencong/detail/', tiencong.idtiencong ]">
-          <i class="fa fa-cog" aria-hidden="true"></i>
+<div class="shadow">
+  <table class="table table-hover">
+    <thead>
+      <th>STT</th>
+      <th>Tên</th>
+      <th>Mức tiền công</th>
+      <th></th>
+    </thead>
+    <tbody>
+      <tr *ngIf="(tiencongList.length === 0)">
+        <td colspan="4">
+          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        </td>
+      </tr>
+      <tr *ngFor="let tiencong of tiencongList, let i = index">
+          <th scope="row">{{i+1}}</th>
+        <td> {{tiencong.tenloaitiencong}} </td>
+        <td> {{tiencong.muctiencong | currency:'VND'}} </td>
+        <td> <a matTooltip="Edit" class="btn text-warning" [routerLink]="[ '/tiencong/detail/', tiencong.idtiencong ]">
+            <i class="fa fa-cog" aria-hidden="true"></i>
+          </a>
+          <a matTooltip="Delete" class="btn text-danger" (click)="onDelete(tiencong.idtiencong)">
+            <i class="fa fa-trash" aria-hidden="true"></i>
           </a></td>
-        <td> <a matTooltip="Delete" class="btn text-danger" (click)="onDelete(tiencong.idtiencong)">
-        <i class="fa fa-trash" aria-hidden="true"></i>
-        </a></td>
-    </tr>
-  </tbody>
-</table>
+      </tr>
+    </tbody>
+  </table>
+</div>

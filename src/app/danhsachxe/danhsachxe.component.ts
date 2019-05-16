@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Phieutiepnhan } from '../models/phieutiepnhan.model';
 import { PhieutiepnhanService } from '../services/phieutiepnhan.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-danhsachxe',
@@ -9,14 +10,19 @@ import { PhieutiepnhanService } from '../services/phieutiepnhan.service';
 })
 export class DanhsachxeComponent implements OnInit {
   dataList = [];
+  datasub = new BehaviorSubject(null as any);
   searchvalue: any;
   number: number;
+  key = 'bienso'; // set default
+  reverse = false;
+  p = 1;
   constructor(
     private tiepnhanService: PhieutiepnhanService,
   ) { }
 
   ngOnInit() {
-    this.getThongtin();
+    /* this.getThongtin(); */
+    this.getThongtinnew();
   }
   getThongtin() {
     this.tiepnhanService.getTiepnhans().subscribe(res => {
@@ -27,8 +33,15 @@ export class DanhsachxeComponent implements OnInit {
         } as Phieutiepnhan;
       });
     });
-    /* this.tiepnhanService.getThongtins().subscribe(res => {
-      this.dataList.push(res);
-    }); */
+  }
+  getThongtinnew() {
+    this.tiepnhanService.getThongtinsUlt().subscribe(res => {
+      console.log('danhsachxe still running');
+      this.datasub.next(res);
+    });
+  }
+  sort(key) {
+    this.key = key;
+    this.reverse = !this.reverse;
   }
 }

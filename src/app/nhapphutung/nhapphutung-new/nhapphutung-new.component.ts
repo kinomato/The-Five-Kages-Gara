@@ -39,10 +39,12 @@ export class NhapphutungNewComponent implements OnInit {
         this.route.navigate(['/nhapphutung']);
       },
       reject => {
-        this.toastr.error('Bạn không có quyền', 'Thất bại');
+        this.toastr.warning('Bạn không có quyền', 'Thất bại');
         this.isshow = true;
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        this.toastr.error(err, 'Đã xảy ra lỗi');
+      });
   }
   getDate() {
     const day = this.currentdate.getDate();
@@ -60,5 +62,8 @@ export class NhapphutungNewComponent implements OnInit {
     } else {
       this.invalid = false;
     }
+  }
+  goBack() {
+    this.location.back();
   }
 }

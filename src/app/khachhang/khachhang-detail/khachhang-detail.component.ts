@@ -4,6 +4,7 @@ import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { KhachhangService } from '../../services/khachhang.service';
 import { Khachhang } from 'src/app/models/khachhang.model';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-khachhang-detail',
@@ -12,10 +13,12 @@ import { Khachhang } from 'src/app/models/khachhang.model';
 })
 export class KhachhangDetailComponent implements OnInit {
   khachhang: Khachhang;
+  isshow = true;
   constructor(
     private khachhangService: KhachhangService,
     private location: Location,
-    private activetedRoute: ActivatedRoute
+    private activetedRoute: ActivatedRoute,
+    private toastr: ToastrService
     ) { }
 
   ngOnInit() {
@@ -24,10 +27,23 @@ export class KhachhangDetailComponent implements OnInit {
   onSave(form: NgForm) {
     /* const id = form.value.id; */
     const id = this.activetedRoute.snapshot.paramMap.get('id'); // id: string
-    console.log(id);
+    /* console.log(id); */
     const data = Object.assign({}, form.value);
     /* delete data.id; */
-    this.khachhangService.Update(id, data);
+    this.khachhangService.Update(id, data)
+    .then(() => {
+      this.toastr.success('Cập nhật thành công', 'Khách hàng');
+      this.isshow = true;
+      this.goBack();
+    },
+    reject => {
+      this.toastr.warning('Bạn không có quyền', 'Thất bại');
+      this.isshow = true;
+    })
+    .catch(err => {
+      this.toastr.error(err, 'Đã xảy ra lỗi');
+      this.isshow = true;
+    });
   }
   getkhachhang() {
     const id = this.activetedRoute.snapshot.paramMap.get('id'); // id: string

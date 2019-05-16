@@ -1,6 +1,5 @@
 export class Phieutiepnhan {
     constructor(
-        public idphieutiepnhan: string,
         public ngaytiepnhan: {
             day: string,
             month: string,
@@ -9,12 +8,13 @@ export class Phieutiepnhan {
         public bienso: string,
         public hieuxe: string,
         public idkhachhang: string,
-        public tenkhachhang: string,
-        public dienthoai: string,
-        public diachia: string,
         public suachuastt: boolean,
         public tiennostt: boolean,
         public thutienstt: boolean,
+        public idphieutiepnhan?: string,
+        public tenkhachhang?: string,
+        public dienthoai?: string,
+        public diachia?: string,
         public idsuachua?: string,
         public tienno?: number,
         public idthutien?: string

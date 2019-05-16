@@ -12,13 +12,13 @@ export class TiencongService {
 
   constructor(private fireStore: AngularFirestore) { }
   Submit(data: Tiencong) {
-    this.fireStore.collection('tiencong').add(data);
+    return this.fireStore.collection('tiencong').add(data);
   }
   Update(id: string, data: NgForm ) {
-    this.fireStore.collection('tiencong').doc(id).update(data);
+    return this.fireStore.collection('tiencong').doc(id).update(data);
   }
   Delete(id: string) {
-    this.fireStore.collection('tiencong').doc(id).delete();
+    return this.fireStore.collection('tiencong').doc(id).delete();
   }
   getTiencongs() {
     return this.fireStore.collection('tiencong').snapshotChanges();

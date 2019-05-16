@@ -17,25 +17,25 @@ export class HieuxeService {
     ) { }
   private path = 'https://firestore.googleapis.com/v1beta1/projects/cloud-firestore-test-f68a5/databases/(default)/documents/hieuxe/';
   Submit(data: Hieuxe) {
-    this.fireStore.collection('hieuxe').add(data);
+    return this.fireStore.collection('hieuxe').add(data);
   }
-  Submit1(data: Hieuxe) {
+  /* Submit1(data: Hieuxe) {
     this.http.post(this.path, data).subscribe(res => {
       console.log(res);
     });
-  }
+  } */
   Update(id: string, data: NgForm ) {
-    this.fireStore.collection('hieuxe').doc(id).update(data);
+    return this.fireStore.collection('hieuxe').doc(id).update(data);
   }
   Delete(id: string) {
-    this.fireStore.collection('hieuxe').doc(id).delete();
+    return this.fireStore.collection('hieuxe').doc(id).delete();
   }
   getHieuXes() {
     return this.fireStore.collection('hieuxe').snapshotChanges();
   }
-  getHieuxes() {
+  /* getHieuxes() {
     return this.http.get<CustomResObjectList>(this.path);
-  }
+  } */
   getHieuxe(id: string) {
     return this.fireStore.doc('hieuxe/' + id).get();
   }

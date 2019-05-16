@@ -1,14 +1,32 @@
 <h1 class="display-4">Thêm tiền công</h1>
-<form #form="ngForm" (submit)="onSubmit(form)" autocomplete="off">
-  <!-- <input type="hidden" name="id" #id="ngModel" [(ngModel)]="employee.id"> -->
-  <div class="form-group">
-      <input  name="tenloaitiencong" #tenloaitiencong="ngModel" [(ngModel)]="tiencong.tenloaitiencong" placeholder="tenloaitiencong" class="form-control" required>
-      <div class="validation-error" *ngIf="tenloaitiencong.invalid && tenloaitiencong.touched">this field is required</div>
+<div class="shadow">
+  <form #form="ngForm" (submit)="onSubmit(form)" autocomplete="off">
+    <!-- <input type="hidden" name="id" #id="ngModel" [(ngModel)]="employee.id"> -->
+    <div class="form-group">
+      <!-- <input  name="tenloaitiencong" #tenloaitiencong="ngModel" [(ngModel)]="tiencong.tenloaitiencong" placeholder="tenloaitiencong" class="form-control" required> -->
+      <!-- <div class="validation-error" *ngIf="tenloaitiencong.invalid && tenloaitiencong.touched">this field is required</div> -->
+      <label for="tiencong">Tên tiền công:</label>
+      <input id="'tiencong'" name="tentiencong" #tentiencong="ngModel" [(ngModel)]="tiencong.tenloaitiencong"
+        placeholder="Tên tiền công" class="form-control" [minlength]="5" [maxlength]="15"
+        pattern="[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]*"
+        required>
+      <div class="validation-error" *ngIf="tentiencong.invalid && tentiencong.touched">Không phù hợp</div>
     </div>
     <div class="form-group">
-      <input class="form-control" name="muctiencong" #muctiencong="ngModel" [(ngModel)]="tiencong.muctiencong" placeholder="muctiencong">
+      <!-- <input class="form-control" name="muctiencong" #muctiencong="ngModel" [(ngModel)]="tiencong.muctiencong" placeholder="muctiencong"> -->
+      <label for="gia">Mức tiền công:</label>
+      <input type="number" (keyup)="checkSL()" (change)="checkSL()" [min]="1000" [max]="10000000" id="gia"
+        class="form-control" name="muctiencong" #giatiencong="ngModel" [(ngModel)]="tiencong.muctiencong"
+        placeholder="Mức tiền công" readonly>
+      <div class="validation-error" *ngIf="giatiencong.invalid && giatiencong.touched">Không phù hợp</div>
     </div>
-  <div class="form-group">
-    <button class="form-control" [disabled]="form.invalid" type="submit" class="btn btn-block btn-info">submit</button>
-  </div>
-</form>
+    <div class="form-group">
+      <button class="form-control" [disabled]="form.invalid || !isshow" type="submit" class="btn btn-block btn-info"
+        style="display: flex; justify-content: center">
+        <h5 *ngIf="isshow">Xác nhận</h5>
+        <mat-spinner strokeWidth="5" diameter="25" *ngIf="!isshow"></mat-spinner>
+        <h5 *ngIf="!isshow">Vui lòng chờ...</h5>
+      </button>
+    </div>
+  </form>
+</div>

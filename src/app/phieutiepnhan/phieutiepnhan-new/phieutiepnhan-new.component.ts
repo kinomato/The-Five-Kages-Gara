@@ -68,8 +68,12 @@ export class PhieutiepnhanNewComponent implements OnInit {
     this.isshow = false;
     this.tiepnhanService.Submit(form).subscribe(res => {
       res.then(booleen => {
-        this.isshow = true;
-        this.formReset(form);
+        if (booleen) {
+          this.isshow = true;
+          this.formReset(form);
+        } else {
+          this.isshow = true;
+        }
       });
     });
     /* setTimeout(() => {

@@ -35,10 +35,11 @@
         <!-- <input type="number" [min]="1" [readOnly]="(ctsuachua.phutung === undefined) ? true:false" class="form-control"
           (keyup)="checkSL(ctsuachua)" (change)="checkSL(ctsuachua)" name="soluong" [(ngModel)]="ctsuachua.soluong"
           required> -->
-        <mat-form-field  appearance="outline" class="example-full-width">
+        <mat-form-field appearance="outline" class="example-full-width">
           <mat-label>Số lượng</mat-label>
           <input matInput type="number" [disabled]="(ctsuachua.phutung === undefined) ? true:false"
-             placeholder="Số lượng" name="soluong" [(ngModel)]="ctsuachua.soluong" (keyup)="checkSL(ctsuachua)" (change)="checkSL(ctsuachua)">
+            placeholder="Số lượng" name="soluong" [(ngModel)]="ctsuachua.soluong" (keyup)="checkSL(ctsuachua)"
+            (change)="checkSL(ctsuachua)">
         </mat-form-field>
       </td>
       <td class="form-group" title="{{ctsuachua.dongia}}">

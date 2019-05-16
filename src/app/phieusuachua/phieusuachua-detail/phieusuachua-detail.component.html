@@ -1,4 +1,6 @@
-<h1 class="display-4">Phiếu Sửa Chữa (ModifyMode)</h1>
+<!-- <button class="btn btn-outline-secondary" (click)="goBack()">
+  <i class="fas fa-caret-square-left"></i> Back</button> -->
+<h1 class="text-center">Phiếu Sửa Chữa (ModifyMode)</h1>
 <!-- <div class="danger">
   <p><strong>Danger!</strong> Logic số lượng vẫn chưa giải quyết xong, mọi sửa chữa về số lượng sẽ gây lỗi</p>
 </div> -->
@@ -42,14 +44,15 @@
         </ngx-numeric-textbox>
       </div>
     </div>
-    <div class="form-group container">
+    <div class="form-group">
       <app-ct-phieusuachua-detail-list (tinhtien)="tinhTien($event); tongtien = +$event"></app-ct-phieusuachua-detail-list>
     </div>
     <div class="form-group">
-      <button class="form-control btn btn-block btn-info" [disabled]="form.invalid || invalid" type="submit"
+      <button class="form-control btn btn-block btn-info" [disabled]="form.invalid || invalid || !isshow" type="submit"
         style="display: flex; justify-content: center">
-        <h5 *ngIf="isshow">Submit</h5>
-        <mat-spinner diameter="25" *ngIf="!isshow"></mat-spinner>
+        <h5 *ngIf="isshow">Xác nhận</h5>
+        <mat-spinner strokeWidth="5" diameter="25" *ngIf="!isshow"></mat-spinner>
+        <h5 *ngIf="!isshow">Vui lòng chờ...</h5>
       </button>
     </div>
   </form>

@@ -44,7 +44,7 @@ export class PhutungNewComponent implements OnInit {
         this.resetForm(form);
       },
       reject => {
-        this.toastr.error('Bạn không có quyền', 'Thất bại');
+        this.toastr.warning('Bạn không có quyền', 'Thất bại');
         this.isshow = true;
       })
       .catch(err => {

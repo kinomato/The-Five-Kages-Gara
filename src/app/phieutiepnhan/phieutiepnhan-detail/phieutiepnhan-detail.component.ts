@@ -91,7 +91,7 @@ export class PhieutiepnhanDetailComponent implements OnInit {
         this.goBack();
       },
       reject => {
-        this.toarst.error('Bạn không đủ quyền lực', 'Thất bại');
+        this.toarst.warning('Bạn không đủ quyền lực', 'Thất bại');
         this.isshow = true;
       })
       .catch(err => {

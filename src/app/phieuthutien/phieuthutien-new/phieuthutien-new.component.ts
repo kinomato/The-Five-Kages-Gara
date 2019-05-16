@@ -76,7 +76,7 @@ export class PhieuthutienNewComponent implements OnInit {
   } */
   onSubmit(form: NgForm) {
     this.isshow = false;
-    const newObj = Object.assign({ sotienthu: +this.sotienthu } as Phieuthutien, form.value);
+    const newObj = Object.assign({ hieuxe: this.tiepnhantemp.hieuxe, sotienthu: +this.sotienthu } as Phieuthutien, form.value);
     newObj.bienso = this.tiepnhantemp.bienso;
     this.thutienService.SubmitUlt(newObj, this.tiepnhantemp, +this.sotienthu)
       .then(() => {
@@ -84,10 +84,13 @@ export class PhieuthutienNewComponent implements OnInit {
         this.isshow = true;
       },
       reject => {
-        this.toastr.error('Bạn không đủ quyền lực', 'Thất bại');
+        this.toastr.warning('Bạn không đủ quyền lực', 'Thất bại');
         this.isshow = true;
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        this.toastr.error(err, 'Đã xảy ra lỗi');
+        this.isshow = true;
+      });
     /* this.thutienService.Submit(newObj)
       .then(id => {
         this.thutienService.changePhieutiepnhan(id, this.tiepnhantemp, +this.sotienthu);

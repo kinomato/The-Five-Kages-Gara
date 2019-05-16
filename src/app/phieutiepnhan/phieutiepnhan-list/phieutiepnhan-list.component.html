@@ -1,36 +1,70 @@
 <button type="button" class="btn btn-success" routerLink="/phieutiepnhan/new">Tiếp nhận xe</button>
-<h1>Danh sách phiếu</h1>
+<h1 class="text-center">Danh sách phiếu tiếp nhận</h1>
+<!-- <form class="form-inline">
+      <label for="search"> <button disabled="true" class="btn btn-outline-secondary"><i class="fa fa-search"
+            aria-hidden="true"></i></button> </label>
+      <input type="text" id="search" name="search" [(ngModel)]="searchvalue" class="form-control"
+        placeholder="Search any field">
+    </form> -->
+<div class="row">
+  <div class="col-md-12">
+    <div class="input-group input-group-lg">
+      <div class="input-group-append"></div>
+      <span class="input-group-text">
+        <i class="fa fa-search" aria-hidden="true"></i>
+      </span>
+      <input type="text" name="search" [(ngModel)]="searchvalue" class="form-control" placeholder="Search any field">
+    </div>
+  </div>
+</div>
 <div class="shadow">
-  <form class="form-inline">
-    <label for="search"> <button disabled="true" class="btn btn-outline-secondary"><i class="fa fa-search" aria-hidden="true"></i></button>  </label>
-    <input type="text" id="search" name="search" [(ngModel)]="searchvalue" class="form-control" placeholder="Search any field">
-  </form>
   <table class="table table-hover">
     <thead>
-      <th>STT</th>
-      <th>biển số</th>
-      <th>hiệu xe</th>
-      <th>ngày nhận</th>
-      <th>tên chủ xe</th>
-      <th>địa chỉ</th>
-      <th>điện thoại</th>
+      <th (click)="sort('bienso')">biển số
+        <i class="fas" *ngIf="key =='bienso'" [ngClass]="{'fa-sort-up': reverse,'fa-sort-down': !reverse}"></i>
+      </th>
+      <th (click)="sort('hieuxe')">hiệu xe
+        <i class="fas" *ngIf="key =='hieuxe'" [ngClass]="{'fa-sort-up': reverse,'fa-sort-down': !reverse}"></i>
+      </th>
+      <th (click)="sort('ngaytiepnhan')">ngày nhận
+        <i class="fas" *ngIf="key =='ngaytiepnhan'" [ngClass]="{'fa-sort-up': reverse,'fa-sort-down': !reverse}"></i>
+      </th>
+      <th (click)="sort('tenkhachhang')">chủ xe
+        <i class="fas" *ngIf="key =='tenkhachhang'" [ngClass]="{'fa-sort-up': reverse,'fa-sort-down': !reverse}"></i>
+      </th>
+      <th (click)="sort('diachi')">địa chỉ
+        <i class="fas" *ngIf="key =='diachi'" [ngClass]="{'fa-sort-up': reverse,'fa-sort-down': !reverse}"></i>
+      </th>
+      <th (click)="sort('dienthoai')">điện thoại
+        <i class="fas" *ngIf="key =='dienthoai'" [ngClass]="{'fa-sort-up': reverse,'fa-sort-down': !reverse}"></i>
+      </th>
+      <th></th>
     </thead>
     <tbody>
-      <tr *ngFor="let item of dataList | tnlistsearch: searchvalue, let i = index">
-          <th scope="row">{{i + 1}}</th>
-          <td >{{item.bienso}}</td>
-          <td > {{item.hieuxe}} </td>
-          <td > {{item.ngaytiepnhan | customdatetime}} </td>
-          <td > {{item.tenkhachhang}} </td>
-          <td > {{item.diachi}} </td>
-          <td > {{item.dienthoai}} </td>
-          <td> <a matTooltip="Edit" type="button" click class="btn text-warning"  [routerLink]="[ '/phieutiepnhan/detail/', item.idphieutiepnhan ]">
+      <tr *ngIf="!newList.value">
+        <td class="differ" colspan="7">
+          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        </td>
+      </tr>
+      <tr
+        *ngFor="let item of newList | async | tnlistsearch: searchvalue | orderBy:key:reverse | paginate:{ itemsPerPage: 5, currentPage: p }, let i = index">
+        <td> {{item.bienso}} </td>
+        <td> {{item.hieuxe}} </td>
+        <td> {{item.ngaytiepnhan | customdatetime}} </td>
+        <td> {{item.tenkhachhang}} </td>
+        <td> {{item.diachi}} </td>
+        <td> {{item.dienthoai}} </td>
+        <td>
+          <a matTooltip="Edit" type="button" click class="btn text-warning"
+            [routerLink]="[ '/phieutiepnhan/detail/', item.idphieutiepnhan ]">
             <i class="fa fa-cog" aria-hidden="true"></i>
-            </a></td>
-          <td> <a matTooltip="Delete" type="button" class="btn text-danger" (click)="onDelete(item.idphieutiepnhan)">
-          <i class="fa fa-trash" aria-hidden="true"></i>
-          </a></td>
+          </a>
+          <a matTooltip="Delete" type="button" class="btn text-danger" (click)="onDelete(item.idphieutiepnhan)">
+            <i class="fa fa-trash" aria-hidden="true"></i>
+          </a>
+        </td>
       </tr>
     </tbody>
   </table>
+  <pagination-controls (pageChange)="p = $event"></pagination-controls>
 </div>

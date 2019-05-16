@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HieuxeService } from '../../services/hieuxe.service';
 import { Hieuxe } from 'src/app/models/hieuxe.model';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-hieuxe-list',
@@ -8,9 +9,11 @@ import { Hieuxe } from 'src/app/models/hieuxe.model';
   styleUrls: ['./hieuxe-list.component.css']
 })
 export class HieuxeListComponent implements OnInit {
-
-  hieuxeList: Hieuxe[];
-  constructor(private hieuxeService: HieuxeService) { }
+  hieuxeList: Hieuxe[] = [];
+  isshow = true;
+  constructor(
+    private hieuxeService: HieuxeService,
+    private toastr: ToastrService) { }
 
   ngOnInit() {
     this.getHieuxes();
@@ -27,7 +30,19 @@ export class HieuxeListComponent implements OnInit {
   }
   onDelete(id: string) {
     if (confirm('are you sure ?')) {
-      this.hieuxeService.Delete(id);
+      this.hieuxeService.Delete(id)
+      .then(() => {
+        this.toastr.success('Xóa thành công', 'Hiệu xe');
+        this.isshow = true;
+      },
+      reject => {
+        this.toastr.warning('Bạn không có quyền', 'Thất bại');
+        this.isshow = true;
+      })
+      .catch(err => {
+        this.toastr.error(err, 'Đã xảy ra lỗi');
+        this.isshow = true;
+      });
     }
   }
 }

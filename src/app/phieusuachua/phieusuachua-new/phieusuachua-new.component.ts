@@ -70,7 +70,7 @@ export class PhieusuachuaNewComponent implements OnInit {
       this.router.navigate(['/suachua']);
     },
     reject => {
-      this.toastr.error('Bạn không đủ quyền lực', 'Thất bại');
+      this.toastr.warning('Bạn không đủ quyền lực', 'Thất bại');
       this.isshow = true;
     })
     .catch(err => {
@@ -126,5 +126,8 @@ export class PhieusuachuaNewComponent implements OnInit {
     } else {
       this.invalid = false;
     }
+  }
+  goBack() {
+    this.location.back();
   }
 }

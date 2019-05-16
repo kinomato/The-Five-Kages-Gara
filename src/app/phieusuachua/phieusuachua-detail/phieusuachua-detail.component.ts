@@ -17,7 +17,7 @@ import { forkJoin, observable } from 'rxjs';
   styleUrls: ['./phieusuachua-detail.component.css']
 })
 export class PhieusuachuaDetailComponent implements OnInit {
-  phieusuachua = new Phieusuachua('', '', { day: '', month: '', year: '' }, 0);
+  phieusuachua = new Phieusuachua('', { day: '', month: '', year: '' }, 0);
   currentdate: Date = new Date();
   model = {};
   tiepnhantemp: any;
@@ -70,7 +70,7 @@ export class PhieusuachuaDetailComponent implements OnInit {
       this.location.back();
     },
     () => {
-      this.toastr.error('Bạn không đủ quyền lực', 'Thất bại');
+      this.toastr.warning('Bạn không đủ quyền lực', 'Thất bại');
       this.isshow = true;
     })
     .catch(err => {
@@ -146,5 +146,8 @@ export class PhieusuachuaDetailComponent implements OnInit {
     this.mychild.ctsuachuaList.forEach(element => {
       console.log(element);
     });
+  }
+  goBack() {
+    this.location.back();
   }
 }

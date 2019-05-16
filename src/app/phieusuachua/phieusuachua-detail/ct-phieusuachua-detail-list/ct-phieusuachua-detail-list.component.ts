@@ -86,7 +86,7 @@ export class CtPhieusuachuaDetailListComponent implements OnInit {
     }
   }
   add() {
-    const newObj = new CTPhieusuachua('', '', undefined, 1, null, undefined, null);
+    const newObj = new CTPhieusuachua('', undefined, 1, null, undefined, null);
     const temp = JSON.parse(JSON.stringify(newObj));
     this.ctsuachuaList.push(temp);
     this.tinhTongTien();

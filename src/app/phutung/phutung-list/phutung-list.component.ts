@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PhutungService } from '../../services/phutung.service';
 import { Phutung } from 'src/app/models/phutung.model';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-phutung-list',
@@ -8,9 +9,11 @@ import { Phutung } from 'src/app/models/phutung.model';
   styleUrls: ['./phutung-list.component.css']
 })
 export class PhutungListComponent implements OnInit {
-  phutungList: Phutung[];
+  phutungList: Phutung[] = [];
 
-  constructor(private phutungService: PhutungService) { }
+  constructor(
+    private phutungService: PhutungService,
+    private toastr: ToastrService) { }
 
   ngOnInit() {
     this.getPhutungs();
@@ -26,7 +29,16 @@ export class PhutungListComponent implements OnInit {
   }
   onDelete(id: string) {
     if (confirm('are you sure ?')) {
-      this.phutungService.Delete(id);
+      this.phutungService.Delete(id)
+        .then(() => {
+          this.toastr.success('Thành công', 'Xóa phụ tùng');
+        },
+        reject => {
+          this.toastr.warning('Bạn không đủ quyền', 'Thất bại');
+        })
+        .catch(err => {
+          this.toastr.error(err, 'Đã xảy ra lỗi');
+        });
     }
   }
 }

@@ -10,6 +10,10 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class NhapphutungListComponent implements OnInit {
   nhapptList: Nhapphutung[] = [];
+  searchvalue;
+  key = 'ngaynhap'; // set default
+  reverse = false;
+  p = 1;
   constructor(
     private nhapphutungService: NhapphutungService,
     private toastr: ToastrService,
@@ -35,9 +39,15 @@ export class NhapphutungListComponent implements OnInit {
           this.toastr.success('Xóa thành công', 'Phiếu nhập PT');
         },
         reject => {
-          this.toastr.error('Bạn không có quyền', 'Thất bại');
+          this.toastr.warning('Bạn không có quyền', 'Thất bại');
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+          this.toastr.error(err, 'Đã xảy ra lỗi')
+        });
     }
+  }
+  sort(key) {
+    this.key = key;
+    this.reverse = !this.reverse;
   }
 }

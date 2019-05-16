@@ -19,7 +19,7 @@ export class PhutungDetailComponent implements OnInit {
     soluong: 0,
     soluongconlai: 0,
     phatsinh: 0
-  }
+  };
   isshow = true;
   constructor(
     private phutungService: PhutungService,
@@ -45,7 +45,7 @@ export class PhutungDetailComponent implements OnInit {
       this.goBack();
     },
     reject => {
-      this.toastr.error('Bạn không có quyền', 'Thất bại');
+      this.toastr.warning('Bạn không có quyền', 'Thất bại');
       this.isshow = true;
     })
     .catch(err => {
@@ -63,5 +63,14 @@ export class PhutungDetailComponent implements OnInit {
   }
   goBack() {
     this.location.back();
+  }
+  checkSL() {
+    if (this.phutung.giaphutung > 10000000) {
+      this.phutung.giaphutung = 10000000;
+      return;
+    }
+    if (this.phutung.giaphutung < 1000) {
+      return this.phutung.giaphutung = 1000;
+    }
   }
 }

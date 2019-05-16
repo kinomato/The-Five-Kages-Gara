@@ -1,0 +1,27 @@
+<select type="input" (change)="valuechange()" class="form-control" name="hieuxe" [(ngModel)]="today" required>
+  <option [ngValue]="currentdate.getDate()">Hôm nay</option>
+  <option [ngValue]="currentdate.getDate() - 1"> Hôm qua </option>
+  <option [ngValue]="currentdate.getDate() - 2"> 2 ngày trước </option>
+  <option [ngValue]="true"> tháng này </option>
+</select>
+<div *ngIf="phieufilter$ | async, then listitem else matprogressbar">
+</div>
+<ng-template #matprogressbar>
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</ng-template>
+<ng-template #listitem>
+  </ng-template>
+<div class="list-group">
+  <a *ngFor="let phieufilter of phieufilter$ | async | paginate:{ itemsPerPage: 5, currentPage: p }" class="list-group-item list-group-item-action list-group-item-dark
+      d-flex justify-content-between">
+    {{phieufilter.bienso}}
+    {{phieufilter.ngay | customdatetime}}
+    <span class="badge" [ngClass]="{'badge-primary': phieufilter.type.tiepnhan, 
+      'badge-warning': phieufilter.type.suachua, 
+      'badge-success': phieufilter.type.thutien}">
+      {{(phieufilter.type.tiepnhan)? 'Tiếp nhận':(phieufilter.type.suachua)? 'Sữa chữa':(phieufilter.type.thutien)? 'Thu tiền':'What this?'}}
+    </span>
+  </a>
+</div>
+<pagination-controls (pageChange)="p = $event"></pagination-controls>
+<!-- <a type="button" (click)="show()">click</a> -->

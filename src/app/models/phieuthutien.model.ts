@@ -1,8 +1,8 @@
 export class Phieuthutien {
     constructor(
-        public idphieuthutien: string,
         public tenchuxe: string,
         public bienso: string,
+        public hieuxe: string,
         public dienthoai: string,
         public diachi: string,
         public ngaythutien: {
@@ -10,6 +10,7 @@ export class Phieuthutien {
             month: string,
             year: string,
         },
-        public sotienthu: number
+        public sotienthu: number,
+        public idphieuthutien?: string,
     ) {}
 }

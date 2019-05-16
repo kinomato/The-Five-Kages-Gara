@@ -12,15 +12,16 @@
     </div>
     <div class="form-group">
       <label for="gia">Giá phụ tùng:</label>
-      <input type="number" (keyup)="checkSl()" (change)="checkSl()" [min]="1000" [max]="10000000" id="gia"
+      <input type="number" (keyup)="checkSL()" (change)="checkSL()" [min]="1000" [max]="10000000" id="gia"
         class="form-control" name="giaphutung" #giaphutung="ngModel" [(ngModel)]="phutung.giaphutung"
         placeholder="giaphutung">
     </div>
     <div class="form-group">
-      <button class="form-control btn btn-block btn-info" [disabled]="form.invalid" type="submit"
+      <button class="form-control btn btn-block btn-info" [disabled]="form.invalid || !isshow" type="submit"
         style="display: flex; justify-content: center">
-        <h5 *ngIf="isshow">Submit</h5>
-        <mat-spinner diameter="25" *ngIf="!isshow"></mat-spinner>
+        <h5 *ngIf="isshow">Xác nhận</h5>
+        <mat-spinner strokeWidth="5" diameter="25" *ngIf="!isshow"></mat-spinner>
+        <h5 *ngIf="!isshow">Vui lòng chờ...</h5>
       </button>
     </div>
   </form>

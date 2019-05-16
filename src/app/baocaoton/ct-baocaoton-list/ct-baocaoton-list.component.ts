@@ -46,6 +46,7 @@ export class CtBaocaotonListComponent implements OnInit {
   }
   initialize() {
     this.getPhutungs().subscribe(res => {
+      console.log('baocaoton still running');
       this.dataSource = new MatTableDataSource(res);
       this.dataSource.paginator = this.paginator;
     });

@@ -1,25 +1,51 @@
 <button routerLink="/suachua/new" class="btn btn-success">Thêm phiếu sửa</button>
-<h1>Danh sách phiếu sửa chữa</h1>
+<h1 class="text-center">Danh sách phiếu sửa chữa</h1>
+<div class="row">
+  <div class="col-md-12">
+    <div class="input-group input-group-lg">
+      <div class="input-group-append"></div>
+      <span class="input-group-text">
+        <i class="fa fa-search" aria-hidden="true"></i>
+      </span>
+      <input type="text" name="search" [(ngModel)]="searchvalue" class="form-control" placeholder="Search any field">
+    </div>
+  </div>
+</div>
 <div class="shadow-lg">
   <table class="table table-hover">
     <thead>
       <th>STT</th>
-      <th>Biển số</th>
-      <th>Ngày sửa chữa</th>
+      <th (click)="sort('bienso')">Biển số
+          <i class="fas" *ngIf="key =='bienso'" [ngClass]="{'fa-sort-up': reverse,'fa-sort-down': !reverse}"></i>
+      </th>
+      <th (click)="sort('ngaysuachua')">Ngày sửa chữa
+          <i class="fas" *ngIf="key =='ngaysuachua'" [ngClass]="{'fa-sort-up': reverse,'fa-sort-down': !reverse}"></i>
+      </th>
+      <th (click)="sort('tongtien')">Tổng tiền
+          <i class="fas" *ngIf="key =='tongtien'" [ngClass]="{'fa-sort-up': reverse,'fa-sort-down': !reverse}"></i>
+      </th>
+      <th></th>
     </thead>
     <tbody>
-      <tr *ngFor="let suachua of suachuaList, let i = index">
+      <tr *ngIf="(suachuaList.length === 0)">
+        <td colspan="5">
+          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        </td>
+      </tr>
+      <tr *ngFor="let suachua of suachuaList | sclistsearch:searchvalue | orderBy:key:reverse | paginate:{ itemsPerPage: 5, currentPage: p }, let i = index">
         <th scope="row">{{i + 1}}</th>
         <td>{{suachua.bienso}}</td>
         <td>{{suachua.ngaysuachua | customdatetime}}</td>
+        <td>{{suachua.tongtien | currency:'VND'}}</td>
         <td> <a matTooltip="Edit" type="button" class="btn text-warning"
             [routerLink]="[ '/suachua/detail/', suachua.idphieusuachua ]">
             <i class="fa fa-cog" aria-hidden="true"></i>
-          </a></td>
-        <td> <a matTooltip="Delete" type="button" class="btn text-danger" (click)="onDelete(suachua.idphieusuachua)">
+          </a>
+          <a matTooltip="Delete" type="button" class="btn text-danger" (click)="onDelete(suachua.idphieusuachua)">
             <i class="fa fa-trash" aria-hidden="true"></i>
           </a></td>
       </tr>
     </tbody>
   </table>
+  <pagination-controls (pageChange)="p = $event"></pagination-controls>
 </div>

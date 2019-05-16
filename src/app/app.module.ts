@@ -16,6 +16,9 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { SelectDropDownModule } from 'ngx-select-dropdown';
 import { NumericTextboxModule } from 'ngx-numeric-textbox';
 
+import { OrderModule } from 'ngx-order-pipe';
+import {NgxPaginationModule} from 'ngx-pagination';
+
 import {
   MatAutocompleteModule,
   MatInputModule,
@@ -23,7 +26,8 @@ import {
   MatSelectModule,
   MatProgressSpinnerModule,
   MatTableModule,
-  MatPaginatorModule
+  MatPaginatorModule,
+  MatProgressBarModule
 } from '@angular/material';
 /* import { MatSelectModule, MatProgressSpinnerModule} from '@angular/material'; */
 
@@ -90,6 +94,11 @@ import { HomeComponent } from './home/home.component';
 import { DoanhsoComponent } from './doanhso/doanhso.component';
 import { BaocaotonComponent } from './baocaoton/baocaoton.component';
 import { CtBaocaotonListComponent } from './baocaoton/ct-baocaoton-list/ct-baocaoton-list.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
+import { CtDoanhsoListComponent } from './doanhso/ct-doanhso-list/ct-doanhso-list.component';
+import { SclistsearchPipe } from './custompipe/sclistsearch.pipe';
+import { NptlistsearchPipe } from './custompipe/nptlistsearch.pipe';
+import { PhieulistComponent } from './home/phieulist/phieulist.component';
 
 @NgModule({
   declarations: [
@@ -150,7 +159,12 @@ import { CtBaocaotonListComponent } from './baocaoton/ct-baocaoton-list/ct-baoca
     HomeComponent,
     DoanhsoComponent,
     BaocaotonComponent,
-    CtBaocaotonListComponent
+    CtBaocaotonListComponent,
+    SidebarComponent,
+    CtDoanhsoListComponent,
+    SclistsearchPipe,
+    NptlistsearchPipe,
+    PhieulistComponent
   ],
   imports: [
     BrowserModule,
@@ -174,7 +188,10 @@ import { CtBaocaotonListComponent } from './baocaoton/ct-baocaoton-list/ct-baoca
     NgbDatepickerModule,
     SelectDropDownModule,
     NumericTextboxModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatProgressBarModule,
+    OrderModule,
+    NgxPaginationModule
   ],
   exports: [
     MatAutocompleteModule,
@@ -184,7 +201,8 @@ import { CtBaocaotonListComponent } from './baocaoton/ct-baocaoton-list/ct-baoca
     MatProgressSpinnerModule,
     NgbDatepickerModule,
     MatTableModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatProgressBarModule
   ],
   providers: [EmployeeService],
   bootstrap: [AppComponent]
