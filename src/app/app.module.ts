@@ -31,7 +31,7 @@ import {
 } from '@angular/material';
 /* import { MatSelectModule, MatProgressSpinnerModule} from '@angular/material'; */
 
-
+import { MDBBootstrapModule } from 'angular-bootstrap-md';
 
 /* import { BoardComponent } from './board/board.component'; */
 import { environment } from 'src/environments/environment';
@@ -99,6 +99,7 @@ import { CtDoanhsoListComponent } from './doanhso/ct-doanhso-list/ct-doanhso-lis
 import { SclistsearchPipe } from './custompipe/sclistsearch.pipe';
 import { NptlistsearchPipe } from './custompipe/nptlistsearch.pipe';
 import { PhieulistComponent } from './home/phieulist/phieulist.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -164,7 +165,8 @@ import { PhieulistComponent } from './home/phieulist/phieulist.component';
     CtDoanhsoListComponent,
     SclistsearchPipe,
     NptlistsearchPipe,
-    PhieulistComponent
+    PhieulistComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
@@ -178,6 +180,7 @@ import { PhieulistComponent } from './home/phieulist/phieulist.component';
     AppRoutingModule,
     BrowserAnimationsModule, // required animations module
     ToastrModule.forRoot(),
+    MDBBootstrapModule.forRoot(),
     MatInputModule,
     MatAutocompleteModule,
     MatFormFieldModule,
@@ -191,7 +194,8 @@ import { PhieulistComponent } from './home/phieulist/phieulist.component';
     MatPaginatorModule,
     MatProgressBarModule,
     OrderModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    MDBBootstrapModule
   ],
   exports: [
     MatAutocompleteModule,

@@ -7,6 +7,7 @@ import { PhieuthutienService } from '../../services/phieuthutien.service';
 import { NgForm } from '@angular/forms';
 import { Phieuthutien } from 'src/app/models/phieuthutien.model';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-phieuthutien-new',
@@ -21,10 +22,11 @@ export class PhieuthutienNewComponent implements OnInit {
   sotienthu: '';
   currentdate: Date = new Date();
   tiepnhantemp: any;
-  tiepnhanList = [{bienso: 'None'}];
+  tiepnhanList = [{ bienso: 'None' }];
   model;
   config;
   isshow = true;
+  subtiepnhan: Subscription;
   constructor(
     private toastr: ToastrService,
     private tiepnhanService: PhieutiepnhanService,
@@ -53,6 +55,11 @@ export class PhieuthutienNewComponent implements OnInit {
     this.getDate();
     this.getPhieutiepnhans();
   }
+  OnDestroy(): void {
+    // Called once, before the instance is destroyed.
+    // Add 'implements OnDestroy' to the class.
+    this.subtiepnhan.unsubscribe();
+  }
   getDate() {
     const day = this.currentdate.getDate();
     const month = this.currentdate.getMonth() + 1;
@@ -64,7 +71,7 @@ export class PhieuthutienNewComponent implements OnInit {
     };
   }
   async getPhieutiepnhans() {
-    this.thutienService.getPhieutiepnhans().subscribe(res => {
+    this.subtiepnhan = this.thutienService.getPhieutiepnhans().subscribe(res => {
       this.tiepnhanList = [...this.tiepnhanList, res];
     },
       err => console.log(err));
@@ -83,10 +90,10 @@ export class PhieuthutienNewComponent implements OnInit {
         this.toastr.success('Thành công', 'Phiếu sửa chữa');
         this.isshow = true;
       },
-      reject => {
-        this.toastr.warning('Bạn không đủ quyền lực', 'Thất bại');
-        this.isshow = true;
-      })
+        reject => {
+          this.toastr.warning('Bạn không đủ quyền lực', 'Thất bại');
+          this.isshow = true;
+        })
       .catch(err => {
         this.toastr.error(err, 'Đã xảy ra lỗi');
         this.isshow = true;
@@ -101,8 +108,8 @@ export class PhieuthutienNewComponent implements OnInit {
       }); */
   }
   refresh() {
-    this.tiepnhanList = [{bienso: 'None'}];
-    this.tiepnhantemp = {...this.tiepnhanList[0]};
+    this.tiepnhanList = [{ bienso: 'None' }];
+    this.tiepnhantemp = { ...this.tiepnhanList[0] };
   }
   change() {
     if (this.tiepnhantemp === undefined || this.tiepnhantemp === null) {

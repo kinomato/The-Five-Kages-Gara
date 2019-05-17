@@ -7,6 +7,7 @@ import { PhieusuachuaService } from '../../../services/phieusuachua.service';
 import { TiencongService } from 'src/app/services/tiencong.service';
 import { PhutungService } from 'src/app/services/phutung.service';
 import { Location } from '@angular/common';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-ct-phieusuachua-detail-list',
@@ -27,6 +28,8 @@ export class CtPhieusuachuaDetailListComponent implements OnInit {
   configtc;
   tongtien = 0;
   ishow = false;
+  subphutung: Subscription;
+  subtiencong: Subscription;
   @Output() tinhtien = new EventEmitter<number>();
   constructor(
     private suachuaService: PhieusuachuaService,
@@ -70,6 +73,12 @@ export class CtPhieusuachuaDetailListComponent implements OnInit {
     this.getPhutungs();
     this.getTiencongs();
   }
+  OnDestroy(): void {
+    // Called once, before the instance is destroyed.
+    // Add 'implements OnDestroy' to the class.
+    this.subphutung.unsubscribe();
+    this.subtiencong.unsubscribe();
+  }
   onDelete(data: any) {
     if (confirm('Are you sure?')) {
       const index = this.ctsuachuaList.indexOf(data, 0);
@@ -92,7 +101,7 @@ export class CtPhieusuachuaDetailListComponent implements OnInit {
     this.tinhTongTien();
   }
   getPhutungs() {
-    this.phutungService.getPhutungs().subscribe(res => {
+    this.subphutung = this.phutungService.getPhutungs().subscribe(res => {
       return this.phutungList = res.map(item => {
         return {
           idphutung: item.payload.doc.id,
@@ -102,7 +111,7 @@ export class CtPhieusuachuaDetailListComponent implements OnInit {
     });
   }
   getTiencongs() {
-    this.tiencongService.getTiencongs().subscribe(res => {
+    this.subtiencong = this.tiencongService.getTiencongs().subscribe(res => {
       return this.tiencongList = res.map(item => {
         return {
           idtiencong: item.payload.doc.id,

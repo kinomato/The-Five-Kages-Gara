@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { KhachhangService } from '../../services/khachhang.service';
 import { Khachhang } from 'src/app/models/khachhang.model';
 import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-khachhang-detail',
@@ -14,6 +15,7 @@ import { ToastrService } from 'ngx-toastr';
 export class KhachhangDetailComponent implements OnInit {
   khachhang: Khachhang;
   isshow = true;
+  subkhachhang: Subscription;
   constructor(
     private khachhangService: KhachhangService,
     private location: Location,
@@ -23,6 +25,11 @@ export class KhachhangDetailComponent implements OnInit {
 
   ngOnInit() {
     this.getkhachhang();
+  }
+  OnDestroy(): void {
+    // Called once, before the instance is destroyed.
+    // Add 'implements OnDestroy' to the class.
+    this.subkhachhang.unsubscribe();
   }
   onSave(form: NgForm) {
     /* const id = form.value.id; */
@@ -47,8 +54,7 @@ export class KhachhangDetailComponent implements OnInit {
   }
   getkhachhang() {
     const id = this.activetedRoute.snapshot.paramMap.get('id'); // id: string
-    console.log(id);
-    this.khachhangService.getKhachhang(id)
+    this.subkhachhang = this.khachhangService.getKhachhang(id)
     .subscribe(res => {
       this.khachhang = res.data() as Khachhang;
     });

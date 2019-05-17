@@ -4,6 +4,7 @@ import { Phutung } from 'src/app/models/phutung.model';
 import { CtBaocaoton } from 'src/app/models/ct-baocaoton.model';
 import { MatTableDataSource, MatPaginator } from '@angular/material';
 import { map } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -16,6 +17,7 @@ export class CtBaocaotonListComponent implements OnInit {
   phutungList: Phutung[] = [];
   ctbaocaoList;
   dataSource;
+  subphutung: Subscription;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   constructor(
     private phutungService: PhutungService
@@ -24,6 +26,11 @@ export class CtBaocaotonListComponent implements OnInit {
 
   ngOnInit() {
     this.initialize();
+  }
+  OnDestroy(): void {
+    // Called once, before the instance is destroyed.
+    // Add 'implements OnDestroy' to the class.
+    this.subphutung.unsubscribe();
   }
   getPhutungs() {
     return this.phutungService.getPhutungs().pipe(
@@ -45,7 +52,7 @@ export class CtBaocaotonListComponent implements OnInit {
     );
   }
   initialize() {
-    this.getPhutungs().subscribe(res => {
+    this.subphutung = this.getPhutungs().subscribe(res => {
       console.log('baocaoton still running');
       this.dataSource = new MatTableDataSource(res);
       this.dataSource.paginator = this.paginator;

@@ -7,7 +7,7 @@ import { Phieutiepnhan } from 'src/app/models/phieutiepnhan.model';
 import { Hieuxe } from 'src/app/models/hieuxe.model';
 import { Xesua } from 'src/app/models/xesua.model';
 import { Khachhang } from 'src/app/models/khachhang.model';
-import { Observable, throwError } from 'rxjs';
+import { Observable, throwError, Subscription } from 'rxjs';
 import { NgForm, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Location } from '@angular/common';
@@ -31,6 +31,9 @@ export class PhieutiepnhanNewComponent implements OnInit {
   temp = [];
   isshow = true;
 
+  subshieuxe: Subscription;
+
+
   constructor(
     private tiepnhanService: PhieutiepnhanService,
     private hieuxeService: HieuxeService,
@@ -43,9 +46,14 @@ export class PhieutiepnhanNewComponent implements OnInit {
     this.getHieuxes();
     this.getDate();
   }
+  OnDestroy(): void {
+    // Called once, before the instance is destroyed.
+    // Add 'implements OnDestroy' to the class.
+    this.subshieuxe.unsubscribe();
+  }
   getHieuxes() {
-    this.hieuxeService.getHieuXes().subscribe(actionArray => {
-      this.hieuxeList = actionArray.map(item => {
+    this.subshieuxe = this.hieuxeService.getHieuXes().subscribe(actionArray => {
+      return this.hieuxeList = actionArray.map(item => {
         return {
           idhieuxe: item.payload.doc.id,
           ...item.payload.doc.data()
@@ -53,17 +61,6 @@ export class PhieutiepnhanNewComponent implements OnInit {
       });
     });
   }
-  /* getHieuxes() {
-    this.hieuxeService.getHieuxes().subscribe(res => {
-      this.hieuxeList = res.documents.map((item: CustomResObject) => {
-        const id = item.name.split('/');
-        return {
-          idhieuxe: id[6],
-          hieuxe: item.fields.hieuxe.stringValue
-        } as Hieuxe;
-      });
-    });
-  } */
   onSubmit(form: NgForm) {
     this.isshow = false;
     this.tiepnhanService.Submit(form).subscribe(res => {

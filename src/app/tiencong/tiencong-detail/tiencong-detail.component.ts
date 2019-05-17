@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { TiencongService } from '../../services/tiencong.service';
 import { Tiencong } from 'src/app/models/tiencong.model';
 import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-tiencong-detail',
@@ -14,6 +15,7 @@ import { ToastrService } from 'ngx-toastr';
 export class TiencongDetailComponent implements OnInit {
   tiencong: Tiencong;
   isshow = true;
+  subtiencong: Subscription;
   constructor(
     private tiencongService: TiencongService,
     private location: Location,
@@ -23,6 +25,11 @@ export class TiencongDetailComponent implements OnInit {
 
   ngOnInit() {
     this.gettiencong();
+  }
+  OnDestroy(): void {
+    // Called once, before the instance is destroyed.
+    // Add 'implements OnDestroy' to the class.
+    this.subtiencong.unsubscribe();
   }
   onSave(form: NgForm) {
     this.isshow = false;
@@ -48,8 +55,7 @@ export class TiencongDetailComponent implements OnInit {
   }
   gettiencong() {
     const id = this.activetedRoute.snapshot.paramMap.get('id'); // id: string
-    console.log(id);
-    this.tiencongService.getTiencong(id)
+    this.subtiencong = this.tiencongService.getTiencong(id)
     .subscribe(res => {
       this.tiencong = res.data() as Tiencong;
     });

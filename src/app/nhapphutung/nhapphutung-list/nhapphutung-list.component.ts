@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Nhapphutung } from 'src/app/models/nhapphutung.model';
 import { NhapphutungService } from 'src/app/services/nhapphutung.service';
 import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-nhapphutung-list',
@@ -14,6 +15,7 @@ export class NhapphutungListComponent implements OnInit {
   key = 'ngaynhap'; // set default
   reverse = false;
   p = 1;
+  subnhappt: Subscription;
   constructor(
     private nhapphutungService: NhapphutungService,
     private toastr: ToastrService,
@@ -22,8 +24,13 @@ export class NhapphutungListComponent implements OnInit {
   ngOnInit() {
     this.getNhappts();
   }
+  OnDestroy(): void {
+    // Called once, before the instance is destroyed.
+    // Add 'implements OnDestroy' to the class.
+    this.subnhappt.unsubscribe();
+  }
   getNhappts() {
-    this.nhapphutungService.getNhapphutungs().subscribe(res => {
+    this.subnhappt = this.nhapphutungService.getNhapphutungs().subscribe(res => {
       return this.nhapptList = res.map(item => {
         return {
           idnhappt: item.payload.doc.id,

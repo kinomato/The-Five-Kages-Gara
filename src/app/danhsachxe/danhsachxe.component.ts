@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Phieutiepnhan } from '../models/phieutiepnhan.model';
 import { PhieutiepnhanService } from '../services/phieutiepnhan.service';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-danhsachxe',
@@ -16,6 +16,7 @@ export class DanhsachxeComponent implements OnInit {
   key = 'bienso'; // set default
   reverse = false;
   p = 1;
+  subtiepnhan: Subscription;
   constructor(
     private tiepnhanService: PhieutiepnhanService,
   ) { }
@@ -23,6 +24,11 @@ export class DanhsachxeComponent implements OnInit {
   ngOnInit() {
     /* this.getThongtin(); */
     this.getThongtinnew();
+  }
+  OnDestroy(): void {
+    // Called once, before the instance is destroyed.
+    // Add 'implements OnDestroy' to the class.
+    this.subtiepnhan.unsubscribe();
   }
   getThongtin() {
     this.tiepnhanService.getTiepnhans().subscribe(res => {
@@ -35,8 +41,7 @@ export class DanhsachxeComponent implements OnInit {
     });
   }
   getThongtinnew() {
-    this.tiepnhanService.getThongtinsUlt().subscribe(res => {
-      console.log('danhsachxe still running');
+    this.subtiepnhan = this.tiepnhanService.getThongtinsUlt().subscribe(res => {
       this.datasub.next(res);
     });
   }

@@ -23,7 +23,6 @@
     "@angular/platform-browser-dynamic": "~7.2.0",
     "@angular/router": "~7.2.0",
     "@ng-bootstrap/ng-bootstrap": "^4.1.1",
-    "angular-numeric-input": "^1.0.4",
     "bootstrap": "^4.3.1",
     "core-js": "^2.5.4",
     "datatables.net-bs4": "^1.10.19",

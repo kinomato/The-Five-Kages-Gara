@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TiencongService } from '../../services/tiencong.service';
 import { Tiencong } from 'src/app/models/tiencong.model';
 import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-tiencong-list',
@@ -10,6 +11,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class TiencongListComponent implements OnInit {
   tiencongList: Tiencong[] = [];
+  substiencong: Subscription;
   constructor(
     private tiencongService: TiencongService,
     private toastr: ToastrService) { }
@@ -17,8 +19,13 @@ export class TiencongListComponent implements OnInit {
   ngOnInit() {
     this.getTiencongs();
   }
+  OnDestroy(): void {
+    // Called once, before the instance is destroyed.
+    // Add 'implements OnDestroy' to the class.
+    this.substiencong.unsubscribe();
+  }
   getTiencongs() {
-    this.tiencongService.getTiencongs().subscribe(actionArray => {
+    this.substiencong = this.tiencongService.getTiencongs().subscribe(actionArray => {
       this.tiencongList = actionArray.map(item => {
         return {
           idtiencong: item.payload.doc.id,

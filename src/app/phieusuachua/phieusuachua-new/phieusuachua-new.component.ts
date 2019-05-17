@@ -8,6 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Phieutiepnhan } from 'src/app/models/phieutiepnhan.model';
 import { PhieutiepnhanService } from 'src/app/services/phieutiepnhan.service';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-phieusuachua-new',
@@ -24,6 +25,7 @@ export class PhieusuachuaNewComponent implements OnInit {
   config;
   invalid = false;
   isshow = true;
+  subtiepnhan: Subscription;
   @ViewChild(CTPhieusuachuaListComponent)
   mychild: CTPhieusuachuaListComponent;
 
@@ -56,6 +58,11 @@ export class PhieusuachuaNewComponent implements OnInit {
     this.getDate();
     this.getPhieutiepnhans();
   }
+  OnDestroy(): void {
+    // Called once, before the instance is destroyed.
+    // Add 'implements OnDestroy' to the class.
+    this.subtiepnhan.unsubscribe();
+  }
   onSubmit(data: NgForm) {
     this.isshow = false;
     const temp = Object.assign({ tongtien: this.tongtien }, data.value);
@@ -77,15 +84,6 @@ export class PhieusuachuaNewComponent implements OnInit {
       this.isshow = true;
       this.toastr.error('Thất bại. Hãy thử lại', err);
     });
-    /* this.suachuaService.Submit(temp)
-      .then(id => {
-        this.mychild.onSubmit(id);
-        this.suachuaService.changePhieutiepnhan(id, this.tiepnhantemp, temp.tongtien);
-      })
-      .finally(() => {
-        this.toastr.success('Submited Succesful!', 'Phiếu sửa chữa');
-        this.location.back();
-      }); */
   }
   getDate() {
     const day = this.currentdate.getDate();
@@ -98,7 +96,7 @@ export class PhieusuachuaNewComponent implements OnInit {
     };
   }
   getPhieutiepnhans() {
-    this.tiepnhanService.getTiepnhansps().subscribe(res => {
+    this.subtiepnhan = this.tiepnhanService.getTiepnhansps().subscribe(res => {
       return this.tiepnhanList = res.map(item => {
         return {
           idphieutiepnhan: item.payload.doc.id,

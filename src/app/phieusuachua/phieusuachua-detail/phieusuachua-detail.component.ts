@@ -9,7 +9,7 @@ import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
-import { forkJoin, observable } from 'rxjs';
+import { forkJoin, observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-phieusuachua-detail',
@@ -26,6 +26,8 @@ export class PhieusuachuaDetailComponent implements OnInit {
   invalid = false;
   isshow = true;
   tongtien = 0;
+  subtiepnhan: Subscription;
+  subsuachua: Subscription;
   @ViewChild(CtPhieusuachuaDetailListComponent)
   mychild: CtPhieusuachuaDetailListComponent;
   constructor(
@@ -56,6 +58,12 @@ export class PhieusuachuaDetailComponent implements OnInit {
     this.getPhieutiepnhans();
     this.getPhieusuachua();
   }
+  OnDestroy(): void {
+    // Called once, before the instance is destroyed.
+    // Add 'implements OnDestroy' to the class.
+    this.subsuachua.unsubscribe();
+    this.subtiepnhan.unsubscribe();
+  }
   onSave(data: NgForm) {
     this.isshow = false;
     const id = this.activetedRoute.snapshot.paramMap.get('id');
@@ -78,7 +86,7 @@ export class PhieusuachuaDetailComponent implements OnInit {
     });
   }
   getPhieutiepnhans() {
-    return this.tiepnhanService.getTiepnhans().subscribe(res => {
+    this.subtiepnhan = this.tiepnhanService.getTiepnhans().subscribe(res => {
       return this.tiepnhanList = res.map(item => {
         return {
           idphieutiepnhan: item.payload.doc.id,
@@ -91,7 +99,7 @@ export class PhieusuachuaDetailComponent implements OnInit {
   }
   getPhieusuachua() {
     const id = this.activetedRoute.snapshot.paramMap.get('id');
-    this.suachuaService.getPhieusuachua(id).subscribe((data: Phieusuachua) => {
+    this.subsuachua = this.suachuaService.getPhieusuachua(id).subscribe((data: Phieusuachua) => {
       this.phieusuachua = Object.assign({}, data);
       this.model = Object.assign({}, this.phieusuachua.ngaysuachua);
       this.tongtien = this.phieusuachua.tongtien;

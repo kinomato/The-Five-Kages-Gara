@@ -7,7 +7,7 @@ import { Phieuthutien } from 'src/app/models/phieuthutien.model';
 import { promise } from 'protractor';
 import { stringify } from '@angular/core/src/render3/util';
 import { MatTableDataSource, MatPaginator } from '@angular/material';
-import { combineLatest } from 'rxjs';
+import { combineLatest, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-ct-doanhso-list',
@@ -29,6 +29,7 @@ export class CtDoanhsoListComponent implements OnInit {
     { hieuxe: 'toyota', luotsua: 2, thanhtien: 1452, tile: '12%' },
     { hieuxe: 'toyota', luotsua: 2, thanhtien: 1452, tile: '12%' },
   ];
+  subthutien: Subscription;
   dataSource;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   constructor(
@@ -42,9 +43,13 @@ export class CtDoanhsoListComponent implements OnInit {
     /* this.initialize(); */
     this.tinhToan();
   }
+  OnDestroy(): void {
+    // Called once, before the instance is destroyed.
+    // Add 'implements OnDestroy' to the class.
+    this.subthutien.unsubscribe();
+  }
   tinhToan() {
-    this.getThutiens1().subscribe(arr => {
-      console.log('doanhso still running');
+    this.subthutien = this.getThutiens1().subscribe(arr => {
       const arrtemp = arr;
       arrtemp.forEach(element => {
         element.tile = ((element.thanhtien / this.tongtien) * 100).toFixed(1) + '%';

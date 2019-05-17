@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Khachhang } from 'src/app/models/khachhang.model';
 import { KhachhangService } from '../../services/khachhang.service';
 import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-khachhang-list',
@@ -12,6 +13,7 @@ export class KhachhangListComponent implements OnInit {
 
   khachhangList: Khachhang[] = [];
   isshow = true;
+  subkhachhang: Subscription;
   constructor(
     private khachHangService: KhachhangService,
     private toastr: ToastrService) { }
@@ -19,9 +21,14 @@ export class KhachhangListComponent implements OnInit {
   ngOnInit() {
     this.getkhachHangs();
   }
+  OnDestroy(): void {
+    // Called once, before the instance is destroyed.
+    // Add 'implements OnDestroy' to the class.
+    this.subkhachhang.unsubscribe();
+  }
   getkhachHangs() {
-    this.khachHangService.getKhachhangs().subscribe(actionArray => {
-      this.khachhangList = actionArray.map(item => {
+    this.subkhachhang = this.khachHangService.getKhachhangs().subscribe(actionArray => {
+      return this.khachhangList = actionArray.map(item => {
         return {
           idkhachhang: item.payload.doc.id,
           ...item.payload.doc.data() } as Khachhang;

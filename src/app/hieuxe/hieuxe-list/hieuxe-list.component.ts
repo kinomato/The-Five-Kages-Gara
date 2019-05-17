@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HieuxeService } from '../../services/hieuxe.service';
 import { Hieuxe } from 'src/app/models/hieuxe.model';
 import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-hieuxe-list',
@@ -11,6 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 export class HieuxeListComponent implements OnInit {
   hieuxeList: Hieuxe[] = [];
   isshow = true;
+  subhieuxe: Subscription;
   constructor(
     private hieuxeService: HieuxeService,
     private toastr: ToastrService) { }
@@ -18,9 +20,14 @@ export class HieuxeListComponent implements OnInit {
   ngOnInit() {
     this.getHieuxes();
   }
+  OnDestroy(): void {
+    // Called once, before the instance is destroyed.
+    // Add 'implements OnDestroy' to the class.
+    this.subhieuxe.unsubscribe();
+  }
   getHieuxes() {
-    this.hieuxeService.getHieuXes().subscribe(actionArray => {
-      this.hieuxeList = actionArray.map(item => {
+    this.subhieuxe = this.hieuxeService.getHieuXes().subscribe(actionArray => {
+      return this.hieuxeList = actionArray.map(item => {
         /* console.log('im still running too'); */
         return {
           idhieuxe: item.payload.doc.id,

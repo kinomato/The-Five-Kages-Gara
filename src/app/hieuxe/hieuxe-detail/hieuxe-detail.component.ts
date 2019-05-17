@@ -6,6 +6,7 @@ import { Location } from '@angular/common';
 import { Hieuxe } from 'src/app/models/hieuxe.model';
 import { HieuxeService } from '../../services/hieuxe.service';
 import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-hieuxe-detail',
@@ -15,6 +16,7 @@ import { ToastrService } from 'ngx-toastr';
 export class HieuxeDetailComponent implements OnInit {
   hieuxe: Hieuxe;
   isshow = true;
+  subhieuxe: Subscription;
   constructor(
     private hieuxeService: HieuxeService,
     private location: Location,
@@ -24,6 +26,11 @@ export class HieuxeDetailComponent implements OnInit {
 
   ngOnInit() {
     this.gethieuxe();
+  }
+  OnDestroy(): void {
+    // Called once, before the instance is destroyed.
+    // Add 'implements OnDestroy' to the class.
+    this.subhieuxe.unsubscribe();
   }
   onSave(form: NgForm) {
     /* const id = form.value.id; */
@@ -48,8 +55,7 @@ export class HieuxeDetailComponent implements OnInit {
   }
   gethieuxe() {
     const id = this.activetedRoute.snapshot.paramMap.get('id'); // id: string
-    console.log(id);
-    this.hieuxeService.getHieuxe(id)
+    this.subhieuxe = this.hieuxeService.getHieuxe(id)
       .subscribe(res => {
         this.hieuxe = res.data() as Hieuxe;
       });

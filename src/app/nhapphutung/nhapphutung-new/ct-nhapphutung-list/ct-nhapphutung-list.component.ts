@@ -3,6 +3,7 @@ import { PhutungService } from 'src/app/services/phutung.service';
 import { CTNhapphutung } from 'src/app/models/ct-nhapphutung.model';
 import { Phutung } from 'src/app/models/phutung.model';
 import { NhapphutungService } from 'src/app/services/nhapphutung.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-ct-nhapphutung-list',
@@ -15,6 +16,7 @@ export class CtNhapphutungListComponent implements OnInit {
   selectedPTList = [];
   phutungList = [];
   tongtien = 0;
+  subphutung: Subscription;
   @Output() tinhtien = new EventEmitter<number>();
   constructor(
     private phutungService: PhutungService,
@@ -24,9 +26,11 @@ export class CtNhapphutungListComponent implements OnInit {
   ngOnInit() {
     this.getPhutungs();
   }
-  /* onSubmit(id: string) {
-    this.nhapphutungService.ctSubmit(id, this.ctphutungList);
-  } */
+  OnDestroy(): void {
+    // Called once, before the instance is destroyed.
+    // Add 'implements OnDestroy' to the class.
+    this.subphutung.unsubscribe();
+  }
   onDelete(data: any) {
     const index = this.ctphutungList.indexOf(data, 0);
     if (index > -1) {
@@ -47,7 +51,7 @@ export class CtNhapphutungListComponent implements OnInit {
     this.ctphutungList.push(temp); */
   }
   getPhutungs() {
-    this.phutungService.getPhutungs().subscribe(res => {
+    this.subphutung = this.phutungService.getPhutungs().subscribe(res => {
       this.phutungList = res.map(item => {
         return {
           idphutung: item.payload.doc.id,

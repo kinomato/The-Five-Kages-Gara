@@ -7,6 +7,7 @@ import { NgForm } from '@angular/forms';
 import { Phieuthutien } from 'src/app/models/phieuthutien.model';
 import { ActivatedRoute } from '@angular/router';
 import { Phieutiepnhan } from 'src/app/models/phieutiepnhan.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-phieuthutien-detail',
@@ -25,6 +26,8 @@ export class PhieuthutienDetailComponent implements OnInit {
   model;
   config;
   isshow = true;
+  subtiepnhan: Subscription;
+  subthutien: Subscription;
   constructor(
     private toastr: ToastrService,
     private tiepnhanService: PhieutiepnhanService,
@@ -53,15 +56,21 @@ export class PhieuthutienDetailComponent implements OnInit {
     this.getPhieutiepnhans();
     this.getPhieuthutien();
   }
+  OnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    this.subthutien.unsubscribe();
+    this.subtiepnhan.unsubscribe();
+  }
   async getPhieutiepnhans() {
-    this.thutienService.getPhieutiepnhans().subscribe(res => {
+    this.subtiepnhan = this.thutienService.getPhieutiepnhans().subscribe(res => {
       this.tiepnhanList = [...this.tiepnhanList, res];
     },
       err => console.log(err));
   }
   getPhieuthutien() {
     const id = this.activetedRoute.snapshot.paramMap.get('id');
-    this.thutienService.getPhieuthutien(id).subscribe((data: Phieuthutien) => {
+    this.subthutien = this.thutienService.getPhieuthutien(id).subscribe((data: Phieuthutien) => {
       const newobj = Object.assign({}, data);
       console.log(newobj);
       this.diachi = newobj.diachi;

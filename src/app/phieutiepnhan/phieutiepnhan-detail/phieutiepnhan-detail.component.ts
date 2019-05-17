@@ -7,7 +7,7 @@ import { Hieuxe } from 'src/app/models/hieuxe.model';
 import { NgForm } from '@angular/forms';
 import { HieuxeService } from 'src/app/services/hieuxe.service';
 import { FormControl } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { KhachhangService } from 'src/app/services/khachhang.service';
 import { ToastrService } from 'ngx-toastr';
@@ -24,7 +24,8 @@ export class PhieutiepnhanDetailComponent implements OnInit {
   filteredOptions: any;
   model;
   isshow = true;
-
+  subshieuxe: Subscription;
+  substiepnhan: Subscription;
   constructor(
     private tiepnhanService: PhieutiepnhanService,
     private location: Location,
@@ -38,6 +39,12 @@ export class PhieutiepnhanDetailComponent implements OnInit {
     this.formReset();
     this.getHieuxes();
     this.getThongtin();
+  }
+  OnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    this.subshieuxe.unsubscribe();
+    this.substiepnhan.unsubscribe();
   }
   formReset() {
     this.phieutiepnhan = {
@@ -61,7 +68,7 @@ export class PhieutiepnhanDetailComponent implements OnInit {
   }
   getThongtin() {
     const id = this.activetedRoute.snapshot.paramMap.get('id');
-    this.tiepnhanService.getThongtin(id).subscribe(
+    this.substiepnhan = this.tiepnhanService.getThongtin(id).subscribe(
       result => {
         /* console.log(result); */
         this.phieutiepnhan = Object.assign({}, result);
@@ -101,7 +108,7 @@ export class PhieutiepnhanDetailComponent implements OnInit {
     /* this.toarst.success('Submitted Succesful!', 'sửa phiếu tiếp nhận'); */
   }
   getHieuxes() {
-    this.hieuxeService.getHieuXes().subscribe(actionArray => {
+    this.subshieuxe = this.hieuxeService.getHieuXes().subscribe(actionArray => {
       this.hieuxeList = actionArray.map(item => {
         return {
           idhieuxe: item.payload.doc.id,

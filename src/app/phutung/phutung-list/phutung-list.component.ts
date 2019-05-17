@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PhutungService } from '../../services/phutung.service';
 import { Phutung } from 'src/app/models/phutung.model';
 import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-phutung-list',
@@ -10,7 +11,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class PhutungListComponent implements OnInit {
   phutungList: Phutung[] = [];
-
+  subphutung: Subscription;
   constructor(
     private phutungService: PhutungService,
     private toastr: ToastrService) { }
@@ -18,8 +19,13 @@ export class PhutungListComponent implements OnInit {
   ngOnInit() {
     this.getPhutungs();
   }
+  OnDestroy(): void {
+    // Called once, before the instance is destroyed.
+    // Add 'implements OnDestroy' to the class.
+    this.subphutung.unsubscribe();
+  }
   getPhutungs() {
-    this.phutungService.getPhutungs().subscribe(actionArray => {
+    this.subphutung = this.phutungService.getPhutungs().subscribe(actionArray => {
       this.phutungList = actionArray.map(item => {
         return {
           idphutung: item.payload.doc.id,

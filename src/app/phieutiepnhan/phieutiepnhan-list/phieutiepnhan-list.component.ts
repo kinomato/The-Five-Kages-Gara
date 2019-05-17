@@ -6,7 +6,7 @@ import { HieuxeService } from 'src/app/services/hieuxe.service';
 import { Phieutiepnhan } from 'src/app/models/phieutiepnhan.model';
 import { Xesua } from 'src/app/models/xesua.model';
 import { map } from 'rxjs/operators';
-import { Observable, observable, BehaviorSubject } from 'rxjs';
+import { Observable, observable, BehaviorSubject, Subscription } from 'rxjs';
 import { Khachhang } from 'src/app/models/khachhang.model';
 import { Hieuxe } from 'src/app/models/hieuxe.model';
 import { ToastrService } from 'ngx-toastr';
@@ -27,6 +27,7 @@ export class PhieutiepnhanListComponent implements OnInit {
   reverse = false;
   p = 1;
 
+  substiepnhan: Subscription;
   constructor(
     private tiepnhanService: PhieutiepnhanService,
     private khachhangService: KhachhangService,
@@ -38,17 +39,14 @@ export class PhieutiepnhanListComponent implements OnInit {
   ngOnInit() {
     this.getThongtin();
   }
+  OnDestroy(): void {
+    // Called once, before the instance is destroyed.
+    // Add 'implements OnDestroy' to the class.
+    this.substiepnhan.unsubscribe();
+  }
   getThongtin() {
-    /* this.tiepnhanService.getThongtins().subscribe(res => {
-      this.dataList.push(res);
-    }); */
-   /*  this.tiepnhanService.getThongtins1().subscribe(res => {
+    this.substiepnhan = this.tiepnhanService.getThongtinsUlt().subscribe(res => {
       this.newList.next(res);
-    }); */
-    this.tiepnhanService.getThongtinsUlt().subscribe(res => {
-      console.log('tiepnhan still running');
-      this.newList.next(res);
-      /* console.log(this.newList.value); */
     });
   }
   onDelete(id: string) {

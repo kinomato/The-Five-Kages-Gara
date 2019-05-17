@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { PhutungService } from '../../services/phutung.service';
 import { Phutung } from 'src/app/models/phutung.model';
 import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-phutung-detail',
@@ -21,6 +22,7 @@ export class PhutungDetailComponent implements OnInit {
     phatsinh: 0
   };
   isshow = true;
+  subphutung: Subscription;
   constructor(
     private phutungService: PhutungService,
     private location: Location,
@@ -30,6 +32,11 @@ export class PhutungDetailComponent implements OnInit {
 
   ngOnInit() {
     this.getphutung();
+  }
+  OnDestroy(): void {
+    // Called once, before the instance is destroyed.
+    // Add 'implements OnDestroy' to the class.
+    this.subphutung.unsubscribe();
   }
   onSave(form: NgForm) {
     this.isshow = false;
@@ -55,8 +62,7 @@ export class PhutungDetailComponent implements OnInit {
   }
   getphutung() {
     const id = this.activetedRoute.snapshot.paramMap.get('id'); // id: string
-    console.log(id);
-    this.phutungService.getPhutung(id)
+    this.subphutung = this.phutungService.getPhutung(id)
     .subscribe(res => {
       this.phutung = res.data() as Phutung;
     });
