@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Tiencong } from 'src/app/models/tiencong.model';
 import { TiencongService } from '../../services/tiencong.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-tiencong-new',
@@ -10,7 +11,10 @@ import { TiencongService } from '../../services/tiencong.service';
 })
 export class TiencongNewComponent implements OnInit {
   tiencong: Tiencong;
-  constructor(private tiencongService: TiencongService) { }
+  isshow = true;
+  constructor(
+    private tiencongService: TiencongService,
+    private toastr: ToastrService) { }
 
   ngOnInit() {
     this.resetForm();
@@ -22,13 +26,34 @@ export class TiencongNewComponent implements OnInit {
     this.tiencong = {
       idtiencong: null,
       tenloaitiencong: '',
-      muctiencong: ''
+      muctiencong: null,
     };
   }
   onSubmit(form: NgForm) {
+    this.isshow = false;
     const data = form.value;
-    this.tiencongService.Submit(data);
-    this.resetForm(form);
+    this.tiencongService.Submit(data)
+      .then(() => {
+        this.toastr.success('Thêm thành công', 'Tiền công');
+        this.isshow = true;
+        this.resetForm(form);
+      },
+      reject => {
+        this.toastr.warning('Bạn không đủ quyền', 'Thất bại');
+        this.isshow = true;
+      })
+      .catch(err => {
+        this.toastr.error(err, 'Đã xảy ra lỗi');
+        this.isshow = true;
+      });
   }
-
+  checkSL() {
+    if (this.tiencong.muctiencong > 10000000) {
+      this.tiencong.muctiencong = 10000000;
+      return;
+    }
+    if (this.tiencong.muctiencong < 1000) {
+      return this.tiencong.muctiencong = 1000;
+    }
+  }
 }

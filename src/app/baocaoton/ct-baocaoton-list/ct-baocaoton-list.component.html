@@ -1,0 +1,53 @@
+<!-- <div class="shadow">
+  <table class="table table-hover">
+      <thead>
+        <th>STT</th>
+        <th>Tên phutung</th>
+        <th>tondau</th>
+        <th>phatsinh</th>
+        <th>toncuoi</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let phutung of ctbaocaoList, let i = index">
+            <th scope="row">{{ i + 1 }}</th>
+            <td > {{phutung.phutung}} </td>
+            <td > {{phutung.tondau}} </td>
+            <td > {{phutung.phatsinh}} </td>
+            <td > {{phutung.toncuoi}} </td>
+        </tr>
+      </tbody>
+    </table>
+</div> -->
+<div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource">
+  
+      <!-- Position Column -->
+      <ng-container matColumnDef="phutung">
+        <th mat-header-cell *matHeaderCellDef> Phụ tùng </th>
+        <td mat-cell *matCellDef="let element"> {{element.phutung}} </td>
+      </ng-container>
+  
+      <!-- Name Column -->
+      <ng-container matColumnDef="tondau">
+        <th mat-header-cell *matHeaderCellDef> Tồn đầu </th>
+        <td mat-cell *matCellDef="let element"> {{element.tondau}} </td>
+      </ng-container>
+  
+      <!-- Weight Column -->
+      <ng-container matColumnDef="phatsinh">
+        <th mat-header-cell *matHeaderCellDef> Phát sinh </th>
+        <td mat-cell *matCellDef="let element"> {{element.phatsinh}} </td>
+      </ng-container>
+  
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="toncuoi">
+        <th mat-header-cell *matHeaderCellDef> Tồn cuối </th>
+        <td mat-cell *matCellDef="let element"> {{element.toncuoi}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5,10,20]" showFirstLastButtons></mat-paginator>
+  </div>

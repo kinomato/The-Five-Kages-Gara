@@ -7,6 +7,7 @@ import { NgForm } from '@angular/forms';
 import { Phieuthutien } from 'src/app/models/phieuthutien.model';
 import { ActivatedRoute } from '@angular/router';
 import { Phieutiepnhan } from 'src/app/models/phieutiepnhan.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-phieuthutien-detail',
@@ -24,7 +25,9 @@ export class PhieuthutienDetailComponent implements OnInit {
   tiepnhanList = [{bienso: 'None'}];
   model;
   config;
-  ishow = false;
+  isshow = true;
+  subtiepnhan: Subscription;
+  subthutien: Subscription;
   constructor(
     private toastr: ToastrService,
     private tiepnhanService: PhieutiepnhanService,
@@ -53,15 +56,21 @@ export class PhieuthutienDetailComponent implements OnInit {
     this.getPhieutiepnhans();
     this.getPhieuthutien();
   }
+  OnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    this.subthutien.unsubscribe();
+    this.subtiepnhan.unsubscribe();
+  }
   async getPhieutiepnhans() {
-    this.thutienService.getPhieutiepnhans().subscribe(res => {
+    this.subtiepnhan = this.thutienService.getPhieutiepnhans().subscribe(res => {
       this.tiepnhanList = [...this.tiepnhanList, res];
     },
       err => console.log(err));
   }
   getPhieuthutien() {
     const id = this.activetedRoute.snapshot.paramMap.get('id');
-    this.thutienService.getPhieuthutien(id).subscribe((data: Phieuthutien) => {
+    this.subthutien = this.thutienService.getPhieuthutien(id).subscribe((data: Phieuthutien) => {
       const newobj = Object.assign({}, data);
       console.log(newobj);
       this.diachi = newobj.diachi;
@@ -83,11 +92,23 @@ export class PhieuthutienDetailComponent implements OnInit {
     });
   }
   onSubmit(form: NgForm) {
+    this.isshow = false;
     const id = this.activetedRoute.snapshot.paramMap.get('id');
-    const newObj = Object.assign({ sotienthu: +this.sotienthu } as Phieuthutien, form.value);
+    const newObj = Object.assign({ hieuxe: this.tiepnhantemp.hieuxe, sotienthu: +this.sotienthu } as Phieuthutien, form.value);
     newObj.bienso = this.tiepnhantemp.bienso;
-    this.thutienService.Update(id, newObj);
-    this.toastr.success('Save Succesful!', 'Phiếu sửa chữa');
+    this.thutienService.Update(id, newObj)
+      .then(() => {
+        this.toastr.success('Cập nhật thành công', 'Phiếu sửa chữa');
+        this.isshow = true;
+      },
+      reject => {
+        this.toastr.warning('Bạn không đủ quyền', 'Thất bại');
+        this.isshow = true;
+      })
+      .catch(err => {
+        this.toastr.error('Bạn không đủ quyền', 'Thất bại');
+        this.isshow = true;
+      });
       /* .then(id => {
         this.thutienService.changePhieutiepnhan(id, this.tiepnhantemp, +this.sotienthu);
       })

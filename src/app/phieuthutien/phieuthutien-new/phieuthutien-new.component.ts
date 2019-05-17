@@ -6,6 +6,8 @@ import { PhieutiepnhanService } from 'src/app/services/phieutiepnhan.service';
 import { PhieuthutienService } from '../../services/phieuthutien.service';
 import { NgForm } from '@angular/forms';
 import { Phieuthutien } from 'src/app/models/phieuthutien.model';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-phieuthutien-new',
@@ -20,15 +22,17 @@ export class PhieuthutienNewComponent implements OnInit {
   sotienthu: '';
   currentdate: Date = new Date();
   tiepnhantemp: any;
-  tiepnhanList = [{bienso: 'None'}];
+  tiepnhanList = [{ bienso: 'None' }];
   model;
   config;
-  ishow = false;
+  isshow = true;
+  subtiepnhan: Subscription;
   constructor(
     private toastr: ToastrService,
     private tiepnhanService: PhieutiepnhanService,
     private location: Location,
-    private thutienService: PhieuthutienService
+    private thutienService: PhieuthutienService,
+    private router: Router
   ) {
     this.config = {
       displayKey: 'bienso', // if objects array passed which key to be displayed defaults to description
@@ -51,6 +55,11 @@ export class PhieuthutienNewComponent implements OnInit {
     this.getDate();
     this.getPhieutiepnhans();
   }
+  OnDestroy(): void {
+    // Called once, before the instance is destroyed.
+    // Add 'implements OnDestroy' to the class.
+    this.subtiepnhan.unsubscribe();
+  }
   getDate() {
     const day = this.currentdate.getDate();
     const month = this.currentdate.getMonth() + 1;
@@ -62,7 +71,7 @@ export class PhieuthutienNewComponent implements OnInit {
     };
   }
   async getPhieutiepnhans() {
-    this.thutienService.getPhieutiepnhans().subscribe(res => {
+    this.subtiepnhan = this.thutienService.getPhieutiepnhans().subscribe(res => {
       this.tiepnhanList = [...this.tiepnhanList, res];
     },
       err => console.log(err));
@@ -73,21 +82,34 @@ export class PhieuthutienNewComponent implements OnInit {
     this.thutienService.Submit(newObj);
   } */
   onSubmit(form: NgForm) {
-    const newObj = Object.assign({ sotienthu: +this.sotienthu } as Phieuthutien, form.value);
+    this.isshow = false;
+    const newObj = Object.assign({ hieuxe: this.tiepnhantemp.hieuxe, sotienthu: +this.sotienthu } as Phieuthutien, form.value);
     newObj.bienso = this.tiepnhantemp.bienso;
-    this.thutienService.Submit(newObj)
+    this.thutienService.SubmitUlt(newObj, this.tiepnhantemp, +this.sotienthu)
+      .then(() => {
+        this.toastr.success('Thành công', 'Phiếu sửa chữa');
+        this.isshow = true;
+      },
+        reject => {
+          this.toastr.warning('Bạn không đủ quyền lực', 'Thất bại');
+          this.isshow = true;
+        })
+      .catch(err => {
+        this.toastr.error(err, 'Đã xảy ra lỗi');
+        this.isshow = true;
+      });
+    /* this.thutienService.Submit(newObj)
       .then(id => {
         this.thutienService.changePhieutiepnhan(id, this.tiepnhantemp, +this.sotienthu);
       })
       .finally(() => {
         this.toastr.success('Submited Succesful!', 'Phiếu sửa chữa');
         location.reload();
-        /* this.refresh(); */
-      });
+      }); */
   }
   refresh() {
-    this.tiepnhanList = [{bienso: 'None'}];
-    this.tiepnhantemp = {...this.tiepnhanList[0]};
+    this.tiepnhanList = [{ bienso: 'None' }];
+    this.tiepnhantemp = { ...this.tiepnhanList[0] };
   }
   change() {
     if (this.tiepnhantemp === undefined || this.tiepnhantemp === null) {

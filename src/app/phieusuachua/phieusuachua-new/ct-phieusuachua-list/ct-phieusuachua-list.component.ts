@@ -7,7 +7,7 @@ import { Tiencong } from 'src/app/models/tiencong.model';
 import { PhieutiepnhanService } from 'src/app/services/phieutiepnhan.service';
 import { TiencongService } from 'src/app/services/tiencong.service';
 import { PhutungService } from 'src/app/services/phutung.service';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { NgForm } from '@angular/forms';
 
 @Component({
@@ -30,6 +30,8 @@ export class CTPhieusuachuaListComponent implements OnInit {
   tongtien = 0;
   isreadonly = true;
   maxsl = 1;
+  subphutung: Subscription;
+  subtiencong: Subscription;
   @Output() tinhtien = new EventEmitter<number>();
   constructor(
     private suachuaService: PhieusuachuaService,
@@ -72,7 +74,12 @@ export class CTPhieusuachuaListComponent implements OnInit {
   ngOnInit() {
     this.getPhutungs();
     this.getTiencongs();
-
+  }
+  OnDestroy(): void {
+    // Called once, before the instance is destroyed.
+    // Add 'implements OnDestroy' to the class.
+    this.subphutung.unsubscribe();
+    this.subtiencong.unsubscribe();
   }
   onDelete(data: any) {
     const index = this.ctsuachuaList.indexOf(data, 0);
@@ -86,7 +93,7 @@ export class CTPhieusuachuaListComponent implements OnInit {
     }
   }
   add() {
-    const newObj = new CTPhieusuachua('', '', undefined, 1, null, undefined, null);
+    const newObj = new CTPhieusuachua('', undefined, null, null, undefined, null);
     const temp = JSON.parse(JSON.stringify(newObj));
     this.ctsuachuaList.push(temp);
     this.tinhTongTien();
@@ -94,7 +101,7 @@ export class CTPhieusuachuaListComponent implements OnInit {
     this.ctsuachuaList.push(temp); */
   }
   getPhutungs() {
-    this.phutungService.getPhutungs().subscribe(res => {
+    this.subphutung = this.phutungService.getPhutungs().subscribe(res => {
       this.phutungList = res.map(item => {
         return {
           idphutung: item.payload.doc.id,
@@ -105,7 +112,7 @@ export class CTPhieusuachuaListComponent implements OnInit {
     });
   }
   getTiencongs() {
-    this.tiencongService.getTiencongs().subscribe(res => {
+    this.subtiencong = this.tiencongService.getTiencongs().subscribe(res => {
       return this.tiencongList = res.map(item => {
         return {
           idtiencong: item.payload.doc.id,
@@ -155,7 +162,7 @@ export class CTPhieusuachuaListComponent implements OnInit {
   changePT(selecteditem1: CTPhieusuachua) {
     const index1 = this.ctsuachuaList.indexOf(selecteditem1, 0);
     const item = this.ctsuachuaList[index1];
-    this.selectedPTList[index1] = item.phutung.tenphutung;
+    this.selectedPTList[index1] = item.phutung.idphutung;
     this.updateStatusPT();
     if (item.phutung === undefined || item.phutung === null) {
       this.ctsuachuaList[index1].dongia = null;
@@ -177,7 +184,7 @@ export class CTPhieusuachuaListComponent implements OnInit {
   updateStatusPT() {
     let i = 0;
     this.phutungList.forEach(item => {
-      const selected = this.selectedPTList.includes(item.tenphutung);
+      const selected = this.selectedPTList.includes(item.idphutung);
       this.ptbooleanlist[i] = selected;
       i ++;
     });
@@ -210,5 +217,11 @@ export class CTPhieusuachuaListComponent implements OnInit {
   }
   test(form: NgForm) {
     console.log(form.value);
+  }
+  customComparePT(phutung1: Phutung, phutung2: Phutung) {
+    return phutung1.idphutung === phutung2.idphutung;
+  }
+  customCompareTC(tc1: Tiencong, tc2: Tiencong) {
+    return tc1.idtiencong === tc2.idtiencong;
   }
 }

@@ -6,7 +6,7 @@ import { HieuxeService } from 'src/app/services/hieuxe.service';
 import { Phieutiepnhan } from 'src/app/models/phieutiepnhan.model';
 import { Xesua } from 'src/app/models/xesua.model';
 import { map } from 'rxjs/operators';
-import { Observable, observable, BehaviorSubject } from 'rxjs';
+import { Observable, observable, BehaviorSubject, Subscription } from 'rxjs';
 import { Khachhang } from 'src/app/models/khachhang.model';
 import { Hieuxe } from 'src/app/models/hieuxe.model';
 import { ToastrService } from 'ngx-toastr';
@@ -21,7 +21,13 @@ export class PhieutiepnhanListComponent implements OnInit {
   phieuList: Phieutiepnhan[];
   searchvalue: string;
   templist = [];
-  newList = new BehaviorSubject([]);
+  newList = new BehaviorSubject(null as any);
+  isshow = false;
+  key = 'bienso'; // set default
+  reverse = false;
+  p = 1;
+
+  substiepnhan: Subscription;
   constructor(
     private tiepnhanService: PhieutiepnhanService,
     private khachhangService: KhachhangService,
@@ -33,20 +39,14 @@ export class PhieutiepnhanListComponent implements OnInit {
   ngOnInit() {
     this.getThongtin();
   }
+  OnDestroy(): void {
+    // Called once, before the instance is destroyed.
+    // Add 'implements OnDestroy' to the class.
+    this.substiepnhan.unsubscribe();
+  }
   getThongtin() {
-    /* this.tiepnhanService.getThongtins().subscribe(res => {
-      this.dataList.push(res);
-    }); */
-   /*  this.tiepnhanService.getThongtins1().subscribe(res => {
+    this.substiepnhan = this.tiepnhanService.getThongtinsUlt().subscribe(res => {
       this.newList.next(res);
-    }); */
-    this.tiepnhanService.getTiepnhans().subscribe(res => {
-      return this.dataList = res.map(item => {
-        return {
-          idphieutiepnhan: item.payload.doc.id,
-          ...item.payload.doc.data()
-        } as Phieutiepnhan;
-      });
     });
   }
   onDelete(id: string) {
@@ -56,11 +56,15 @@ export class PhieutiepnhanListComponent implements OnInit {
         this.toastr.success('Xóa thành công', 'Xóa phiếu nhập');
       },
       () => {
-        this.toastr.error('Bạn không đủ quyền lực', 'Thất bại');
+        this.toastr.warning('Bạn không đủ quyền lực', 'Thất bại');
       })
       .catch(err => {
         this.toastr.error('Xóa thất bại', err);
       });
     }
+  }
+  sort(key) {
+    this.key = key;
+    this.reverse = !this.reverse;
   }
 }

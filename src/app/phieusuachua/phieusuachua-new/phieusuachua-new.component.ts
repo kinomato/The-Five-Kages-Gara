@@ -8,6 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Phieutiepnhan } from 'src/app/models/phieutiepnhan.model';
 import { PhieutiepnhanService } from 'src/app/services/phieutiepnhan.service';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-phieusuachua-new',
@@ -24,6 +25,7 @@ export class PhieusuachuaNewComponent implements OnInit {
   config;
   invalid = false;
   isshow = true;
+  subtiepnhan: Subscription;
   @ViewChild(CTPhieusuachuaListComponent)
   mychild: CTPhieusuachuaListComponent;
 
@@ -56,6 +58,11 @@ export class PhieusuachuaNewComponent implements OnInit {
     this.getDate();
     this.getPhieutiepnhans();
   }
+  OnDestroy(): void {
+    // Called once, before the instance is destroyed.
+    // Add 'implements OnDestroy' to the class.
+    this.subtiepnhan.unsubscribe();
+  }
   onSubmit(data: NgForm) {
     this.isshow = false;
     const temp = Object.assign({ tongtien: this.tongtien }, data.value);
@@ -64,28 +71,19 @@ export class PhieusuachuaNewComponent implements OnInit {
     const tempList = this.mychild.ctsuachuaList;
     this.suachuaService.SubmitUlt(temp, tempList, this.tiepnhantemp.idphieutiepnhan)
     .then(() => {
-      this.suachuaService.subTransaction(tempList);
+      /* this.suachuaService.subTransaction(tempList); */
       this.isshow = true;
       this.toastr.success('Thêm thành công', 'Thêm phiếu sửa');
       this.router.navigate(['/suachua']);
     },
     reject => {
-      this.toastr.error('Bạn không đủ quyền lực', 'Thất bại');
+      this.toastr.warning('Bạn không đủ quyền lực', 'Thất bại');
       this.isshow = true;
     })
     .catch(err => {
       this.isshow = true;
       this.toastr.error('Thất bại. Hãy thử lại', err);
     });
-    /* this.suachuaService.Submit(temp)
-      .then(id => {
-        this.mychild.onSubmit(id);
-        this.suachuaService.changePhieutiepnhan(id, this.tiepnhantemp, temp.tongtien);
-      })
-      .finally(() => {
-        this.toastr.success('Submited Succesful!', 'Phiếu sửa chữa');
-        this.location.back();
-      }); */
   }
   getDate() {
     const day = this.currentdate.getDate();
@@ -98,7 +96,7 @@ export class PhieusuachuaNewComponent implements OnInit {
     };
   }
   getPhieutiepnhans() {
-    this.tiepnhanService.getTiepnhansps().subscribe(res => {
+    this.subtiepnhan = this.tiepnhanService.getTiepnhansps().subscribe(res => {
       return this.tiepnhanList = res.map(item => {
         return {
           idphieutiepnhan: item.payload.doc.id,
@@ -126,5 +124,8 @@ export class PhieusuachuaNewComponent implements OnInit {
     } else {
       this.invalid = false;
     }
+  }
+  goBack() {
+    this.location.back();
   }
 }

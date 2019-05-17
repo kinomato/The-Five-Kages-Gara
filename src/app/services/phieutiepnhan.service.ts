@@ -9,7 +9,7 @@ import { XesuaService } from 'src/app/xesua/shared/xesua.service';
 import { HieuxeService } from 'src/app/services/hieuxe.service';
 import { KhachhangService } from 'src/app/services/khachhang.service';
 import { mergeMap, flatMap, map, switchMap } from 'rxjs/operators';
-import { observable, forkJoin, Observable } from 'rxjs';
+import { observable, forkJoin, Observable, combineLatest } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
@@ -46,9 +46,9 @@ export class PhieutiepnhanService {
             ngaytiepnhan: data.ngaytiepnhan,
             hieuxe: data.hieuxe,
             idkhachhang: khref.id,
-            tenkhachhang: data.tenkhachhang,
+            /* tenkhachhang: data.tenkhachhang,
             dienthoai: data.dienthoai,
-            diachi: data.diachi,
+            diachi: data.diachi, */
             suachuastt: false,
             tiennostt: false,
             thutienstt: false,
@@ -64,12 +64,12 @@ export class PhieutiepnhanService {
               return true;
             },
               (reject) => {
-                this.toastr.error('Bạn không đủ quyền lực', 'Thất bại');
-                return true;
+                this.toastr.warning('Bạn không đủ quyền lực', 'Thất bại');
+                return false;
               })
             .catch(err => {
               this.toastr.error(err, 'Đã xảy ra lỗi');
-              return true;
+              return false;
             });
         } else {
           const snapshot = res.docs.pop();
@@ -78,9 +78,9 @@ export class PhieutiepnhanService {
             ngaytiepnhan: data.ngaytiepnhan,
             hieuxe: data.hieuxe,
             idkhachhang: snapshot.id,
-            tenkhachhang: data.tenkhachhang,
+            /* tenkhachhang: data.tenkhachhang,
             dienthoai: data.dienthoai,
-            diachi: data.diachi,
+            diachi: data.diachi, */
             suachuastt: false,
             tiennostt: false,
             thutienstt: false,
@@ -94,12 +94,12 @@ export class PhieutiepnhanService {
               return true;
             },
               (reject) => {
-                this.toastr.error('Bạn không đủ quyền lực', 'Thất bại');
-                return true;
+                this.toastr.warning('Bạn không đủ quyền lực', 'Thất bại');
+                return false;
               })
             .catch(err => {
               this.toastr.error(err, 'Đã xảy ra lỗi');
-              return true;
+              return false;
             });
         }
       }));
@@ -158,7 +158,7 @@ export class PhieutiepnhanService {
   getTiepnhanQuery2(idsuachua: string) {
     return this.fireStore.collection('tiepnhan', ref => {
       return ref.limit(1).where('idsuachua', '==', idsuachua);
-    }).snapshotChanges();
+    }).get();
   }
   getThongtin(id: string) {
     return this.getTiepnhan(id).pipe(
@@ -194,4 +194,35 @@ export class PhieutiepnhanService {
       })
     );
   }
-}
+  /* getThongtins1() {
+    return this.getTiepnhans().pipe(
+      map(res => {
+        return res.map(item => {
+          const data = {
+            idphieutiepnhan: item.payload.doc.id,
+            ...item.payload.doc.data()
+          } as Phieutiepnhan;
+          return this.khachhangService.getKhachhang(data.idkhachhang).pipe(
+            map(res1 => {
+              return { ...data, ...res1 } as Phieutiepnhan;
+
+            })}
+    )})) */
+    getThongtinsUlt() {
+      return this.getTiepnhans()
+      .pipe(
+        map(res => {
+          return res.map(item => {
+            const data = { idphieutiepnhan: item.payload.doc.id, ...item.payload.doc.data()} as Phieutiepnhan;
+            return this.khachhangService.getKhachhang(data.idkhachhang)
+            .pipe(
+              map(res1 => {
+                return {...data, ...res1} as Phieutiepnhan;
+              })
+            );
+          });
+        }),
+        flatMap(tiepnhans => combineLatest(tiepnhans))
+      );
+    }
+  }

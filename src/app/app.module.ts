@@ -16,7 +16,22 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { SelectDropDownModule } from 'ngx-select-dropdown';
 import { NumericTextboxModule } from 'ngx-numeric-textbox';
 
+import { OrderModule } from 'ngx-order-pipe';
+import {NgxPaginationModule} from 'ngx-pagination';
 
+import {
+  MatAutocompleteModule,
+  MatInputModule,
+  MatFormFieldModule,
+  MatSelectModule,
+  MatProgressSpinnerModule,
+  MatTableModule,
+  MatPaginatorModule,
+  MatProgressBarModule
+} from '@angular/material';
+/* import { MatSelectModule, MatProgressSpinnerModule} from '@angular/material'; */
+
+import { MDBBootstrapModule } from 'angular-bootstrap-md';
 
 /* import { BoardComponent } from './board/board.component'; */
 import { environment } from 'src/environments/environment';
@@ -52,7 +67,6 @@ import { XesuaListComponent } from './xesua/xesua-list/xesua-list.component';
 import { KhachhangListComponent } from './khachhang/khachhang-list/khachhang-list.component';
 import { KhachhangNewComponent } from './khachhang/khachhang-new/khachhang-new.component';
 import { KhachhangDetailComponent } from './khachhang/khachhang-detail/khachhang-detail.component';
-import { MatAutocompleteModule, MatInputModule, MatFormFieldModule, MatSelectModule, MatProgressSpinnerModule} from '@angular/material';
 import { PhieusuachuaComponent } from './phieusuachua/phieusuachua.component';
 import { PhieusuachuaNewComponent } from './phieusuachua/phieusuachua-new/phieusuachua-new.component';
 import { CTPhieusuachuaListComponent } from './phieusuachua/phieusuachua-new/ct-phieusuachua-list/ct-phieusuachua-list.component';
@@ -76,6 +90,16 @@ import { TnlistsearchPipe } from './custompipe/tnlistsearch.pipe';
 import { TtlistsearchPipe } from './custompipe/ttlistsearch.pipe';
 import { LoginFormComponent } from './users/login-form/login-form.component';
 import { UserProfileComponent } from './users/user-profile/user-profile.component';
+import { HomeComponent } from './home/home.component';
+import { DoanhsoComponent } from './doanhso/doanhso.component';
+import { BaocaotonComponent } from './baocaoton/baocaoton.component';
+import { CtBaocaotonListComponent } from './baocaoton/ct-baocaoton-list/ct-baocaoton-list.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
+import { CtDoanhsoListComponent } from './doanhso/ct-doanhso-list/ct-doanhso-list.component';
+import { SclistsearchPipe } from './custompipe/sclistsearch.pipe';
+import { NptlistsearchPipe } from './custompipe/nptlistsearch.pipe';
+import { PhieulistComponent } from './home/phieulist/phieulist.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -132,7 +156,17 @@ import { UserProfileComponent } from './users/user-profile/user-profile.componen
     TnlistsearchPipe,
     TtlistsearchPipe,
     LoginFormComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    HomeComponent,
+    DoanhsoComponent,
+    BaocaotonComponent,
+    CtBaocaotonListComponent,
+    SidebarComponent,
+    CtDoanhsoListComponent,
+    SclistsearchPipe,
+    NptlistsearchPipe,
+    PhieulistComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
@@ -146,15 +180,22 @@ import { UserProfileComponent } from './users/user-profile/user-profile.componen
     AppRoutingModule,
     BrowserAnimationsModule, // required animations module
     ToastrModule.forRoot(),
+    MDBBootstrapModule.forRoot(),
     MatInputModule,
     MatAutocompleteModule,
     MatFormFieldModule,
     MatSelectModule,
     MatProgressSpinnerModule,
+    MatTableModule,
     NgbModule,
     NgbDatepickerModule,
     SelectDropDownModule,
-    NumericTextboxModule
+    NumericTextboxModule,
+    MatPaginatorModule,
+    MatProgressBarModule,
+    OrderModule,
+    NgxPaginationModule,
+    MDBBootstrapModule
   ],
   exports: [
     MatAutocompleteModule,
@@ -162,7 +203,10 @@ import { UserProfileComponent } from './users/user-profile/user-profile.componen
     MatFormFieldModule,
     MatSelectModule,
     MatProgressSpinnerModule,
-    NgbDatepickerModule
+    NgbDatepickerModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatProgressBarModule
   ],
   providers: [EmployeeService],
   bootstrap: [AppComponent]

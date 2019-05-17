@@ -7,6 +7,7 @@ import { PhieusuachuaService } from '../../../services/phieusuachua.service';
 import { TiencongService } from 'src/app/services/tiencong.service';
 import { PhutungService } from 'src/app/services/phutung.service';
 import { Location } from '@angular/common';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-ct-phieusuachua-detail-list',
@@ -15,6 +16,7 @@ import { Location } from '@angular/common';
 })
 export class CtPhieusuachuaDetailListComponent implements OnInit {
   ctsuachuaList: CTPhieusuachua[] = [];
+  oldctsuachuaList: CTPhieusuachua[] = [];
   ptbooleanlist = [];
   /* tcbooleanlist = []; */
   selectedPTList = [];
@@ -26,6 +28,8 @@ export class CtPhieusuachuaDetailListComponent implements OnInit {
   configtc;
   tongtien = 0;
   ishow = false;
+  subphutung: Subscription;
+  subtiencong: Subscription;
   @Output() tinhtien = new EventEmitter<number>();
   constructor(
     private suachuaService: PhieusuachuaService,
@@ -69,6 +73,12 @@ export class CtPhieusuachuaDetailListComponent implements OnInit {
     this.getPhutungs();
     this.getTiencongs();
   }
+  OnDestroy(): void {
+    // Called once, before the instance is destroyed.
+    // Add 'implements OnDestroy' to the class.
+    this.subphutung.unsubscribe();
+    this.subtiencong.unsubscribe();
+  }
   onDelete(data: any) {
     if (confirm('Are you sure?')) {
       const index = this.ctsuachuaList.indexOf(data, 0);
@@ -85,13 +95,13 @@ export class CtPhieusuachuaDetailListComponent implements OnInit {
     }
   }
   add() {
-    const newObj = new CTPhieusuachua('', '', undefined, 1, null, undefined, null);
+    const newObj = new CTPhieusuachua('', undefined, 1, null, undefined, null);
     const temp = JSON.parse(JSON.stringify(newObj));
     this.ctsuachuaList.push(temp);
     this.tinhTongTien();
   }
   getPhutungs() {
-    this.phutungService.getPhutungs().subscribe(res => {
+    this.subphutung = this.phutungService.getPhutungs().subscribe(res => {
       return this.phutungList = res.map(item => {
         return {
           idphutung: item.payload.doc.id,
@@ -101,7 +111,7 @@ export class CtPhieusuachuaDetailListComponent implements OnInit {
     });
   }
   getTiencongs() {
-    this.tiencongService.getTiencongs().subscribe(res => {
+    this.subtiencong = this.tiencongService.getTiencongs().subscribe(res => {
       return this.tiencongList = res.map(item => {
         return {
           idtiencong: item.payload.doc.id,
@@ -162,7 +172,7 @@ export class CtPhieusuachuaDetailListComponent implements OnInit {
   changePT(selecteditem1: CTPhieusuachua) {
     const index1 = this.ctsuachuaList.indexOf(selecteditem1, 0);
     const item = this.ctsuachuaList[index1];
-    this.selectedPTList[index1] = item.phutung.tenphutung;
+    this.selectedPTList[index1] = item.phutung.idphutung;
     this.updateStatusPT();
     if (item.phutung === undefined || item.phutung === null) {
       /* this.ctsuachuaList[index1].phutung = {} as Phutung; */
@@ -181,7 +191,7 @@ export class CtPhieusuachuaDetailListComponent implements OnInit {
     this.selectedPTList[index1] = item.phutung.tenphutung; */
     let i = 0;
     this.ctsuachuaList.forEach(item => {
-      this.selectedPTList[i] = item.phutung.tenphutung;
+      this.selectedPTList[i] = item.phutung.idphutung;
       i++;
     });
     this.updateStatusPT();
@@ -189,7 +199,7 @@ export class CtPhieusuachuaDetailListComponent implements OnInit {
   updateStatusPT() {
     let i = 0;
     this.phutungList.forEach(item => {
-      const selected = this.selectedPTList.includes(item.tenphutung);
+      const selected = this.selectedPTList.includes(item.idphutung);
       this.ptbooleanlist[i] = selected;
       i++;
     });
@@ -215,7 +225,7 @@ export class CtPhieusuachuaDetailListComponent implements OnInit {
   getCTphieusuachua(id: string) {
     this.idphieutiepnhan = id;
     this.suachuaService.getCTphieusuachuas(id).subscribe(array => {
-      this.ctsuachuaList = array.map(item => {
+      this.oldctsuachuaList = this.ctsuachuaList = array.map(item => {
         return {
           idctsuachua: item.payload.doc.id,
           ...item.payload.doc.data()

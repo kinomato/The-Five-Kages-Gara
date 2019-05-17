@@ -1,0 +1,34 @@
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource">
+
+    <!-- Position Column -->
+    <ng-container matColumnDef="hieuxe">
+      <th mat-header-cell *matHeaderCellDef> Hiệu xe </th>
+      <td mat-cell *matCellDef="let element"> {{element.hieuxe}} </td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="luotsua">
+      <th mat-header-cell *matHeaderCellDef> Lượt sửa </th>
+      <td mat-cell *matCellDef="let element"> {{element.luotsua}} </td>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container matColumnDef="thanhtien">
+      <th mat-header-cell *matHeaderCellDef> Thành tiền </th>
+      <td mat-cell *matCellDef="let element"> {{element.thanhtien | currency:'VND'}} </td>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="tile">
+      <th mat-header-cell *matHeaderCellDef> Tỉ lệ </th>
+      <td mat-cell *matCellDef="let element"> {{element.tile}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[5,10,20]" showFirstLastButtons></mat-paginator>
+</div>
+<!-- <a (click)="show()">click</a> -->

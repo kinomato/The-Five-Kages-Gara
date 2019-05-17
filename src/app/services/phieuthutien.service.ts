@@ -38,6 +38,49 @@ export class PhieuthutienService {
       })
     );
   }
+  SubmitUlt(datatt: any, datatn: any , tienthu: number ) {
+    const ttref = this.fireStore.firestore.collection('thutien').doc();
+    const batch = this.fireStore.firestore.batch();
+    const tnref = this.fireStore.collection('tiepnhan').doc(datatn.idphieutiepnhan).ref;
+    const newobj = {
+      idthutien : ttref.id,
+      thutienstt : true,
+      tienno : datatn.tienno - tienthu
+    };
+    return tnref.get()
+      .then(res => {
+        const scref = this.fireStore.collection('suachua').doc(res.data().idsuachua).ref;
+        batch.update(scref, { thutienstt: true });
+        batch.set(ttref, datatt);
+        batch.update(tnref, newobj);
+        return batch.commit();
+      });
+  }
+  Update(id: string, data: any) {
+    return this.fireStore.collection('thutien').doc(id).update(data);
+  }
+  Delete(id: string) {
+    /* this.DeleteSub(id); */
+    return this.fireStore.collection('thutien').doc(id).delete();
+    /* .then(() => {
+      this.changeWhendeleted(id);
+    }); */
+  }
+  getPhieuthutien(id: string) {
+    return this.fireStore.collection('thutien').doc(id).valueChanges();
+  }
+  getPhieuthutiens() {
+    return this.fireStore.collection('thutien').snapshotChanges();
+  }
+  getPhieuthutiensQuery(field: string, value: number) {
+    return this.fireStore.collection('thutien', ref => {
+      return ref.where(field, '==', value);
+    }).snapshotChanges();
+  }
+  getPhieutiepnhan(bienso?: string) {
+    return this.tiepnhanService.getTiepnhanQuery(bienso);
+  }
+  /* *** các function sau không còn được sử dụng *** */
   async Submit(data: any) {
     try {
       const docref = await this.fireStore.collection('thutien').add(data);
@@ -46,16 +89,6 @@ export class PhieuthutienService {
       console.log('submit phieusuachua' + err);
       return '';
     }
-  }
-  Update(id: string, data: any) {
-    this.fireStore.collection('thutien').doc(id).update(data);
-  }
-  Delete(id: string) {
-    /* this.DeleteSub(id); */
-    this.fireStore.collection('thutien').doc(id).delete();
-    /* .then(() => {
-      this.changeWhendeleted(id);
-    }); */
   }
   changePhieutiepnhan(id: string, data: any, tienthu: number) {
     const newobj = Object.assign({} as Phieutiepnhan, data);
@@ -69,14 +102,5 @@ export class PhieuthutienService {
       newobj.tiennostt = false;
     }
     this.tiepnhanService.Update(data.idphieutiepnhan, newobj);
-  }
-  getPhieuthutien(id: string) {
-    return this.fireStore.collection('thutien').doc(id).valueChanges();
-  }
-  getPhieuthutiens() {
-    return this.fireStore.collection('thutien').snapshotChanges();
-  }
-  getPhieutiepnhan(bienso?: string) {
-    return this.tiepnhanService.getTiepnhanQuery(bienso);
   }
 }

@@ -13,13 +13,13 @@ export class PhutungService {
   constructor(private fireStore: AngularFirestore) { }
 
   Submit(data: Phutung) {
-    this.fireStore.collection('phutung').add(data);
+    return this.fireStore.collection('phutung').add(data);
   }
   Update(id: string, data: any ) {
-    this.fireStore.collection('phutung').doc(id).update(data);
+    return this.fireStore.collection('phutung').doc(id).update(data);
   }
   Delete(id: string) {
-    this.fireStore.collection('phutung').doc(id).delete();
+    return this.fireStore.collection('phutung').doc(id).delete();
   }
   getPhutungs() {
     return this.fireStore.collection('phutung').snapshotChanges();

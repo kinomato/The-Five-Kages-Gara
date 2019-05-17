@@ -1,26 +1,29 @@
-<h1 class="display-4">Detail</h1>
-<form *ngIf="phutung" #form="ngForm" (submit)="onSave(form)" autocomplete="off">
-  <!-- <input type="hidden" name="id" #id="ngModel" [(ngModel)]="phutung.id"> -->
-  <div class="form-group">
-    <input name="tenphutung" #tenphutung="ngModel" [(ngModel)]="phutung.tenphutung" placeholder="tenphutung"
-      class="form-control" required>
-    <div class="validation-error" *ngIf="tenphutung.invalid && tenphutung.touched">this field is required</div>
-  </div>
-
-  <div class="form-group row">
-    <div class="form-group col-md-6">
-      <div class="form-group">
-        <input class="form-control" name="giaphutung" #giaphutung="ngModel" [(ngModel)]="phutung.giaphutung"
-          placeholder="giaphutung">
-      </div>
-    </div>
-    <div class="form-group col-sm-6">
-      <input class="form-control" name="soluongconlai" #soluongconlai="ngModel" [(ngModel)]="phutung.soluongconlai"
-        placeholder="soluongconlai">
-    </div>
-  </div>
-  <div class="form-group">
-    <button class="form-control" [disabled]="form.invalid" type="submit" class="btn btn-block btn-info">Save</button>
-  </div>
-</form>
 <button matTooltip="go back" (click)="goBack()" class="btn btn-default">Go back</button>
+<h1 class="display-4">Detail</h1>
+<div class="shadow" style="padding: 10px">
+  <form #form="ngForm" (submit)="onSave(form)" autocomplete="off">
+    <!-- <input type="hidden" name="id" #id="ngModel" [(ngModel)]="phutung.id"> -->
+    <div class="form-group">
+      <label for="phutung">Tên phụ tùng:</label>
+      <input id="'phutung'" name="tenphutung" #tenphutung="ngModel" [(ngModel)]="phutung.tenphutung"
+        placeholder="Tên phụ tùng" class="form-control" [minlength]="5" [maxlength]="15"
+        pattern="[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]*"
+        required>
+      <div class="validation-error" *ngIf="tenphutung.invalid && tenphutung.touched">Không phù hợp</div>
+    </div>
+    <div class="form-group">
+      <label for="gia">Giá phụ tùng:</label>
+      <input type="number" (keyup)="checkSL()" (change)="checkSL()" [min]="1000" [max]="10000000" id="gia"
+        class="form-control" name="giaphutung" #giaphutung="ngModel" [(ngModel)]="phutung.giaphutung"
+        placeholder="giaphutung">
+    </div>
+    <div class="form-group">
+      <button class="form-control btn btn-block btn-info" [disabled]="form.invalid || !isshow" type="submit"
+        style="display: flex; justify-content: center">
+        <h5 *ngIf="isshow">Xác nhận</h5>
+        <mat-spinner strokeWidth="5" diameter="25" *ngIf="!isshow"></mat-spinner>
+        <h5 *ngIf="!isshow">Vui lòng chờ...</h5>
+      </button>
+    </div>
+  </form>
+</div>

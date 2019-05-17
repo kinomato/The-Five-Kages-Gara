@@ -9,7 +9,7 @@ import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
-import { forkJoin, observable } from 'rxjs';
+import { forkJoin, observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-phieusuachua-detail',
@@ -17,7 +17,7 @@ import { forkJoin, observable } from 'rxjs';
   styleUrls: ['./phieusuachua-detail.component.css']
 })
 export class PhieusuachuaDetailComponent implements OnInit {
-  phieusuachua = new Phieusuachua('', '', { day: '', month: '', year: '' }, 0);
+  phieusuachua = new Phieusuachua('', { day: '', month: '', year: '' }, 0);
   currentdate: Date = new Date();
   model = {};
   tiepnhantemp: any;
@@ -26,6 +26,8 @@ export class PhieusuachuaDetailComponent implements OnInit {
   invalid = false;
   isshow = true;
   tongtien = 0;
+  subtiepnhan: Subscription;
+  subsuachua: Subscription;
   @ViewChild(CtPhieusuachuaDetailListComponent)
   mychild: CtPhieusuachuaDetailListComponent;
   constructor(
@@ -56,6 +58,12 @@ export class PhieusuachuaDetailComponent implements OnInit {
     this.getPhieutiepnhans();
     this.getPhieusuachua();
   }
+  OnDestroy(): void {
+    // Called once, before the instance is destroyed.
+    // Add 'implements OnDestroy' to the class.
+    this.subsuachua.unsubscribe();
+    this.subtiepnhan.unsubscribe();
+  }
   onSave(data: NgForm) {
     this.isshow = false;
     const id = this.activetedRoute.snapshot.paramMap.get('id');
@@ -63,18 +71,43 @@ export class PhieusuachuaDetailComponent implements OnInit {
     temp.bienso = this.tiepnhantemp.bienso;
     const deleteList = this.mychild.deleteList;
     const ctsuachuaList = this.mychild.ctsuachuaList;
-    this.suachuaService.UpdateUtl(id, temp, ctsuachuaList, deleteList)
+    this.suachuaService.UpdateUtl(id, temp, ctsuachuaList, this.mychild.oldctsuachuaList, deleteList)
     .then(() => {
-      this.suachuaService.changeWhendeleted(id);
       this.toastr.success('Cập nhật thành công', 'Phiếu sửa chữa');
+      this.isshow = true;
       this.location.back();
     },
     () => {
-      this.toastr.error('Bạn không đủ quyền lực', 'Thất bại');
+      this.toastr.warning('Bạn không đủ quyền lực', 'Thất bại');
+      this.isshow = true;
     })
     .catch(err => {
       this.toastr.error(err, 'Đã xảy ra lỗi');
     });
+  }
+  getPhieutiepnhans() {
+    this.subtiepnhan = this.tiepnhanService.getTiepnhans().subscribe(res => {
+      return this.tiepnhanList = res.map(item => {
+        return {
+          idphieutiepnhan: item.payload.doc.id,
+          ...item.payload.doc.data()
+        } as Phieutiepnhan;
+      });
+    },
+      err => console.log(err),
+    );
+  }
+  getPhieusuachua() {
+    const id = this.activetedRoute.snapshot.paramMap.get('id');
+    this.subsuachua = this.suachuaService.getPhieusuachua(id).subscribe((data: Phieusuachua) => {
+      this.phieusuachua = Object.assign({}, data);
+      this.model = Object.assign({}, this.phieusuachua.ngaysuachua);
+      this.tongtien = this.phieusuachua.tongtien;
+      this.initialize(data.bienso);
+      this.mychild.getCTphieusuachua(id);
+    },
+      err => console.log(err),
+      () => console.log('complete'));
   }
   initialize(bienso: string) {
     this.suachuaService.getPhieutiepnhan(bienso).subscribe(actionArray => {
@@ -96,36 +129,12 @@ export class PhieusuachuaDetailComponent implements OnInit {
       day
     };
   }
-  getPhieutiepnhans() {
-    return this.tiepnhanService.getTiepnhans().subscribe(res => {
-      return this.tiepnhanList = res.map(item => {
-        return {
-          idphieutiepnhan: item.payload.doc.id,
-          ...item.payload.doc.data()
-        } as Phieutiepnhan;
-      });
-    },
-      err => console.log(err),
-    );
-  }
-  /* getPhieutiepnhanstest() {
-    return this.tiepnhanService.getTiepnhans();
-  } */
-  /* getPhieusuachuatest() {
-    const id = this.activetedRoute.snapshot.paramMap.get('id');
-    return this.suachuaService.getPhieusuachua(id);
-  } */
-  getPhieusuachua() {
-    const id = this.activetedRoute.snapshot.paramMap.get('id');
-    this.suachuaService.getPhieusuachua(id).subscribe((data: Phieusuachua) => {
-      this.phieusuachua = Object.assign({}, data);
-      this.model = Object.assign({}, this.phieusuachua.ngaysuachua);
-      this.tongtien = this.phieusuachua.tongtien;
-      this.initialize(data.bienso);
-      this.mychild.getCTphieusuachua(id);
-    },
-      err => console.log(err),
-      () => console.log('complete'));
+  tinhTien(event: any) {
+    if (event === null) {
+      this.invalid = true;
+    } else {
+      this.invalid = false;
+    }
   }
   formReset(form?: NgForm) {
     if (form) {
@@ -146,11 +155,7 @@ export class PhieusuachuaDetailComponent implements OnInit {
       console.log(element);
     });
   }
-  tinhTien(event: any) {
-    if (event === null) {
-      this.invalid = true;
-    } else {
-      this.invalid = false;
-    }
+  goBack() {
+    this.location.back();
   }
 }

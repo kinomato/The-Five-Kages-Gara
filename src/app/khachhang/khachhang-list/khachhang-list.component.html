@@ -1,21 +1,28 @@
-<button routerLink="/khachhang/new" class="btn btn-success">New khachhang</button>
-<h1>khachhang table</h1>
+<button routerLink="/khachhang/new" class="btn btn-success">Thêm khách hàng</button>
+<h1>Danh sách khách hàng</h1>
 <table class="table table-hover">
   <thead>
+    <th>STT</th>
     <th>Tên khách</th>
     <th>Điện thoại</th>
     <th>Địa chỉ</th>
+    <th></th>
   </thead>
   <tbody>
+    <tr *ngIf="(khachhangList.length === 0)">
+      <td class="differ" colspan="5">
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+      </td>
+    </tr>
     <tr *ngFor="let khachhang of khachhangList">
-        <td >{{khachhang.tenkhachhang}}</td>
-        <td >{{khachhang.dienthoai}}</td>
-        <td >{{khachhang.diachi}}</td>
-        <td> <a matTooltip="Edit" class="btn text-warning"  [routerLink]="[ '/khachhang/detail/', khachhang.idkhachhang ]">
+      <td>{{khachhang.tenkhachhang}}</td>
+      <td>{{khachhang.dienthoai}}</td>
+      <td>{{khachhang.diachi}}</td>
+      <td> <a matTooltip="Edit" class="btn text-warning" [routerLink]="[ '/khachhang/detail/', khachhang.idkhachhang ]">
           <i class="fa fa-cog" aria-hidden="true"></i>
-          </a></td>
-        <td> <a matTooltip="Delete" class="btn text-danger" (click)="onDelete(khachhang.idkhachhang)">
-        <i class="fa fa-trash" aria-hidden="true"></i>
+        </a>
+        <a matTooltip="Delete" class="btn text-danger" (click)="onDelete(khachhang.idkhachhang)">
+          <i class="fa fa-trash" aria-hidden="true"></i>
         </a></td>
     </tr>
   </tbody>

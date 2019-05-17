@@ -14,7 +14,7 @@ export class KhachhangService {
 
   constructor(private fireStore: AngularFirestore) { }
   Submit(data: Khachhang) {
-    this.fireStore.collection('khachhang').add(data);
+    return this.fireStore.collection('khachhang').add(data);
   }
   submitAndReturnId(data: Khachhang) {
     return this.fireStore.collection('khachhang').add(data)
@@ -27,10 +27,10 @@ export class KhachhangService {
    });
  }
   Update(id: string, data: NgForm) {
-    this.fireStore.collection('khachhang').doc(id).update(data);
+    return this.fireStore.collection('khachhang').doc(id).update(data);
   }
   Delete(id: string) {
-    this.fireStore.collection('khachhang').doc(id).delete();
+    return this.fireStore.collection('khachhang').doc(id).delete();
   }
   getKhachhangs() {
     return this.fireStore.collection('khachhang').snapshotChanges();
