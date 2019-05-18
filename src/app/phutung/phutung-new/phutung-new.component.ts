@@ -37,7 +37,7 @@ export class PhutungNewComponent implements OnInit {
   onSubmit(form: NgForm) {
     this.isshow = false;
     const data = form.value;
-    this.phutungService.Submit({ ...data, soluong: 0, soluongconlai: 0, phatsinh: 0 })
+    this.phutungService.Submit({ ...data, isdelete: false, soluong: 0, soluongconlai: 0, phatsinh: 0 })
       .then(() => {
         this.toastr.success('Thêm thành công', 'Phụ tùng');
         this.isshow = true;

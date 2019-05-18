@@ -1,0 +1,57 @@
+<div class="btn-group ml-auto">
+  <button class="btn btn-success" (click)="RestoreAll()">  
+      <i class="fa fa-recycle" aria-hidden="true"></i> Restore All
+  </button>
+  <button class="btn btn-danger">
+      <i class="fa fa-trash" aria-hidden="true"></i> Delete All
+  </button>
+</div>
+<div *ngIf="phieufilter$ | async, then listitem else matprogressbar">
+</div>
+<ng-template #matprogressbar>
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</ng-template>
+<ng-template #listitem>
+</ng-template>
+<div class="shadow rounded">
+  <div class="list-group">
+    <div *ngFor="let phieufilter of phieufilter$ | async | paginate:{ itemsPerPage: 5, currentPage: p }"
+      [routerLink]="[ phieufilter.path, phieufilter.idphieu ]" class="list-group-item list-group-item-action list-group-item-info
+              d-flex justify-content-between">
+      {{phieufilter.bienso}}
+      <div *ngIf="phieufilter.ngay">
+        {{phieufilter.ngay | customdatetime}}
+      </div>
+      <div *ngIf="phieufilter.tien">
+        {{phieufilter.tien | currency:'VND'}}
+      </div>
+      <span class="badge" [ngClass]="{'badge-primary': phieufilter.type.tiepnhan, 
+              'badge-warning': phieufilter.type.suachua, 
+              'badge-success': phieufilter.type.thutien,
+              'badge-secondary': phieufilter.type.phutung,
+              'badge-danger': phieufilter.type.tiencong,
+              'badge-info': phieufilter.type.hieuxe,
+              'badge-light': phieufilter.type.khachhang}">
+        {{(phieufilter.type.tiepnhan)? 'Tiếp nhận':
+              (phieufilter.type.suachua)? 'Sữa chữa':
+              (phieufilter.type.thutien)? 'Thu tiền':
+              (phieufilter.type.phutung)? 'Phụ tùng':
+              (phieufilter.type.tiencong)? 'Tiền công':
+              (phieufilter.type.hieuxe)? 'Hiệu xe':
+              (phieufilter.type.khachhang)? 'Khách hàng':
+              'What this?'}}
+      </span>
+      <span>
+        <div class="btn-group" (click)="$event.stopPropagation();">
+          <button type="button" (click)="onRestore(phieufilter)" class="btn btn-success">
+            <i class="fa fa-recycle" aria-hidden="true"></i>
+            Restore</button>
+          <button type="button" (click)="onDelete(phieufilter)" class="btn btn-danger">
+            <i class="fa fa-trash" aria-hidden="true"></i>
+            Delete</button>
+        </div>
+      </span>
+    </div>
+  </div>
+  <pagination-controls (pageChange)="p = $event"></pagination-controls>
+</div>

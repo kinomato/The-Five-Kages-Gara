@@ -65,7 +65,7 @@ export class PhieusuachuaNewComponent implements OnInit {
   }
   onSubmit(data: NgForm) {
     this.isshow = false;
-    const temp = Object.assign({ tongtien: this.tongtien }, data.value);
+    const temp = Object.assign({ isdelete: false, tongtien: this.tongtien }, data.value);
     temp.bienso = this.tiepnhantemp.bienso;
     /* console.log(temp); */
     const tempList = this.mychild.ctsuachuaList;

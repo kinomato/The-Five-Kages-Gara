@@ -1,35 +1,38 @@
 <button routerLink="/nhapphutung/new" class="btn btn-success">Nhập phụ tùng</button>
-<h1 class="text-center">Danh sách phiếu nhập phụ tùng</h1>
+<div class="rounded block bg-primary">
+  <h2 class="p-2 mt-2 text-white-50 text-center">Danh sách nhập phụ tùng</h2>
+</div>
 <div class="row">
-    <div class="col-md-12">
-      <div class="input-group input-group-lg">
-        <div class="input-group-append"></div>
-          <span class="input-group-text">
-            <i class="fa fa-search"aria-hidden="true"></i>
-          </span>
-        <input type="text" name="search" [(ngModel)]="searchvalue" class="form-control" placeholder="Search any field">
-      </div>
+  <div class="col-md-12">
+    <div class="input-group input-group-lg">
+      <div class="input-group-append"></div>
+      <span class="input-group-text">
+        <i class="fa fa-search" aria-hidden="true"></i>
+      </span>
+      <input type="text" name="search" [(ngModel)]="searchvalue" class="form-control" placeholder="Search any field">
     </div>
   </div>
-<div class="shadow-lg">
+</div>
+<div class="shadow round">
   <table class="table table-hover">
     <thead>
       <th>STT</th>
       <th (click)="sort('ngaynhap')">Ngày nhập
-          <i class="fas" *ngIf="key =='ngaynhap'" [ngClass]="{'fa-sort-up': reverse,'fa-sort-down': !reverse}"></i>
+        <i class="fas" *ngIf="key =='ngaynhap'" [ngClass]="{'fa-sort-up': reverse,'fa-sort-down': !reverse}"></i>
       </th>
       <th (click)="sort('tongtien')">Tổng tiền
-          <i class="fas" *ngIf="key =='tongtien'" [ngClass]="{'fa-sort-up': reverse,'fa-sort-down': !reverse}"></i>
+        <i class="fas" *ngIf="key =='tongtien'" [ngClass]="{'fa-sort-up': reverse,'fa-sort-down': !reverse}"></i>
       </th>
       <th></th>
     </thead>
     <tbody>
-        <tr *ngIf="(nhapptList.length === 0)">
-            <td colspan="4">
-              <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-            </td>
-          </tr>
-      <tr *ngFor="let phutung of nhapptList | nptlistsearch:searchvalue | orderBy:key:reverse | paginate:{ itemsPerPage: 5, currentPage: p }, let i = index">
+      <tr *ngIf="(nhapptList.length === 0)">
+        <td colspan="4">
+          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        </td>
+      </tr>
+      <tr
+        *ngFor="let phutung of nhapptList | nptlistsearch:searchvalue | orderBy:key:reverse | paginate:{ itemsPerPage: 5, currentPage: p }, let i = index">
         <th scope="row">{{i + 1}}</th>
         <td>{{phutung.ngaynhap | customdatetime}}</td>
         <td>{{phutung.tongtien | currency:'VND'}}</td>

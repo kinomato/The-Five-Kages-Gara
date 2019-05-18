@@ -83,7 +83,9 @@ export class PhieuthutienNewComponent implements OnInit {
   } */
   onSubmit(form: NgForm) {
     this.isshow = false;
-    const newObj = Object.assign({ hieuxe: this.tiepnhantemp.hieuxe, sotienthu: +this.sotienthu } as Phieuthutien, form.value);
+    const newObj = Object.assign({
+      isdelete: false, hieuxe: this.tiepnhantemp.hieuxe, sotienthu: +this.sotienthu
+    } as Phieuthutien, form.value);
     newObj.bienso = this.tiepnhantemp.bienso;
     this.thutienService.SubmitUlt(newObj, this.tiepnhantemp, +this.sotienthu)
       .then(() => {

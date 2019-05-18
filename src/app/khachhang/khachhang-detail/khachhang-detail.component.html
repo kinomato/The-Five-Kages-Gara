@@ -1,7 +1,10 @@
-<h1 class="display-4">Detail</h1>
-<form *ngIf="khachhang" #form="ngForm" (submit)="onSave(form)" autocomplete="off">
-  <!-- <input type="hidden" name="id" #id="ngModel" [(ngModel)]="khachhang.id"> -->
-  <div class="form-group">
+<div class="rounded block bg-primary">
+  <h2 class="p-2 text-white-50 text-center">Khách hàng</h2>
+</div>
+<div class="shadow rounded" style="padding: 10px">
+  <form *ngIf="khachhang" #form="ngForm" (submit)="onSave(form)" autocomplete="off">
+    <!-- <input type="hidden" name="id" #id="ngModel" [(ngModel)]="khachhang.id"> -->
+    <div class="form-group">
       <label for="tenchuxe">Tên khách hàng:</label>
       <input name="tenkhachhang" id="tenchuxe" #tenkhach="ngModel" [(ngModel)]="khachhang.tenkhachhang"
         placeholder="tenkhachhang" class="form-control" [maxLength]="25"
@@ -9,27 +12,29 @@
         required>
       <small class="validation-error" *ngIf="tenkhach.invalid && tenkhach.touched">Họ tên phải có đủ họ, tên đệm, tên,
         độ dài 10-25 ký tự</small>
-  </div>
-  <div class="form-group">
+    </div>
+    <div class="form-group">
       <label for="dienthoai">Số điện thoại:</label>
       <input class="form-control" id="dienthoai" #dienthoai="ngModel" [(ngModel)]="khachhang.dienthoai" name="dienthoai"
         placeholder="điện thoại" [minlength]="10" [maxlength]="10" pattern="[0-9]*" required>
       <small class="validation-error" *ngIf="dienthoai.invalid && dienthoai.touched">Không hợp lệ, số điện thoại phải đủ
         10 số và không chữ</small>
-  </div>
-  <div class="form-group">
+    </div>
+    <div class="form-group">
       <label for="diachi">Địa chỉ:</label>
       <input class="form-control" id="diachi" #diachi="ngModel" [(ngModel)]="khachhang.diachi" name="diachi"
         placeholder="địa chỉ" [maxLength]="50" pattern="[a-zA-Z0-9\s]*">
       <small class="validation-error" *ngIf="diachi.invalid && diachi.touched">Không hợp lệ</small>
-  </div>
-  <div class="form-group">
-    <button class="form-control btn btn-block btn-info" [disabled]="form.invalid || !isshow" type="submit"
-      style="display: flex; justify-content: center">
-      <h5 *ngIf="isshow">Xác nhận</h5>
-      <mat-spinner strokeWidth="5" diameter="25" *ngIf="!isshow"></mat-spinner>
-      <h5 *ngIf="!isshow">Vui lòng chờ...</h5>
-    </button>
-  </div>
-</form>
-<button matTooltip="go back" (click)="goBack()" class="btn btn-default">Go back</button>
+    </div>
+    <div class="form-group">
+      <button class="form-control btn btn-block btn-info" [disabled]="form.invalid || !isshow" type="submit"
+        style="display: flex; justify-content: center">
+        <h5 *ngIf="isshow">Xác nhận</h5>
+        <mat-spinner strokeWidth="5" diameter="25" *ngIf="!isshow"></mat-spinner>
+        <h5 *ngIf="!isshow">Vui lòng chờ...</h5>
+      </button>
+    </div>
+  </form>
+</div>
+
+<!-- <button matTooltip="go back" (click)="goBack()" class="btn btn-default">Go back</button> -->

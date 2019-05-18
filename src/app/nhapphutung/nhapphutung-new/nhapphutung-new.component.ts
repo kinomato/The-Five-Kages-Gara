@@ -31,7 +31,7 @@ export class NhapphutungNewComponent implements OnInit {
   }
   onSubmit(data: NgForm) {
     this.isshow = false;
-    const temp = Object.assign({ tongtien: this.tongtien}, data.value);
+    const temp = Object.assign({ isdelete: false, tongtien: this.tongtien}, data.value);
     const ctdata = this.mychild.ctphutungList;
     this.nhapphutungService.SubmitUlt(temp, ctdata)
       .then(() => {

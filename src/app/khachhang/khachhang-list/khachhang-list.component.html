@@ -1,29 +1,55 @@
 <button routerLink="/khachhang/new" class="btn btn-success">Thêm khách hàng</button>
-<h1>Danh sách khách hàng</h1>
-<table class="table table-hover">
-  <thead>
-    <th>STT</th>
-    <th>Tên khách</th>
-    <th>Điện thoại</th>
-    <th>Địa chỉ</th>
-    <th></th>
-  </thead>
-  <tbody>
-    <tr *ngIf="(khachhangList.length === 0)">
-      <td class="differ" colspan="5">
-        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-      </td>
-    </tr>
-    <tr *ngFor="let khachhang of khachhangList">
-      <td>{{khachhang.tenkhachhang}}</td>
-      <td>{{khachhang.dienthoai}}</td>
-      <td>{{khachhang.diachi}}</td>
-      <td> <a matTooltip="Edit" class="btn text-warning" [routerLink]="[ '/khachhang/detail/', khachhang.idkhachhang ]">
-          <i class="fa fa-cog" aria-hidden="true"></i>
-        </a>
-        <a matTooltip="Delete" class="btn text-danger" (click)="onDelete(khachhang.idkhachhang)">
-          <i class="fa fa-trash" aria-hidden="true"></i>
-        </a></td>
-    </tr>
-  </tbody>
-</table>
+<div class="rounded block bg-primary">
+  <h2 class="p-2 mt-2 text-white-50 text-center">Danh sách khách hàng</h2>
+</div>
+<div class="shadow rounded">
+  <table class="table table-hover">
+    <thead>
+      <th>Tên khách</th>
+      <th>Điện thoại</th>
+      <th>Địa chỉ</th>
+      <th></th>
+    </thead>
+    <tbody>
+      <!-- <tr *ngIf="(khachhangList.length === 0)">
+        <td class="differ" colspan="5">
+          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        </td>
+      </tr> -->
+      <div *ngIf="khachhangList$ | async, then listitem else matprogressbar">
+        </div>
+        <ng-template #matprogressbar>
+          <td colspan="5">
+            <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+          </td>
+        </ng-template>
+        <ng-template #listitem>
+          </ng-template>
+      <tr *ngFor="let khachhang of khachhangList$ | async | paginate:{ itemsPerPage: 5, currentPage: p }">
+        <td>{{khachhang.tenkhachhang}}</td>
+        <td>{{khachhang.dienthoai}}</td>
+        <td>{{khachhang.diachi}}</td>
+        <td>
+          <div class="btn-group">
+            <button class="btn btn-warning"
+            [routerLink]="[ '/khachhang/detail/', khachhang.idkhachhang ]">
+            <i class="fa fa-cog" aria-hidden="true"></i>
+            </button>
+            <button class="btn btn-danger"
+            (click)="onDelete(khachhang.idkhachhang)">
+            <i class="fa fa-trash" aria-hidden="true"></i>
+            </button>
+          </div>
+           <!-- <a matTooltip="Edit" class="btn text-warning"
+            [routerLink]="[ '/khachhang/detail/', khachhang.idkhachhang ]">
+            <i class="fa fa-cog" aria-hidden="true"></i>
+          </a>
+          <a matTooltip="Delete" class="btn text-danger" (click)="onDelete(khachhang.idkhachhang)">
+            <i class="fa fa-trash" aria-hidden="true"></i>
+          </a> -->
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <pagination-controls (pageChange)="p = $event"></pagination-controls>
+</div>

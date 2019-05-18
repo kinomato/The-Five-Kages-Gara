@@ -49,7 +49,7 @@ export class NhapphutungListComponent implements OnInit {
           this.toastr.warning('Bạn không có quyền', 'Thất bại');
         })
         .catch(err => {
-          this.toastr.error(err, 'Đã xảy ra lỗi')
+          this.toastr.error(err, 'Đã xảy ra lỗi');
         });
     }
   }

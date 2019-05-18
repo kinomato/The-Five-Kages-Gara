@@ -1,11 +1,14 @@
-<h1 class="display-4">Hiệu xe manament</h1>
-<div class="shadow" style="padding: 10px">
+
+<div class="rounded block bg-primary">
+    <h2 class="p-2 text-white-50 text-center">Hiệu xe</h2>
+  </div>
+<div class="shadow rounded" style="padding: 10px">
   <form #form="ngForm" (submit)="onSubmit(form)" autocomplete="off">
     <!-- <input type="hidden" name="id" #id="ngModel" [(ngModel)]="employee.id"> -->
     <div class="form-group">
       <label for="hieuxe">Tên hiệu xe</label>
       <input name="hieuxe" #fullname="ngModel" [(ngModel)]="hieuxe.hieuxe" placeholder="Hiệu xe" class="form-control"
-        [minlength]="5" [maxlength]="15"
+        [minlength]="2" [maxlength]="10"
         pattern="[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]*"
         required>
       <div class="validation-error" *ngIf="fullname.invalid && fullname.touched">Không phù hợp</div>

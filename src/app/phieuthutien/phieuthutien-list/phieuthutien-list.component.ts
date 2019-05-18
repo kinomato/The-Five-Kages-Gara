@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { PhieuthutienService } from '../../services/phieuthutien.service';
 import { Phieuthutien } from 'src/app/models/phieuthutien.model';
 import { ToastrService } from 'ngx-toastr';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
+import { map } from 'rxjs/internal/operators/map';
 
 @Component({
   selector: 'app-phieuthutien-list',
@@ -10,7 +11,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./phieuthutien-list.component.css']
 })
 export class PhieuthutienListComponent implements OnInit {
-  thutienList = [];
+  thutienList$: Observable<Phieuthutien[]>;
   searchvalue: string;
   key = 'tenchuxe'; // set default
   reverse = false;
@@ -29,20 +30,22 @@ export class PhieuthutienListComponent implements OnInit {
     this.subthutien.unsubscribe();
   }
   getThutiens() {
-    this.subthutien = this.thutienService.getPhieuthutiens().subscribe(res => {
-      return this.thutienList = res.map(item => {
-        return {
-          idphieuthutien: item.payload.doc.id,
-          ...item.payload.doc.data()
-        } as Phieuthutien;
-      });
-    });
+    this.thutienList$ = this.thutienService.getPhieuthutiens().pipe(
+      map(res => {
+        return  res.map(item => {
+          return {
+            idphieuthutien: item.payload.doc.id,
+            ...item.payload.doc.data()
+          } as Phieuthutien;
+        });
+      })
+    );
   }
   onDelete(id: string) {
     if (confirm('Are you sure ?')) {
       this.thutienService.Delete(id)
         .then(() => {
-          this.toastr.success('Xóa thành công', 'Xóa phiếu sửa');
+          this.toastr.success('Đã thêm vào thùng rác', 'Xóa phiếu sửa');
         },
           () => {
             this.toastr.warning('Bạn không đủ quyền lực', 'Thất bại');
@@ -52,11 +55,11 @@ export class PhieuthutienListComponent implements OnInit {
         });
     }
   }
-  show() {
+  /* show() {
     this.thutienList.forEach(element => {
       console.log(element);
     });
-  }
+  } */
   sort(key) {
     this.key = key;
     this.reverse = !this.reverse;

@@ -52,6 +52,7 @@ export class PhieutiepnhanService {
             suachuastt: false,
             tiennostt: false,
             thutienstt: false,
+            isdelete: false,
             idsuachua: '',
             tienno: 0,
             idthutien: ''
@@ -84,6 +85,7 @@ export class PhieutiepnhanService {
             suachuastt: false,
             tiennostt: false,
             thutienstt: false,
+            isdelete: false,
             idsuachua: '',
             tienno: 0,
             idthutien: ''
@@ -126,11 +128,19 @@ export class PhieutiepnhanService {
   Delete(id: string) {
     const batch = this.fireStore.firestore.batch();
     const tnref = this.fireStore.collection('tiepnhan').doc(id).ref;
+    batch.update(tnref, { isdelete: true });
+    return batch.commit();
+  }
+  DeleteUlt(id: string) {
+    const batch = this.fireStore.firestore.batch();
+    const tnref = this.fireStore.collection('tiepnhan').doc(id).ref;
     batch.delete(tnref);
     return batch.commit();
   }
   getTiepnhans() {
-    return this.fireStore.collection('tiepnhan').snapshotChanges();
+    return this.fireStore.collection('tiepnhan', ref => {
+      return ref.where('isdelete', '==', false);
+    }).snapshotChanges();
   }
   getTiepnhansps() {
     return this.fireStore.collection('tiepnhan', ref => {

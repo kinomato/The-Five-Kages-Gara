@@ -1,30 +1,32 @@
-<h1 class="text-center">Danh sách xe</h1>
+<div class="rounded block bg-primary">
+  <h2 class="p-2 text-white-50 text-center">Danh sách xe</h2>
+</div>
 <div class="row">
   <div class="col-md-12">
     <div class="input-group input-group-lg">
       <div class="input-group-append"></div>
-        <span class="input-group-text">
-          <i class="fa fa-search"aria-hidden="true"></i>
-        </span>
+      <span class="input-group-text">
+        <i class="fa fa-search" aria-hidden="true"></i>
+      </span>
       <input type="text" name="search" [(ngModel)]="searchvalue" class="form-control" placeholder="Search any field">
     </div>
   </div>
 </div>
-<div class="shadow-lg">
+<div class="shadow rounded">
   <table class="table table-hover">
     <thead>
       <th>STT</th>
       <th (click)="sort('bienso')">Biển số
-          <i class="fas" *ngIf="key =='bienso'" [ngClass]="{'fa-sort-up': reverse,'fa-sort-down': !reverse}"></i>
+        <i class="fas" *ngIf="key =='bienso'" [ngClass]="{'fa-sort-up': reverse,'fa-sort-down': !reverse}"></i>
       </th>
       <th (click)="sort('hieuxe')">Hiệu xe
-          <i class="fas" *ngIf="key =='hieuxe'" [ngClass]="{'fa-sort-up': reverse,'fa-sort-down': !reverse}"></i>
+        <i class="fas" *ngIf="key =='hieuxe'" [ngClass]="{'fa-sort-up': reverse,'fa-sort-down': !reverse}"></i>
       </th>
       <th (click)="sort('tenkhachhang')">Chủ xe
-          <i class="fas" *ngIf="key =='tenkhachhang'" [ngClass]="{'fa-sort-up': reverse,'fa-sort-down': !reverse}"></i>
+        <i class="fas" *ngIf="key =='tenkhachhang'" [ngClass]="{'fa-sort-up': reverse,'fa-sort-down': !reverse}"></i>
       </th>
       <th (click)="sort('tienno')">Tiền nợ
-          <i class="fas" *ngIf="key =='tienno'" [ngClass]="{'fa-sort-up': reverse,'fa-sort-down': !reverse}"></i>
+        <i class="fas" *ngIf="key =='tienno'" [ngClass]="{'fa-sort-up': reverse,'fa-sort-down': !reverse}"></i>
       </th>
     </thead>
     <tbody>
@@ -33,7 +35,8 @@
           <mat-progress-bar mode="indeterminate"></mat-progress-bar>
         </td>
       </tr>
-      <tr *ngFor="let tiepnhan of datasub | async | dsxesearch: searchvalue | orderBy:key:reverse | paginate:{ itemsPerPage: 5, currentPage: p }; let i = index">
+      <tr
+        *ngFor="let tiepnhan of datasub | async | dsxesearch: searchvalue | orderBy:key:reverse | paginate:{ itemsPerPage: 5, currentPage: p }; let i = index">
         <td scope="row">{{i + 1}}</td>
         <td>{{tiepnhan.bienso}}</td>
         <td>{{tiepnhan.hieuxe}}</td>
@@ -66,51 +69,4 @@
   </table>
   <pagination-controls (pageChange)="p = $event"></pagination-controls>
 </div>
-<!-- <div class="container">
-    <ul class="list-group">
-      <li *ngFor="let tiepnhan of dataList" class="list-group-item align-items-start">
-        <div class="row">
-          <div class="col">
-            <div class="justify-content-between">
-              <h5 class="mb-1">{{tiepnhan.bienso}}</h5>
-              <small>{{tiepnhan.hieuxe}}</small>
-            </div>
-          </div>
-          <div class="col">
-            <p class="mb-1">{{tiepnhan.tenkhachhang}} </p>
-          </div>
-          <div class="col">
-            <h6>{{tiepnhan.tienno}} VND </h6>
-          </div>
-          <div class="col">
-            <div class="justify-content-between">
-              <button id="phieunhan" type="button" class="btn btn-outline-primary text-primary"
-                [routerLink]="[ '/phieutiepnhan/detail/', tiepnhan.idphieutiepnhan ]">
-                <i class="fa fa-address-card" aria-hidden="true"></i></button>
-              <button *ngIf="tiepnhan.suachuastt" id="phieusua" type="button"
-                class="btn btn-outline-warning text-warning" [routerLink]="[ '/suachua/detail/', tiepnhan.idsuachua ]">
-                <i class="fa fa-tools" aria-hidden="true"></i>
-              </button>
-              <button *ngIf="!tiepnhan.suachuastt" [disabled]="true" type="button" class="btn btn-outline-secondary"
-                [routerLink]="[ '/suachua/detail/', tiepnhan.idsuachua ]">
-                <i class="fa fa-tools" aria-hidden="true"></i>
-              </button>
-              <button *ngIf="tiepnhan.thutienstt" id="phieutien" type="button"
-                class="btn btn-outline-success text-success" [routerLink]="[ '/thutien/detail/', tiepnhan.idthutien ]">
-                <i class="fa fa-money-check-alt" aria-hidden="true"></i>
-              </button>
-              <button *ngIf="!tiepnhan.thutienstt" [disabled]="true" type="button" class="btn btn-outline-secondary">
-                <i class="fa fa-money-check-alt" aria-hidden="true"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-      </li>
-    </ul>
-</div>
-<ul class="list-group">
-  <li *ngFor="let tiepnhan of dataList" class="list-group-item">
-    {{tiepnhan.bienso}}
-  </li>
-</ul>
- -->
+

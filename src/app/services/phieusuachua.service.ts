@@ -72,6 +72,12 @@ export class PhieusuachuaService {
     });
     return batch.commit();
   }
+  Delete(id: string) {
+    const batch = this.fireStore.firestore.batch();
+    const scref = this.fireStore.collection('suachua').doc(id).ref;
+    batch.update(scref, { isdelete: true});
+    return batch.commit();
+  }
   DeleteUlt(id: string) {
     const batch = this.fireStore.firestore.batch();
     const scref = this.fireStore.collection('suachua').doc(id).ref;
@@ -133,7 +139,9 @@ export class PhieusuachuaService {
     this.tiepnhanService.Update(idphieutiepnhan, newObj);
   } */
   getPhieusuachuas() {
-    return this.fireStore.collection('suachua').snapshotChanges();
+    return this.fireStore.collection('suachua', ref => {
+      return ref.where('isdelete', '==', false);
+    }).snapshotChanges();
   }
   getPhieusuachua(id: string) {
     return this.fireStore.collection('suachua').doc(id).valueChanges();

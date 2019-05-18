@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { TiencongService } from '../../services/tiencong.service';
 import { Tiencong } from 'src/app/models/tiencong.model';
 import { ToastrService } from 'ngx-toastr';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
+import { map } from 'rxjs/internal/operators/map';
 
 @Component({
   selector: 'app-tiencong-list',
@@ -10,8 +11,9 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./tiencong-list.component.css']
 })
 export class TiencongListComponent implements OnInit {
-  tiencongList: Tiencong[] = [];
+  tiencongList$: Observable<Tiencong[]>;
   substiencong: Subscription;
+  p = 1;
   constructor(
     private tiencongService: TiencongService,
     private toastr: ToastrService) { }
@@ -25,19 +27,21 @@ export class TiencongListComponent implements OnInit {
     this.substiencong.unsubscribe();
   }
   getTiencongs() {
-    this.substiencong = this.tiencongService.getTiencongs().subscribe(actionArray => {
-      this.tiencongList = actionArray.map(item => {
-        return {
-          idtiencong: item.payload.doc.id,
-          ...item.payload.doc.data() } as Tiencong;
-      });
-    });
+    this.tiencongList$ = this.tiencongService.getTiencongs().pipe(
+      map(actionArray => {
+        return actionArray.map(item => {
+         return {
+           idtiencong: item.payload.doc.id,
+           ...item.payload.doc.data() } as Tiencong;
+       });
+     })
+    );
   }
   onDelete(id: string) {
     if (confirm('are you sure ?')) {
       this.tiencongService.Delete(id)
       .then(() => {
-        this.toastr.success('Thêm thành công', 'Tiền công');
+        this.toastr.success('Đã thêm vào thùng rác', 'Tiền công');
       },
       reject => {
         this.toastr.warning('Bạn không đủ quyền', 'Thất bại');

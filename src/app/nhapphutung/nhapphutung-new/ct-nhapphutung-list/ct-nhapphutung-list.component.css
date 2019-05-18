@@ -15,7 +15,7 @@ only screen and (max-width: 760px),
 	
 	tr { border: 1px solid #ccc; }
 	
-	td { 
+	td:not(.differ) { 
 		/* Behave  like a "row" */
 		border: none;
 		border-bottom: 1px solid #eee; 
@@ -23,7 +23,7 @@ only screen and (max-width: 760px),
 		padding-left: 40%; 
 	}
 	
-	td:before { 
+	td:not(.differ):before { 
 		/* Now like a table header */
 		position: absolute;
 		/* Top/left values mimic padding */
@@ -37,7 +37,7 @@ only screen and (max-width: 760px),
 	/*
 	Label the data
 	*/
-	td:nth-of-type(1):before  { content: "Phụ tùng:"; }
+	td:nth-of-type(1):not(.differ):before  { content: "Phụ tùng:"; }
 	td:nth-of-type(2):before  { content: "Số lượng:"; }
 	td:nth-of-type(3):before  { content: "Đơn giá"; }
 	td:nth-of-type(4):before  { content: "Thành tiền:"; }

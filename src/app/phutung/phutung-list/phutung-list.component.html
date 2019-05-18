@@ -1,6 +1,8 @@
 <button routerLink="/phutung/new" class="btn btn-success">Thêm phụ tùng</button>
-<h1>Danh sách phụ tùng</h1>
-<div class="shadow">
+<div class="rounded block bg-primary">
+    <h2 class="p-2 mt-2 text-white-50 text-center">Danh sách phụ tùng</h2>
+  </div>
+<div class="shadow rounded">
   <table class="table table-hover">
     <thead>
       <th>STT</th>
@@ -10,24 +12,43 @@
       <th></th>
     </thead>
     <tbody>
-      <tr *ngIf="(phutungList.length === 0)">
+      <!-- <tr *ngIf="(phutungList.length === 0)">
         <td colspan="5">
           <mat-progress-bar mode="indeterminate"></mat-progress-bar>
         </td>
-      </tr>
-      <tr *ngFor="let phutung of phutungList, let i = index">
+      </tr> -->
+      <div *ngIf="phutungList$ | async, then listitem else matprogressbar">
+        </div>
+        <ng-template #matprogressbar>
+          <td colspan="5">
+            <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+          </td>
+        </ng-template>
+        <ng-template #listitem>
+          </ng-template>
+      <tr *ngFor="let phutung of phutungList$ | async | paginate:{ itemsPerPage: 5, currentPage: p }, let i = index">
           <th scope="row">{{i+1}}</th>
         <td>{{phutung.tenphutung}} </td>
         <td> {{phutung.giaphutung | currency:'VND'}} </td>
         <td> {{phutung.soluongconlai}} </td>
-        <td> <a matTooltip="Edit" class="btn text-warning" [routerLink]="[ '/phutung/detail/', phutung.idphutung ]">
+        <td>
+          <div class="btn-group">
+            <button class="btn btn-warning" [routerLink]="[ '/phutung/detail/', phutung.idphutung ]">
+              <i class="fa fa-cog" aria-hidden="true"></i>
+            </button>
+            <button class="btn btn-danger" (click)="onDelete(phutung.idphutung)">
+                <i class="fa fa-trash" aria-hidden="true"></i>
+            </button>
+          </div>
+           <!-- <a matTooltip="Edit" class="btn text-warning" [routerLink]="[ '/phutung/detail/', phutung.idphutung ]">
             <i class="fa fa-cog" aria-hidden="true"></i>
           </a>
           <a matTooltip="Delete" class="btn text-danger" (click)="onDelete(phutung.idphutung)">
             <i class="fa fa-trash" aria-hidden="true"></i>
-          </a>
+          </a> -->
         </td>
       </tr>
     </tbody>
   </table>
+  <pagination-controls (pageChange)="p = $event"></pagination-controls>
 </div>

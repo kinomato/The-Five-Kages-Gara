@@ -12,5 +12,6 @@ export class Phieuthutien {
         },
         public sotienthu: number,
         public idphieuthutien?: string,
+        public isdelete?: boolean
     ) {}
 }

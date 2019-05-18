@@ -19,10 +19,21 @@ export class PhutungService {
     return this.fireStore.collection('phutung').doc(id).update(data);
   }
   Delete(id: string) {
-    return this.fireStore.collection('phutung').doc(id).delete();
+    const batch = this.fireStore.firestore.batch();
+    const ptref = this.fireStore.collection('phutung').doc(id).ref;
+    batch.update(ptref, { isdelete: true });
+    return batch.commit();
+  }
+  DeleteUlt(id: string) {
+    const batch = this.fireStore.firestore.batch();
+    const ptref = this.fireStore.collection('phutung').doc(id).ref;
+    batch.delete(ptref);
+    return batch.commit();
   }
   getPhutungs() {
-    return this.fireStore.collection('phutung').snapshotChanges();
+    return this.fireStore.collection('phutung', ref => {
+      return ref.where('isdelete', '==', false);
+    }).snapshotChanges();
   }
   getPhutung(id: string) {
     return this.fireStore.doc('phutung/' + id).get();

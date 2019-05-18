@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { HieuxeService } from '../../services/hieuxe.service';
 import { Hieuxe } from 'src/app/models/hieuxe.model';
 import { ToastrService } from 'ngx-toastr';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-hieuxe-list',
@@ -10,9 +11,10 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./hieuxe-list.component.css']
 })
 export class HieuxeListComponent implements OnInit {
-  hieuxeList: Hieuxe[] = [];
+  hieuxeList$: Observable<Hieuxe[]>;
   isshow = true;
   subhieuxe: Subscription;
+  p = 1;
   constructor(
     private hieuxeService: HieuxeService,
     private toastr: ToastrService) { }
@@ -23,23 +25,25 @@ export class HieuxeListComponent implements OnInit {
   OnDestroy(): void {
     // Called once, before the instance is destroyed.
     // Add 'implements OnDestroy' to the class.
-    this.subhieuxe.unsubscribe();
+    /* this.subhieuxe.unsubscribe(); */
   }
   getHieuxes() {
-    this.subhieuxe = this.hieuxeService.getHieuXes().subscribe(actionArray => {
-      return this.hieuxeList = actionArray.map(item => {
-        /* console.log('im still running too'); */
-        return {
-          idhieuxe: item.payload.doc.id,
-          ...item.payload.doc.data() } as Hieuxe;
-      });
-    });
+    this.hieuxeList$ = this.hieuxeService.getHieuXes().pipe(
+      map(actionArray => {
+        return actionArray.map(item => {
+          /* console.log('im still running too'); */
+          return {
+            idhieuxe: item.payload.doc.id,
+            ...item.payload.doc.data() } as Hieuxe;
+        });
+      })
+    );
   }
   onDelete(id: string) {
     if (confirm('are you sure ?')) {
       this.hieuxeService.Delete(id)
       .then(() => {
-        this.toastr.success('Xóa thành công', 'Hiệu xe');
+        this.toastr.success('Đã thêm vào thùng rác', 'Hiệu xe');
         this.isshow = true;
       },
       reject => {
