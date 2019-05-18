@@ -33,7 +33,7 @@ import {
 
 
 /* import { BoardComponent } from './board/board.component'; */
-import { environment } from 'src/environments/environment';
+/* import { environment } from 'src/environments/environment'; */
 import { EmployeesComponent } from './employees/employees.component';
 import { EmployeeComponent } from './employees/employee/employee.component';
 import { EmployeeListComponent } from './employees/employee-list/employee-list.component';
@@ -101,6 +101,8 @@ import { PhieulistComponent } from './home/phieulist/phieulist.component';
 import { FooterComponent } from './footer/footer.component';
 import { RecycleComponent } from './recycle/recycle.component';
 import { NhapphutungDetailComponent } from './nhapphutung/nhapphutung-detail/nhapphutung-detail.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -197,6 +199,7 @@ import { NhapphutungDetailComponent } from './nhapphutung/nhapphutung-detail/nha
     MatProgressBarModule,
     OrderModule,
     NgxPaginationModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
   exports: [
     MatAutocompleteModule,
