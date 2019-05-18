@@ -41,9 +41,9 @@ export class NhapphutungListComponent implements OnInit {
   }
   onDelete(id: string) {
     if (confirm('Are you sure ?')) {
-      this.nhapphutungService.Delete(id)
+      this.nhapphutungService.DeleteUlt(id)
         .then(() => {
-          this.toastr.success('Đã thêm vào thùng rác', 'Phiếu nhập PT');
+          this.toastr.success('Xóa thành công', 'Phiếu nhập PT');
         },
         reject => {
           this.toastr.warning('Bạn không có quyền', 'Thất bại');

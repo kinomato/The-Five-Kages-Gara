@@ -6,5 +6,6 @@ export class Phutung {
         public phatsinh: number,
         public soluongconlai: number,
         public idphutung?: string,
+        public isdelete?: boolean
     ) {}
 }

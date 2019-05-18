@@ -87,12 +87,14 @@ export class PhieuthutienService {
     return this.fireStore.collection('thutien').doc(id).valueChanges();
   }
   getPhieuthutiens() {
-    return this.fireStore.collection('thutien').snapshotChanges();
+    return this.fireStore.collection('thutien', ref => {
+      return ref.where('isdelete', '==', false);
+    }).snapshotChanges();
   }
   getPhieuthutiensQuery(field: string, value: number) {
-    return this.fireStore.collection('thutien', ref => {
+    return this.fireStore.collection('thutien'/* , ref => {
       return ref.where(field, '==', value);
-    }).snapshotChanges();
+    } */).snapshotChanges();
   }
   getPhieutiepnhan(bienso?: string) {
     return this.tiepnhanService.getTiepnhanQuery(bienso);

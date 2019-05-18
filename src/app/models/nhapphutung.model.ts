@@ -7,5 +7,6 @@ export class Nhapphutung {
         },
         public tongtien: number,
         public idnhappt?: string,
-    ) {}
+        public isdelete?: boolean
+    ) { }
 }

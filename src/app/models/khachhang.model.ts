@@ -4,5 +4,6 @@ export class Khachhang {
         public diachi: string,
         public dienthoai: string,
         public idkhachhang?: string,
+        public isdelete?: boolean
     ) {}
 }

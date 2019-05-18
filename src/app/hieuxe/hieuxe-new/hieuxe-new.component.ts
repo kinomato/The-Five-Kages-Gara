@@ -15,7 +15,7 @@ export class HieuxeNewComponent implements OnInit {
   constructor(
     private hieuxeService: HieuxeService,
     private toastr: ToastrService
-    ) { }
+  ) { }
 
   ngOnInit() {
     this.resetForm();
@@ -30,20 +30,20 @@ export class HieuxeNewComponent implements OnInit {
     };
   }
   onSubmit(form: NgForm) {
-    const data = form.value;
+    const data = Object.assign({ isdelete: false }, form.value);
     this.hieuxeService.Submit(data)
-    .then(() => {
-      this.toastr.success('Thêm thành công', 'Hiệu xe');
-      this.isshow = true;
-      this.resetForm(form);
-    },
-    reject => {
-      this.toastr.warning('Bạn không có quyền', 'Thất bại');
-      this.isshow = true;
-    })
-    .catch(err => {
-      this.toastr.error(err, 'Đã xảy ra lỗi');
-      this.isshow = true;
-    });
+      .then(() => {
+        this.toastr.success('Thêm thành công', 'Hiệu xe');
+        this.isshow = true;
+        this.resetForm(form);
+      },
+        reject => {
+          this.toastr.warning('Bạn không có quyền', 'Thất bại');
+          this.isshow = true;
+        })
+      .catch(err => {
+        this.toastr.error(err, 'Đã xảy ra lỗi');
+        this.isshow = true;
+      });
   }
 }

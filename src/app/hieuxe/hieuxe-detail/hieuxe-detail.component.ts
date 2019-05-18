@@ -35,11 +35,10 @@ export class HieuxeDetailComponent implements OnInit {
   onSave(form: NgForm) {
     /* const id = form.value.id; */
     const id = this.activetedRoute.snapshot.paramMap.get('id'); // id: string
-    console.log(id);
-    const data = Object.assign({}, form.value);
+    const data = Object.assign({}, form.value) as Hieuxe;
     /* delete data.id; */
-    this.hieuxeService.Update(id, data)
-      .then(() => {
+    this.subhieuxe = this.hieuxeService.Update(id, data).subscribe(res => {
+      res.then(() => {
         this.toastr.success('Cập nhật thành công', 'Hiệu xe');
         this.isshow = true;
         this.goBack();
@@ -52,6 +51,7 @@ export class HieuxeDetailComponent implements OnInit {
         this.toastr.error(err, 'Đã xảy ra lỗi');
         this.isshow = true;
       });
+    });
   }
   gethieuxe() {
     const id = this.activetedRoute.snapshot.paramMap.get('id'); // id: string

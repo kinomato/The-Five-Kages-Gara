@@ -17,7 +17,8 @@ export class Phieutiepnhan {
         public diachia?: string,
         public idsuachua?: string,
         public tienno?: number,
-        public idthutien?: string
+        public idthutien?: string,
+        public isdelete?: boolean
         /* public tenkhach?: string,
         public dienthoai?: string,
         public diachi?: string,

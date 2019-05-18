@@ -84,6 +84,8 @@ export class NhapphutungService {
     err => console.log('oh no' + err));
   }
   getNhapphutungs() {
-    return this.fireStore.collection('nhapphutung').snapshotChanges();
+    return this.fireStore.collection('nhapphutung'/* , ref => {
+      return ref.where('isdelete', '==', false);
+    } */).snapshotChanges();
   }
 }

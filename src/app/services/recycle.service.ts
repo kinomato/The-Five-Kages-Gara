@@ -189,4 +189,12 @@ export class RecycleService {
     batch.update(pref, { isdelete: false });
     return batch.commit();
   }
+  RestoreAll(arr: Phieufilter[]) {
+    const batch = this.fireStore.firestore.batch();
+    arr.forEach(phieu => {
+      const pref = this.fireStore.collection(phieu.collection).doc(phieu.idphieu).ref;
+      batch.update(pref, { isdelete: false });
+    });
+    return batch.commit();
+  }
 }

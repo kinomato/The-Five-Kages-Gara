@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RecycleService } from '../services/recycle.service';
-import { combineLatest, Observable } from 'rxjs';
+import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Phieufilter } from '../interfaces/phieufilter';
 import { PhieutiepnhanService } from '../services/phieutiepnhan.service';
@@ -19,7 +19,9 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class RecycleComponent implements OnInit {
   phieufilter$: Observable<Phieufilter[]>;
+  subrecycle: Subscription;
   p = 1;
+  temp;
   constructor(
     private recycleService: RecycleService,
     private tiepnhanService: PhieutiepnhanService,
@@ -35,6 +37,11 @@ export class RecycleComponent implements OnInit {
   ngOnInit() {
     this.getThongtin();
   }
+  OnDestroy(): void {
+    // Called once, before the instance is destroyed.
+    // Add 'implements OnDestroy' to the class.
+    this.subrecycle.unsubscribe();
+  }
   getThongtin() {
     const tiepnhan$ = this.recycleService.getPhieutiepnhan();
     const suachua$ = this.recycleService.getPhieusuachua();
@@ -45,7 +52,7 @@ export class RecycleComponent implements OnInit {
     const hieuxe$ = this.recycleService.getHieuxe();
     this.phieufilter$ = combineLatest(tiepnhan$, suachua$, thutien$, phutung$, tiencong$, khachhang$, hieuxe$).pipe(
       map((res) => {
-        return [...res[0], ...res[1], ...res[2], ...res[3], ...res[4], ...res[5], ...res[6]];
+        return this.temp = [...res[0], ...res[1], ...res[2], ...res[3], ...res[4], ...res[5], ...res[6]];
       })
     );
   }
@@ -153,5 +160,20 @@ export class RecycleComponent implements OnInit {
         this.toastr.info('what this ?', 'New bug ?');
       }
     }
+  }
+  RestoreAll() {
+    if (confirm('Khôi phục toàn bộ ?')) {
+      this.recycleService.RestoreAll(this.temp)
+      .then(() => {
+        this.toastr.success('Thành công', 'Khôi phục tất cả');
+      },
+        reject => {
+          this.toastr.warning('Bạn không đủ quyền lực', 'Thất bại');
+        })
+      .catch(err => {
+        this.toastr.error(err, 'Đã xảy ra lỗi');
+      });
+    }
+    
   }
 }

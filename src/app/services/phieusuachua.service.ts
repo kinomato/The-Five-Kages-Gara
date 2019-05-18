@@ -139,9 +139,9 @@ export class PhieusuachuaService {
     this.tiepnhanService.Update(idphieutiepnhan, newObj);
   } */
   getPhieusuachuas() {
-    return this.fireStore.collection('suachua'/* , ref => {
-      return ref.where('isdelete', '==', true);
-    } */).snapshotChanges();
+    return this.fireStore.collection('suachua', ref => {
+      return ref.where('isdelete', '==', false);
+    }).snapshotChanges();
   }
   getPhieusuachua(id: string) {
     return this.fireStore.collection('suachua').doc(id).valueChanges();

@@ -4,3 +4,6 @@ input.ng-dirty.ng-invalid {
 div.validation-error {
     color:brown;
 }
+.rounded {
+  background-color: aliceblue;
+}

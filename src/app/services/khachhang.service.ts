@@ -42,7 +42,9 @@ export class KhachhangService {
     return batch.commit();
   }
   getKhachhangs() {
-    return this.fireStore.collection('khachhang').snapshotChanges();
+    return this.fireStore.collection('khachhang', ref => {
+      return ref.where('isdelete', '==', false);
+    }).snapshotChanges();
   }
   getKhachhang(id: string) {
     return this.fireStore.doc('khachhang/' + id).get();

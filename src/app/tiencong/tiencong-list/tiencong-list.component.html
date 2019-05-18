@@ -1,6 +1,8 @@
 <button routerLink="/tiencong/new" class="btn btn-success">Thêm tiền công</button>
-<h1>Danh sách tiền công</h1>
-<div class="shadow">
+<div class="rounded block bg-primary">
+  <h2 class="p-2 mt-2 text-white-50 text-center">Danh sách tiền công</h2>
+</div>
+<div class="shadow rounded">
   <table class="table table-hover">
     <thead>
       <th>STT</th>
@@ -9,22 +11,42 @@
       <th></th>
     </thead>
     <tbody>
-      <tr *ngIf="(tiencongList.length === 0)">
+      <!-- <tr *ngIf="(tiencongList.length === 0)">
         <td colspan="4">
           <mat-progress-bar mode="indeterminate"></mat-progress-bar>
         </td>
-      </tr>
-      <tr *ngFor="let tiencong of tiencongList, let i = index">
-          <th scope="row">{{i+1}}</th>
+      </tr> -->
+      <div *ngIf="tiencongList$ | async, then listitem else matprogressbar">
+        </div>
+        <ng-template #matprogressbar>
+          <td colspan="4">
+            <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+          </td>
+        </ng-template>
+        <ng-template #listitem>
+          </ng-template>
+      <tr *ngFor="let tiencong of tiencongList$ | async | paginate:{ itemsPerPage: 5, currentPage: p }, let i = index">
+        <th scope="row">{{i+1}}</th>
         <td> {{tiencong.tenloaitiencong}} </td>
         <td> {{tiencong.muctiencong | currency:'VND'}} </td>
-        <td> <a matTooltip="Edit" class="btn text-warning" [routerLink]="[ '/tiencong/detail/', tiencong.idtiencong ]">
+        <td>
+          <div class="btn-group">
+            <button class="btn btn-warning" [routerLink]="[ '/tiencong/detail/', tiencong.idtiencong ]">
+              <i class="fa fa-cog" aria-hidden="true"></i>
+            </button>
+            <button class="btn btn-danger" (click)="onDelete(tiencong.idtiencong)">
+              <i class="fa fa-trash" aria-hidden="true"></i>
+            </button>
+          </div>
+          <!-- <a matTooltip="Edit" class="btn text-warning" [routerLink]="[ '/tiencong/detail/', tiencong.idtiencong ]">
             <i class="fa fa-cog" aria-hidden="true"></i>
           </a>
           <a matTooltip="Delete" class="btn text-danger" (click)="onDelete(tiencong.idtiencong)">
             <i class="fa fa-trash" aria-hidden="true"></i>
-          </a></td>
+          </a> -->
+        </td>
       </tr>
     </tbody>
   </table>
+  <pagination-controls (pageChange)="p = $event"></pagination-controls>
 </div>

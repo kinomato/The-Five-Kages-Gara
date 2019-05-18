@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Khachhang } from 'src/app/models/khachhang.model';
 import { KhachhangService } from '../../services/khachhang.service';
 import { ToastrService } from 'ngx-toastr';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-khachhang-list',
@@ -11,9 +12,10 @@ import { Subscription } from 'rxjs';
 })
 export class KhachhangListComponent implements OnInit {
 
-  khachhangList: Khachhang[] = [];
+  khachhangList$: Observable<Khachhang[]>;
   isshow = true;
   subkhachhang: Subscription;
+  p = 1;
   constructor(
     private khachHangService: KhachhangService,
     private toastr: ToastrService) { }
@@ -24,22 +26,24 @@ export class KhachhangListComponent implements OnInit {
   OnDestroy(): void {
     // Called once, before the instance is destroyed.
     // Add 'implements OnDestroy' to the class.
-    this.subkhachhang.unsubscribe();
+    /* this.subkhachhang.unsubscribe(); */
   }
   getkhachHangs() {
-    this.subkhachhang = this.khachHangService.getKhachhangs().subscribe(actionArray => {
-      return this.khachhangList = actionArray.map(item => {
-        return {
-          idkhachhang: item.payload.doc.id,
-          ...item.payload.doc.data() } as Khachhang;
-      });
-    });
+    this.khachhangList$ = this.khachHangService.getKhachhangs().pipe(
+      map(actionArray => {
+        return actionArray.map(item => {
+          return {
+            idkhachhang: item.payload.doc.id,
+            ...item.payload.doc.data() } as Khachhang;
+        });
+      })
+    );
   }
   onDelete(id: string) {
     if (confirm('are you sure ?')) {
       this.khachHangService.Delete(id)
       .then(() => {
-        this.toastr.success('Đã thêm vào thùng rác', 'Phụ tùng');
+        this.toastr.success('Đã thêm vào thùng rác', 'Khách hàng');
         this.isshow = true;
       },
       reject => {

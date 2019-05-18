@@ -3,5 +3,6 @@ export class Tiencong {
         public tenloaitiencong: string,
         public muctiencong: number,
         public idtiencong?: string,
+        public isdelete?: boolean
     ) {}
 }

@@ -31,7 +31,7 @@ export class TiencongNewComponent implements OnInit {
   }
   onSubmit(form: NgForm) {
     this.isshow = false;
-    const data = form.value;
+    const data = Object.assign({isdelete: false}, form.value);
     this.tiencongService.Submit(data)
       .then(() => {
         this.toastr.success('Thêm thành công', 'Tiền công');

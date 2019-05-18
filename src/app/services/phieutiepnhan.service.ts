@@ -52,6 +52,7 @@ export class PhieutiepnhanService {
             suachuastt: false,
             tiennostt: false,
             thutienstt: false,
+            isdelete: false,
             idsuachua: '',
             tienno: 0,
             idthutien: ''
@@ -84,6 +85,7 @@ export class PhieutiepnhanService {
             suachuastt: false,
             tiennostt: false,
             thutienstt: false,
+            isdelete: false,
             idsuachua: '',
             tienno: 0,
             idthutien: ''
@@ -136,7 +138,9 @@ export class PhieutiepnhanService {
     return batch.commit();
   }
   getTiepnhans() {
-    return this.fireStore.collection('tiepnhan').snapshotChanges();
+    return this.fireStore.collection('tiepnhan', ref => {
+      return ref.where('isdelete', '==', false);
+    }).snapshotChanges();
   }
   getTiepnhansps() {
     return this.fireStore.collection('tiepnhan', ref => {

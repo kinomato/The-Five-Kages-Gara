@@ -59,14 +59,21 @@
         <td> {{item.dienthoai}} </td>
         <td>
           <div class="btn-group">
-            <a type="button" click class="btn btn-outline-warning"
+            <button type="button" class="btn btn-warning"
               [routerLink]="[ '/phieutiepnhan/detail/', item.idphieutiepnhan ]">
-              <i class="fa fa-cog" aria-hidden="true"></i>
+              <i class="fa fa-cog" aria-hidden="true"></i></button>
+            <button type="button" class="btn btn-danger" (click)="onDelete(item.idphieutiepnhan)">
+              <i class="fa fa-trash" aria-hidden="true"></i></button>
+          </div>
+          <!-- <div class="btn-group">
+            <a type="button" class="btn btn-outline-warning"
+              [routerLink]="[ '/phieutiepnhan/detail/', item.idphieutiepnhan ]">
+              <i class="fas fa-cog"></i>
             </a>
             <a type="button" class="btn btn-outline-danger" (click)="onDelete(item.idphieutiepnhan)">
-              <i class="fa fa-trash" aria-hidden="true"></i>
+                <i class="fas fa-trash"></i>
             </a>
-          </div>
+          </div> -->
         </td>
       </tr>
     </tbody>

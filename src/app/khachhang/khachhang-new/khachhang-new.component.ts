@@ -31,7 +31,7 @@ export class KhachhangNewComponent implements OnInit {
     };
   }
   onSubmit(form: NgForm) {
-    const data = form.value;
+    const data = Object.assign({ isdelete: false }, form.value);
     this.khachhangService.Submit(data)
     .then(() => {
       this.toastr.success('Thêm thành công', 'Phụ tùng');

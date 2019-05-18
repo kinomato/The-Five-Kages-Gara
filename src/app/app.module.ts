@@ -100,6 +100,7 @@ import { NptlistsearchPipe } from './custompipe/nptlistsearch.pipe';
 import { PhieulistComponent } from './home/phieulist/phieulist.component';
 import { FooterComponent } from './footer/footer.component';
 import { RecycleComponent } from './recycle/recycle.component';
+import { NhapphutungDetailComponent } from './nhapphutung/nhapphutung-detail/nhapphutung-detail.component';
 
 @NgModule({
   declarations: [
@@ -167,7 +168,8 @@ import { RecycleComponent } from './recycle/recycle.component';
     NptlistsearchPipe,
     PhieulistComponent,
     FooterComponent,
-    RecycleComponent
+    RecycleComponent,
+    NhapphutungDetailComponent
   ],
   imports: [
     BrowserModule,

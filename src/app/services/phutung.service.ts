@@ -31,7 +31,9 @@ export class PhutungService {
     return batch.commit();
   }
   getPhutungs() {
-    return this.fireStore.collection('phutung').snapshotChanges();
+    return this.fireStore.collection('phutung', ref => {
+      return ref.where('isdelete', '==', false);
+    }).snapshotChanges();
   }
   getPhutung(id: string) {
     return this.fireStore.doc('phutung/' + id).get();

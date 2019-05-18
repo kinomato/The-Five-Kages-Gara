@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { PhutungService } from '../../services/phutung.service';
 import { Phutung } from 'src/app/models/phutung.model';
 import { ToastrService } from 'ngx-toastr';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
+import { map } from 'rxjs/internal/operators/map';
 
 @Component({
   selector: 'app-phutung-list',
@@ -10,8 +11,9 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./phutung-list.component.css']
 })
 export class PhutungListComponent implements OnInit {
-  phutungList: Phutung[] = [];
+  phutungList$: Observable<Phutung[]>;
   subphutung: Subscription;
+  p = 1;
   constructor(
     private phutungService: PhutungService,
     private toastr: ToastrService) { }
@@ -25,13 +27,16 @@ export class PhutungListComponent implements OnInit {
     this.subphutung.unsubscribe();
   }
   getPhutungs() {
-    this.subphutung = this.phutungService.getPhutungs().subscribe(actionArray => {
-      this.phutungList = actionArray.map(item => {
-        return {
-          idphutung: item.payload.doc.id,
-          ...item.payload.doc.data() } as Phutung;
-      });
-    });
+    this.phutungList$ = this.phutungService.getPhutungs().pipe(
+      map(actionArray => {
+        return actionArray.map(item => {
+          return {
+            idphutung: item.payload.doc.id,
+            ...item.payload.doc.data()
+          } as Phutung;
+        });
+      })
+    );
   }
   onDelete(id: string) {
     if (confirm('are you sure ?')) {
@@ -39,9 +44,9 @@ export class PhutungListComponent implements OnInit {
         .then(() => {
           this.toastr.success('Đã thêm vào thùng rác', 'Xóa phụ tùng');
         },
-        reject => {
-          this.toastr.warning('Bạn không đủ quyền', 'Thất bại');
-        })
+          reject => {
+            this.toastr.warning('Bạn không đủ quyền', 'Thất bại');
+          })
         .catch(err => {
           this.toastr.error(err, 'Đã xảy ra lỗi');
         });
