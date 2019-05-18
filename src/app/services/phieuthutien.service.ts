@@ -61,10 +61,27 @@ export class PhieuthutienService {
   }
   Delete(id: string) {
     /* this.DeleteSub(id); */
-    return this.fireStore.collection('thutien').doc(id).delete();
+    const batch = this.fireStore.firestore.batch();
+    const ttref = this.fireStore.collection('thutien').doc(id).ref;
+    batch.update(ttref, { isdelete: true});
+    return batch.commit();
     /* .then(() => {
       this.changeWhendeleted(id);
     }); */
+  }
+  DeleteUlt(id: string) {
+    const batch = this.fireStore.firestore.batch();
+    const ttref = this.fireStore.collection('thutien').doc(id).ref;
+    return this.fireStore.collection('tiepnhan', ref => {
+      return ref.limit(1).where('thutienid', '==', id);
+    }).valueChanges()
+    .pipe(
+      map((result: Phieutiepnhan[]) => {
+        const tnref = this.fireStore.collection('tiepnhan').doc(result[0].idphieutiepnhan).ref;
+        batch.update(tnref, { thutienstt: false, thutienid: '' });
+        return batch.commit();
+      })
+    );
   }
   getPhieuthutien(id: string) {
     return this.fireStore.collection('thutien').doc(id).valueChanges();

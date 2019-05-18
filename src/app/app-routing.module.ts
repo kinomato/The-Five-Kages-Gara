@@ -37,6 +37,7 @@ import { NhapphutungNewComponent } from './nhapphutung/nhapphutung-new/nhapphutu
 import { NhapphutungListComponent } from './nhapphutung/nhapphutung-list/nhapphutung-list.component';
 import { UserProfileComponent } from './users/user-profile/user-profile.component';
 import { HomeComponent } from './home/home.component';
+import { RecycleComponent } from './recycle/recycle.component';
 
 
 
@@ -78,6 +79,7 @@ const routes: Routes = [
   { path: 'nhapphutung/new', component: NhapphutungNewComponent },
   { path: 'nhapphutung', component: NhapphutungListComponent },
   { path: 'user/profile', component: UserProfileComponent },
+  { path: 'recycle', component: RecycleComponent },
 ];
 @NgModule({
   declarations: [],

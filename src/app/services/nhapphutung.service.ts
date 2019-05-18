@@ -68,8 +68,10 @@ export class NhapphutungService {
     });
   }
   Delete(id: string) {
-    this.DeleteSub(id);
-    this.fireStore.collection('nhapphutung').doc(id).delete();
+    const batch = this.fireStore.firestore.batch();
+    const scref = this.fireStore.collection('nhapphutung').doc(id).ref;
+    batch.update(scref, { isdelete: true });
+    return batch.commit();
   }
   DeleteSub(id) {
     this.fireStore.collection('nhapphutung' + id + 'ctnhapphutung').snapshotChanges()

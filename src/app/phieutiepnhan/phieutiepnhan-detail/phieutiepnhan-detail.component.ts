@@ -87,6 +87,11 @@ export class PhieutiepnhanDetailComponent implements OnInit {
     delete datakh.bienso;
     delete datakh.ngaytiepnhan;
     delete datakh.hieuxe;
+    if (this.phieutiepnhan.suachuastt) {
+      this.toarst.warning('Phiếu tiếp nhận này đã có phiếu sửa', 'Thất bại');
+      this.isshow = true;
+      return;
+    }
     /* console.log(datatn);
     console.log(datakh); */
     /* this.tiepnhanService.Update(id, datatn);

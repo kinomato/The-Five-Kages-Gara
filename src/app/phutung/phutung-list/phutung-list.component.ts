@@ -37,7 +37,7 @@ export class PhutungListComponent implements OnInit {
     if (confirm('are you sure ?')) {
       this.phutungService.Delete(id)
         .then(() => {
-          this.toastr.success('Thành công', 'Xóa phụ tùng');
+          this.toastr.success('Đã thêm vào thùng rác', 'Xóa phụ tùng');
         },
         reject => {
           this.toastr.warning('Bạn không đủ quyền', 'Thất bại');

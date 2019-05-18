@@ -53,7 +53,7 @@ export class PhieutiepnhanListComponent implements OnInit {
     if (confirm('are you sure ?')) {
       this.tiepnhanService.Delete(id)
       .then(() => {
-        this.toastr.success('Xóa thành công', 'Xóa phiếu nhập');
+        this.toastr.success('Đã thêm vào thùng rác', 'Xóa phiếu nhập');
       },
       () => {
         this.toastr.warning('Bạn không đủ quyền lực', 'Thất bại');

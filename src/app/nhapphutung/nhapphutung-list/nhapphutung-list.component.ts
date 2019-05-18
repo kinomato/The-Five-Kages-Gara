@@ -41,15 +41,15 @@ export class NhapphutungListComponent implements OnInit {
   }
   onDelete(id: string) {
     if (confirm('Are you sure ?')) {
-      this.nhapphutungService.DeleteUlt(id)
+      this.nhapphutungService.Delete(id)
         .then(() => {
-          this.toastr.success('Xóa thành công', 'Phiếu nhập PT');
+          this.toastr.success('Đã thêm vào thùng rác', 'Phiếu nhập PT');
         },
         reject => {
           this.toastr.warning('Bạn không có quyền', 'Thất bại');
         })
         .catch(err => {
-          this.toastr.error(err, 'Đã xảy ra lỗi')
+          this.toastr.error(err, 'Đã xảy ra lỗi');
         });
     }
   }

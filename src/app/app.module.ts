@@ -31,7 +31,6 @@ import {
 } from '@angular/material';
 /* import { MatSelectModule, MatProgressSpinnerModule} from '@angular/material'; */
 
-import { MDBBootstrapModule } from 'angular-bootstrap-md';
 
 /* import { BoardComponent } from './board/board.component'; */
 import { environment } from 'src/environments/environment';
@@ -100,6 +99,7 @@ import { SclistsearchPipe } from './custompipe/sclistsearch.pipe';
 import { NptlistsearchPipe } from './custompipe/nptlistsearch.pipe';
 import { PhieulistComponent } from './home/phieulist/phieulist.component';
 import { FooterComponent } from './footer/footer.component';
+import { RecycleComponent } from './recycle/recycle.component';
 
 @NgModule({
   declarations: [
@@ -166,7 +166,8 @@ import { FooterComponent } from './footer/footer.component';
     SclistsearchPipe,
     NptlistsearchPipe,
     PhieulistComponent,
-    FooterComponent
+    FooterComponent,
+    RecycleComponent
   ],
   imports: [
     BrowserModule,
@@ -180,7 +181,6 @@ import { FooterComponent } from './footer/footer.component';
     AppRoutingModule,
     BrowserAnimationsModule, // required animations module
     ToastrModule.forRoot(),
-    MDBBootstrapModule.forRoot(),
     MatInputModule,
     MatAutocompleteModule,
     MatFormFieldModule,
@@ -195,7 +195,6 @@ import { FooterComponent } from './footer/footer.component';
     MatProgressBarModule,
     OrderModule,
     NgxPaginationModule,
-    MDBBootstrapModule
   ],
   exports: [
     MatAutocompleteModule,

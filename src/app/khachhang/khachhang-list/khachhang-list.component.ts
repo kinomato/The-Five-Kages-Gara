@@ -39,7 +39,7 @@ export class KhachhangListComponent implements OnInit {
     if (confirm('are you sure ?')) {
       this.khachHangService.Delete(id)
       .then(() => {
-        this.toastr.success('Xóa thành công', 'Phụ tùng');
+        this.toastr.success('Đã thêm vào thùng rác', 'Phụ tùng');
         this.isshow = true;
       },
       reject => {

@@ -8,5 +8,6 @@ export class Phieusuachua {
         },
         public tongtien: number,
         public idphieusuachua?: string,
+        public thutienstt?: boolean
     ) {}
 }

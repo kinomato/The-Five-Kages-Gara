@@ -126,6 +126,12 @@ export class PhieutiepnhanService {
   Delete(id: string) {
     const batch = this.fireStore.firestore.batch();
     const tnref = this.fireStore.collection('tiepnhan').doc(id).ref;
+    batch.update(tnref, { isdelete: true });
+    return batch.commit();
+  }
+  DeleteUlt(id: string) {
+    const batch = this.fireStore.firestore.batch();
+    const tnref = this.fireStore.collection('tiepnhan').doc(id).ref;
     batch.delete(tnref);
     return batch.commit();
   }

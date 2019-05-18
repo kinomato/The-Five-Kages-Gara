@@ -41,9 +41,9 @@ export class PhieusuachuaListComponent implements OnInit {
   }
   onDelete(id: string) {
     if (confirm('Are you sure ?')) {
-      this.suachuaService.DeleteUlt(id)
+      this.suachuaService.Delete(id)
       .then(() => {
-        this.toastr.success('Xóa thành công', 'Phiếu sửa chữa');
+        this.toastr.success('Đã thêm vào thùng rác', 'Phiếu sửa chữa');
       },
       reject => {
         this.toastr.warning('Bạn không đủ quyền lực', 'Thất bại');

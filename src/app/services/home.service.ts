@@ -19,15 +19,17 @@ export class HomeService {
   getPhieutiepnhan(ngay: any, usemonth: boolean) {
     return this.fireStore.collection('tiepnhan', ref => {
       return (ngay === true) ? ref.where('ngaytiepnhan.month', '==', this.thang) : ref.where('ngaytiepnhan.day', '==', ngay);
-    }).valueChanges()
+    }).snapshotChanges()
       .pipe(
-        map((res: Phieutiepnhan[]) => {
+        map(res => {
           if (res.length !== 0) {
             return res.map(item => {
+              const data = Object.assign({} as Phieutiepnhan, item.payload.doc.data());
               return {
-                phieu: item,
-                bienso: item.bienso,
-                ngay: item.ngaytiepnhan,
+                idphieu: item.payload.doc.id,
+                path: '/phieutiepnhan/detail/',
+                bienso: data.bienso,
+                ngay: data.ngaytiepnhan,
                 type: { tiepnhan: true, thutien: false, suachua: false }
               } as Phieufilter;
             });
@@ -41,15 +43,17 @@ export class HomeService {
   getPhieusuachua(ngay: any, usemonth: boolean) {
     return this.fireStore.collection('suachua', ref => {
       return (ngay === true) ? ref.where('ngaysuachua.month', '==', this.thang) : ref.where('ngaysuachua.day', '==', ngay);
-    }).valueChanges()
+    }).snapshotChanges()
       .pipe(
-        map((res: Phieusuachua[]) => {
+        map(res => {
           if (res.length !== 0) {
             return res.map(item => {
+              const data = Object.assign({} as Phieusuachua, item.payload.doc.data());
               return {
-                phieu: item,
-                bienso: item.bienso,
-                ngay: item.ngaysuachua,
+                idphieu: item.payload.doc.id,
+                path: '/suachua/detail/',
+                bienso: data.bienso,
+                ngay: data.ngaysuachua,
                 type: { tiepnhan: false, thutien: false, suachua: true }
               } as Phieufilter;
             });
@@ -63,15 +67,17 @@ export class HomeService {
   getPhieuthutien(ngay: any, usemonth: boolean) {
     return this.fireStore.collection('thutien', ref => {
       return (ngay === true) ? ref.where('ngaythutien.month', '==', this.thang) : ref.where('ngaythutien.day', '==', ngay);
-    }).valueChanges()
+    }).snapshotChanges()
       .pipe(
-        map((res: Phieuthutien[]) => {
+        map(res => {
           if (res.length !== 0) {
             return res.map(item => {
+              const data = Object.assign({} as Phieuthutien, item.payload.doc.data());
               return {
-                phieu: item,
-                bienso: item.bienso,
-                ngay: item.ngaythutien,
+                bienso: data.bienso,
+                idphieu: item.payload.doc.id,
+                path: '/thutien/detail/',
+                ngay: data.ngaythutien,
                 type: { tiepnhan: false, thutien: true, suachua: false }
               } as Phieufilter;
             });

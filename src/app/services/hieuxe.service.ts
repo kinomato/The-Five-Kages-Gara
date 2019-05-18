@@ -19,16 +19,20 @@ export class HieuxeService {
   Submit(data: Hieuxe) {
     return this.fireStore.collection('hieuxe').add(data);
   }
-  /* Submit1(data: Hieuxe) {
-    this.http.post(this.path, data).subscribe(res => {
-      console.log(res);
-    });
-  } */
   Update(id: string, data: NgForm ) {
     return this.fireStore.collection('hieuxe').doc(id).update(data);
   }
   Delete(id: string) {
-    return this.fireStore.collection('hieuxe').doc(id).delete();
+    const batch = this.fireStore.firestore.batch();
+    const khref = this.fireStore.collection('hieuxe').doc(id).ref;
+    batch.update(khref, { isdelete: true });
+    return batch.commit();
+  }
+  DeleteUlt(id: string) {
+    const batch = this.fireStore.firestore.batch();
+    const khref = this.fireStore.collection('hieuxe').doc(id).ref;
+    batch.delete(khref);
+    return batch.commit();
   }
   getHieuXes() {
     return this.fireStore.collection('hieuxe').snapshotChanges();

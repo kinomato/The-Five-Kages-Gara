@@ -69,6 +69,11 @@ export class PhieusuachuaDetailComponent implements OnInit {
     const id = this.activetedRoute.snapshot.paramMap.get('id');
     const temp = Object.assign({}, data.value);
     temp.bienso = this.tiepnhantemp.bienso;
+    if (this.phieusuachua.thutienstt) {
+      this.toastr.warning('Phiếu sửa chữa đã được thanh toán', 'Thất bại');
+      this.isshow = true;
+      return;
+    }
     const deleteList = this.mychild.deleteList;
     const ctsuachuaList = this.mychild.ctsuachuaList;
     this.suachuaService.UpdateUtl(id, temp, ctsuachuaList, this.mychild.oldctsuachuaList, deleteList)

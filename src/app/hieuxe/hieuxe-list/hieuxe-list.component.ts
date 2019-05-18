@@ -39,7 +39,7 @@ export class HieuxeListComponent implements OnInit {
     if (confirm('are you sure ?')) {
       this.hieuxeService.Delete(id)
       .then(() => {
-        this.toastr.success('Xóa thành công', 'Hiệu xe');
+        this.toastr.success('Đã thêm vào thùng rác', 'Hiệu xe');
         this.isshow = true;
       },
       reject => {

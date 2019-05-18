@@ -30,7 +30,16 @@ export class KhachhangService {
     return this.fireStore.collection('khachhang').doc(id).update(data);
   }
   Delete(id: string) {
-    return this.fireStore.collection('khachhang').doc(id).delete();
+    const batch = this.fireStore.firestore.batch();
+    const khref = this.fireStore.collection('khachhang').doc(id).ref;
+    batch.update(khref, { isdelete: true });
+    return batch.commit();
+  }
+  DeleteUlt(id: string) {
+    const batch = this.fireStore.firestore.batch();
+    const khref = this.fireStore.collection('khachhang').doc(id).ref;
+    batch.delete(khref);
+    return batch.commit();
   }
   getKhachhangs() {
     return this.fireStore.collection('khachhang').snapshotChanges();

@@ -74,8 +74,11 @@ export class CtDoanhsoListComponent implements OnInit {
         const temparr = [];
         arr.forEach(element => {
           this.tongtien += element.sotienthu;
-          const index = temparr.indexOf(element.hieuxe, 0);
-          if (index === -1) {
+          const index = temparr.findIndex(x => x.hieuxe === element.hieuxe);
+          if (index > -1) {
+            temparr[index].luotsua++;
+            temparr[index].thanhtien += element.sotienthu;
+          } else {
             const newobj = {
               hieuxe: element.hieuxe,
               luotsua: 1,
@@ -83,9 +86,6 @@ export class CtDoanhsoListComponent implements OnInit {
               tile: ''
             };
             temparr.push(newobj);
-          } else {
-            temparr[index].luotsua++;
-            temparr[index].thanhtien += element.sotienthu;
           }
         });
         return temparr;

@@ -18,6 +18,12 @@ export class TiencongService {
     return this.fireStore.collection('tiencong').doc(id).update(data);
   }
   Delete(id: string) {
+    const batch = this.fireStore.firestore.batch();
+    const tcref = this.fireStore.collection('tiencong').doc(id).ref;
+    batch.update(tcref, { isdelete: true });
+    return batch.commit();
+  }
+  DeleteUlt(id: string) {
     return this.fireStore.collection('tiencong').doc(id).delete();
   }
   getTiencongs() {

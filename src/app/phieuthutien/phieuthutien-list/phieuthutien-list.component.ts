@@ -42,7 +42,7 @@ export class PhieuthutienListComponent implements OnInit {
     if (confirm('Are you sure ?')) {
       this.thutienService.Delete(id)
         .then(() => {
-          this.toastr.success('Xóa thành công', 'Xóa phiếu sửa');
+          this.toastr.success('Đã thêm vào thùng rác', 'Xóa phiếu sửa');
         },
           () => {
             this.toastr.warning('Bạn không đủ quyền lực', 'Thất bại');
