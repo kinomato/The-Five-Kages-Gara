@@ -101,7 +101,7 @@ import { PhieulistComponent } from './home/phieulist/phieulist.component';
 import { FooterComponent } from './footer/footer.component';
 import { RecycleComponent } from './recycle/recycle.component';
 import { NhapphutungDetailComponent } from './nhapphutung/nhapphutung-detail/nhapphutung-detail.component';
-import { ServiceWorkerModule } from '@angular/service-worker';
+// import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 
 @NgModule({
@@ -199,7 +199,7 @@ import { environment } from '../environments/environment';
     MatProgressBarModule,
     OrderModule,
     NgxPaginationModule,
-    ServiceWorkerModule.register('./ngsw-worker.js', { enabled: environment.production }),
+    // ServiceWorkerModule.register('./ngsw-worker.js', { enabled: environment.production }),
   ],
   exports: [
     MatAutocompleteModule,

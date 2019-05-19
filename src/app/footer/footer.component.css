@@ -1,9 +1,14 @@
+.app-footer{
+    background-color: #111111;
+}
+
 .footer .container-fluid {
-    background-color: #4285F4;
+    background-color: #111111;
     color: white;
 }
 .footer .footer-copyright {
-    background-color: #0d47a1;
+    border-top: 1px solid white;
+    background-color: #111111;
     color: azure;
 }
 a {

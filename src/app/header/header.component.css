@@ -9,3 +9,43 @@
 .custom {
   vertical-align: middle;
 }
+
+.header{
+  background-color: #111111;
+}
+.header h4{
+  text-transform: uppercase;
+  color: orange;
+  margin: 10px 20px;
+}
+
+.header .large ul{
+  padding-right: 80px;
+}
+
+.header .large ul li a{
+  text-transform: uppercase;
+  text-align: center;
+  margin-right: 20px;
+  font-size: 14px;
+}
+.header ul li a:hover{
+  background-color: orange;
+}
+
+.header ul li a i{
+  margin-right: 10px;
+  text-align: center;
+  font-size: 15px;
+}
+.large ul li .nav-item .nav-link{
+  width: auto;
+}
+.header .small a{
+  margin-right: 0px;
+}
+.header[_ngcontent-c1] .small ul[_ngcontent-c1] li[_ngcontent-c1] a[_ngcontent-c1] i[_ngcontent-c1] {
+  margin-right: 0px;
+  text-align: center;
+  font-size: 15px;
+}

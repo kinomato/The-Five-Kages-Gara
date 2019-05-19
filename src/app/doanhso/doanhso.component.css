@@ -1,0 +1,12 @@
+h2{
+    text-transform: uppercase;
+    text-align: center;
+    font-weight: bold;
+}
+#thang{
+    margin-left: 5px;
+    width: 150px;
+}
+.form-thang{
+    margin: 20px 
+}
