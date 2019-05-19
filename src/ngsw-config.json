@@ -29,7 +29,7 @@
       "name":"app",
       "url":[],
       "cacheconfig": {
-        "maxSize":500,
+        "maxSize":2024,
         "maxAge":"3d",
         "timeout":"5s30u",
         "strategy":"freshness"

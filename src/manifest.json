@@ -7,7 +7,6 @@
   "scope": "/",
   "start_url": "/",
   "description": "App dùng để quản lý garage oto",
-  ​​"orientation": "portrait-primary",
   "icons": [
     {
       "src": "assets/icons/icon-72x72.png",
