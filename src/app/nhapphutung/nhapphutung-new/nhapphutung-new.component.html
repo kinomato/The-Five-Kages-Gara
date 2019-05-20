@@ -1,12 +1,13 @@
 <!-- <button class="btn btn-outline-secondary" (click)="goBack()">
   <i class="fas fa-caret-square-left"></i> Back</button> -->
-<div class="rounded block bg-primary"><h2 class="p-2 text-white-50 text-center">Phiếu nhập phụ tùng</h2></div>
-<div class="shadow rounded" style="padding: 10px">
+<div class="rounded bg-color">
+  <h2>Phiếu nhập phụ tùng</h2>
+
   <form #form="ngForm" (submit)="onSubmit(form)" autocomplete="off">
     <div class="form-group row">
       <div class="col">
         <div class="form-group">
-            <label for="ngaysuachua">Ngày sửa chữa:</label>
+          <label for="ngaysuachua">Ngày sửa chữa:</label>
           <div class="input-group">
             <input id="ngaysuachua" type="date" class="form-control" name="ngaynhap" [(ngModel)]="model" ngbDatepicker
               #d="ngbDatepicker">
@@ -19,8 +20,8 @@
       </div>
       <div class="col">
         <label for="tongtien">Tổng tiền</label>
-        <ngx-numeric-textbox id="tongtien" [disabled]="true" name="tongtien" [(ngModel)]="tongtien" [format]="0.000.000" [min]="0"
-          [placeholder]="'Tổng tiền'" [rangeValidation]="true">
+        <ngx-numeric-textbox id="tongtien" [disabled]="true" name="tongtien" [(ngModel)]="tongtien" [format]="0.000.000"
+          [min]="0" [placeholder]="'Tổng tiền'" [rangeValidation]="true">
         </ngx-numeric-textbox>
       </div>
     </div>

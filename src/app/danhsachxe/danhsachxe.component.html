@@ -1,72 +1,122 @@
-<div class="rounded block bg-primary">
-  <h2 class="p-2 text-white-50 text-center">Danh sách xe</h2>
-</div>
-<div class="row">
-  <div class="col-md-12">
-    <div class="input-group input-group-lg">
-      <div class="input-group-append"></div>
-      <span class="input-group-text">
+<div class="rounded bg-color">
+
+  <h2>Danh sách xe</h2>
+
+
+
+  <div class="input-group input-group-lg row form-search">
+
+    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+
+    </div>
+    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+      <input type="text" name="search" [(ngModel)]="searchvalue" class="form-control search-form"
+        placeholder="Nhập thông tin tìm kiếm">
+    </div>
+    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+      <span class="input-group-text search-icon">
         <i class="fa fa-search" aria-hidden="true"></i>
       </span>
-      <input type="text" name="search" [(ngModel)]="searchvalue" class="form-control" placeholder="Search any field">
     </div>
-  </div>
-</div>
-<div class="shadow rounded">
-  <table class="table table-hover">
-    <thead>
-      <th>STT</th>
-      <th (click)="sort('bienso')">Biển số
-        <i class="fas" *ngIf="key =='bienso'" [ngClass]="{'fa-sort-up': reverse,'fa-sort-down': !reverse}"></i>
-      </th>
-      <th (click)="sort('hieuxe')">Hiệu xe
-        <i class="fas" *ngIf="key =='hieuxe'" [ngClass]="{'fa-sort-up': reverse,'fa-sort-down': !reverse}"></i>
-      </th>
-      <th (click)="sort('tenkhachhang')">Chủ xe
-        <i class="fas" *ngIf="key =='tenkhachhang'" [ngClass]="{'fa-sort-up': reverse,'fa-sort-down': !reverse}"></i>
-      </th>
-      <th (click)="sort('tienno')">Tiền nợ
-        <i class="fas" *ngIf="key =='tienno'" [ngClass]="{'fa-sort-up': reverse,'fa-sort-down': !reverse}"></i>
-      </th>
-    </thead>
-    <tbody>
-      <tr *ngIf="!datasub.value">
-        <td colspan="6">
-          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-        </td>
-      </tr>
-      <tr
-        *ngFor="let tiepnhan of datasub | async | dsxesearch: searchvalue | orderBy:key:reverse | paginate:{ itemsPerPage: 5, currentPage: p }; let i = index">
-        <td scope="row">{{i + 1}}</td>
-        <td>{{tiepnhan.bienso}}</td>
-        <td>{{tiepnhan.hieuxe}}</td>
-        <td>{{tiepnhan.tenkhachhang}}</td>
-        <td>{{tiepnhan.tienno}}</td>
-        <td>
-          <button id="phieunhan" type="button" class="btn btn-outline-primary text-primary"
-            style="margin-top: 4px;margin-right: 4px"
-            [routerLink]="[ '/phieutiepnhan/detail/', tiepnhan.idphieutiepnhan ]">
-            <i class="fa fa-address-card" aria-hidden="true"></i></button>
-          <button *ngIf="tiepnhan.suachuastt" id="phieusua" type="button" style=" margin-top: 4px; margin-right: 4px"
-            class="btn btn-outline-warning text-warning" [routerLink]="[ '/suachua/detail/', tiepnhan.idsuachua ]">
-            <i class="fa fa-tools" aria-hidden="true"></i>
-          </button>
-          <button *ngIf="!tiepnhan.suachuastt" [disabled]="true" type="button" style="margin-top: 4px;margin-right: 4px"
-            class="btn btn-outline-secondary" [routerLink]="[ '/suachua/detail/', tiepnhan.idsuachua ]">
-            <i class="fa fa-tools" aria-hidden="true"></i>
-          </button>
-          <button *ngIf="tiepnhan.thutienstt" id="phieutien" type="button" style="margin-top: 4px;margin-right: 4px"
-            class="btn btn-outline-success text-success" [routerLink]="[ '/thutien/detail/', tiepnhan.idthutien ]">
-            <i class="fa fa-money-check-alt" aria-hidden="true"></i>
-          </button>
-          <button *ngIf="!tiepnhan.thutienstt" [disabled]="true" type="button" style="margin-top: 4px;margin-right: 4px"
-            class="btn btn-outline-secondary">
-            <i class="fa fa-money-check-alt" aria-hidden="true"></i>
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <pagination-controls (pageChange)="p = $event"></pagination-controls>
-</div>
+    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
 
+    </div>
+
+  </div>
+
+
+  <div class="row">
+
+    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+
+    </div>
+
+    <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+      <table class="table table-hover">
+        <thead>
+          <th>STT</th>
+          <th (click)="sort('bienso')">Biển số
+            <i class="fas" *ngIf="key =='bienso'" [ngClass]="{'fa-sort-up': reverse,'fa-sort-down': !reverse}"></i>
+          </th>
+          <th (click)="sort('hieuxe')">Hiệu xe
+            <i class="fas" *ngIf="key =='hieuxe'" [ngClass]="{'fa-sort-up': reverse,'fa-sort-down': !reverse}"></i>
+          </th>
+          <th (click)="sort('tenkhachhang')">Chủ xe
+            <i class="fas" *ngIf="key =='tenkhachhang'"
+              [ngClass]="{'fa-sort-up': reverse,'fa-sort-down': !reverse}"></i>
+          </th>
+          <th (click)="sort('tienno')">Tiền nợ
+            <i class="fas" *ngIf="key =='tienno'" [ngClass]="{'fa-sort-up': reverse,'fa-sort-down': !reverse}"></i>
+          </th>
+          <th>Chức năng</th>
+        </thead>
+        <tbody>
+          <tr *ngIf="!datasub.value">
+            <td colspan="6">
+              <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+            </td>
+          </tr>
+          <tr
+            *ngFor="let tiepnhan of datasub | async | dsxesearch: searchvalue | orderBy:key:reverse | paginate:{ itemsPerPage: 5, currentPage: p }; let i = index">
+            <td scope="row">{{i + 1}}</td>
+            <td>{{tiepnhan.bienso}}</td>
+            <td>{{tiepnhan.hieuxe}}</td>
+            <td>{{tiepnhan.tenkhachhang}}</td>
+            <td>{{tiepnhan.tienno}}</td>
+            <td>
+              <button id="phieunhan" type="button" class="btn btn-outline-primary text-primary"
+                style="margin-top: 4px;margin-right: 4px"
+                [routerLink]="[ '/phieutiepnhan/detail/', tiepnhan.idphieutiepnhan ]">
+                <i class="fa fa-address-card" aria-hidden="true"></i></button>
+              <button *ngIf="tiepnhan.suachuastt" id="phieusua" type="button"
+                style=" margin-top: 4px; margin-right: 4px" class="btn btn-outline-warning text-warning"
+                [routerLink]="[ '/suachua/detail/', tiepnhan.idsuachua ]">
+                <i class="fa fa-tools" aria-hidden="true"></i>
+              </button>
+              <button *ngIf="!tiepnhan.suachuastt" [disabled]="true" type="button"
+                style="margin-top: 4px;margin-right: 4px" class="btn btn-outline-secondary"
+                [routerLink]="[ '/suachua/detail/', tiepnhan.idsuachua ]">
+                <i class="fa fa-tools" aria-hidden="true"></i>
+              </button>
+              <button *ngIf="tiepnhan.thutienstt" id="phieutien" type="button" style="margin-top: 4px;margin-right: 4px"
+                class="btn btn-outline-success text-success" [routerLink]="[ '/thutien/detail/', tiepnhan.idthutien ]">
+                <i class="fa fa-money-check-alt" aria-hidden="true"></i>
+              </button>
+              <button *ngIf="!tiepnhan.thutienstt" [disabled]="true" type="button"
+                style="margin-top: 4px;margin-right: 4px" class="btn btn-outline-secondary">
+                <i class="fa fa-money-check-alt" aria-hidden="true"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+
+    </div>
+
+  </div>
+
+
+  <div class="row">
+    
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+      
+    </div>
+    
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 control">
+        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    </div>
+    
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+      
+    </div>
+    
+  </div>
+  
+    
+
+
+
+</div>

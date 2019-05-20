@@ -5,5 +5,15 @@ div.validation-error {
     color:brown;
 }
 .rounded {
-  background-color: aliceblue;
+  background-color: white;
+}
+.bg-color{
+  padding: 20px;
+}
+.bg-color h2{
+  font-weight: bold;
+  color: black;
+  text-transform: uppercase;
+  padding: 15px 0;
+  text-align: center;
 }

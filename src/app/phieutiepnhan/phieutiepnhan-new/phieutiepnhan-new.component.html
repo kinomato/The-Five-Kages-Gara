@@ -1,10 +1,12 @@
-<div class="rounded block bg-primary"><h2 class="p-2 text-white-50 text-center">Phiếu Tiếp Nhận Xe</h2></div>
-<div class="rounded" style="padding: 10px">
+<div class="rounded  bg-color">
+
+  <h2>Phiếu Tiếp Nhận Xe</h2>
+
   <form #form="ngForm" (submit)="onSubmit(form)" autocomplete="off">
     <div class="form-group">
-      <label for="bienso">Biển số:</label>
+      <label for="bienso">Biển số xe:</label>
       <input class="form-control" id="bienso" #bienso="ngModel" [(ngModel)]="biensoxe" name="bienso"
-        placeholder="biển số" [minlength]="5" [maxlength]="5" pattern="[a-zA-Z0-9]*" required>
+        placeholder="Biển số xe" [minlength]="5" [maxlength]="5" pattern="[a-zA-Z0-9]*" required>
       <small class="validation-error" *ngIf="bienso.invalid && bienso.touched">Không hợp lệ, phải có 5 ký tự</small>
     </div>
     <div class="form-group row">
@@ -29,29 +31,26 @@
 
       </div>
     </div>
-
     <div class="form-group">
       <label for="tenchuxe">Tên khách hàng:</label>
       <input name="tenkhachhang" id="tenchuxe" #tenkhach="ngModel" [(ngModel)]="tenkhachhang" placeholder="Tên chủ xe"
-        class="form-control"
-        [maxLength]="25"
+        class="form-control" [maxLength]="25"
         pattern="[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]*"
         required>
       <small class="validation-error" *ngIf="tenkhach.invalid && tenkhach.touched">Họ tên phải có đủ họ, tên đệm, tên,
         độ dài 10-25 ký tự</small>
     </div>
-
     <div class="form-group">
       <label for="dienthoai">Số điện thoại:</label>
       <input class="form-control" id="dienthoai" #dienthoai="ngModel" [(ngModel)]="sodienthoai" name="dienthoai"
-        placeholder="điện thoại" [minlength]="10" [maxlength]="10" pattern="[0-9]*" required>
+        placeholder="Số điện thoại" [minlength]="10" [maxlength]="10" pattern="[0-9]*" required>
       <small class="validation-error" *ngIf="dienthoai.invalid && dienthoai.touched">Không hợp lệ, số điện thoại phải đủ
         10 số và không chữ</small>
     </div>
     <div class="form-group">
       <label for="diachi">Địa chỉ:</label>
       <input class="form-control" id="diachi" #diachi="ngModel" [(ngModel)]="diachikhach" name="diachi"
-        placeholder="địa chỉ" [maxLength]="50" pattern="[a-zA-Z0-9\s]*">
+        placeholder="Địa chỉ" [maxLength]="50" pattern="[a-zA-Z0-9\s]*">
       <small class="validation-error" *ngIf="diachi.invalid && diachi.touched">Không hợp lệ</small>
     </div>
     <div class="form-group">
@@ -69,4 +68,7 @@
     </div>
   </form>
 </div>
+
+
+
 <!-- <button (click)="show()">test</button> -->

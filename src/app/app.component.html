@@ -14,24 +14,40 @@
 
 <div class="page-wrapper">
   <div class="header">
-      <app-header></app-header>
+    <app-header></app-header>
   </div>
-  <div class="content-wrapper">
-      <div class="content">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-9 offset-md-1" style="margin-top: 20px">
+  <div class="content-wrapper bg-color">
+    <div class="content">
+      <div class="container">
+        <div class="row">
+
+
+          <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+
+          </div>
+
+          <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+
+            <div class="btn-back">
               <button class="btn btn-success" (click)="goBack()">
                 <i class="fas fa-caret-square-left"></i> Trở về</button>
-              <div class="rounded-lg shadow-lg" style="margin-top: 20px; margin-bottom: 50px; padding: 10px">
-                <router-outlet></router-outlet>
-              </div>
+            </div>
+
+            <div class="rounded-lg form-info">
+              <router-outlet></router-outlet>
             </div>
           </div>
+
+
+          <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+
+          </div>
+
         </div>
       </div>
-      <div class="footer">
-          <app-footer></app-footer>
-      </div>
+    </div>
+    <div class="footer">
+      <app-footer></app-footer>
+    </div>
   </div>
 </div>

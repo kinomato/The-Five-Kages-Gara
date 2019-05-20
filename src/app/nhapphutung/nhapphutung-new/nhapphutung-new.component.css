@@ -1,3 +1,16 @@
-.shadow {
-    background-color: aliceblue;
-  }
+
+  .rounded {
+    background-color: white;
+}
+
+.bg-color{
+    padding: 20px;
+}
+
+.bg-color h2{
+    font-weight: bold;
+    color: black;
+    text-transform: uppercase;
+    padding: 15px 0;
+    text-align: center;
+}

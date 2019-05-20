@@ -30,3 +30,15 @@
     min-height: 60px; /* whatever you want it to be */
     flex-grow: 0;
 }
+.bg-color{
+    background-color: whitesmoke;
+}
+.btn-back{
+    margin: 20px 0;
+}
+.form-info{
+    -webkit-box-shadow: 11px 9px 15px 3px rgba(0,0,0,0.8);
+-moz-box-shadow: 11px 9px 15px 3px rgba(0,0,0,0.8);
+box-shadow: 11px 9px 15px 3px rgba(0,0,0,0.8);
+margin-bottom: 20px;
+}
