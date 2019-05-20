@@ -7,7 +7,7 @@
     <div class="form-group">
       <label for="bienso">Biển số:</label>
       <input class="form-control" id="bienso" #bienso="ngModel" [(ngModel)]="phieutiepnhan.bienso" name="bienso"
-        placeholder="biển số" [minlength]="5" [maxlength]="5" pattern="[a-zA-Z0-9]*" required>
+        placeholder="biển số" [minlength]="5" [maxlength]="5" pattern="[a-zA-Z0-9]*" oninput="this.value = this.value.toUpperCase()" required>
       <small class="validation-error" *ngIf="bienso.invalid && bienso.touched">Không hợp lệ, phải có 5 ký tự</small>
       <!-- <mat-form-field>
             <input type="text" matInput class="form-control" #biensoxe="ngModel" 
@@ -70,7 +70,7 @@
     <div class="form-group">
       <label for="diachi">Địa chỉ:</label>
       <input class="form-control" id="diachi" #diachi="ngModel" [(ngModel)]="phieutiepnhan.diachi" name="diachi"
-        placeholder="địa chỉ" [maxLength]="50" pattern="[a-zA-Z0-9]*">
+        placeholder="địa chỉ" [maxLength]="50" pattern="[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]*">
       <small class="validation-error" *ngIf="diachi.invalid && diachi.touched">Không hợp lệ</small>
     </div>
     <div class="form-group">
