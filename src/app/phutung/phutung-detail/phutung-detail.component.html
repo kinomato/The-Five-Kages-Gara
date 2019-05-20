@@ -1,8 +1,7 @@
 <!-- <button matTooltip="go back" (click)="goBack()" class="btn btn-default">Go back</button> -->
-<div class="rounded block bg-primary">
-    <h2 class="p-2 text-white-50 text-center">Phụ tùng</h2>
-  </div>
-<div class="shadow rounded" style="padding: 10px">
+<div class="rounded block bg-color">
+  <h2>Thông tin Phụ tùng</h2>
+
   <form #form="ngForm" (submit)="onSave(form)" autocomplete="off">
     <!-- <input type="hidden" name="id" #id="ngModel" [(ngModel)]="phutung.id"> -->
     <div class="form-group">
@@ -11,13 +10,14 @@
         placeholder="Tên phụ tùng" class="form-control" [minlength]="5" [maxlength]="15"
         pattern="[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]*"
         required>
-      <div class="validation-error" *ngIf="tenphutung.invalid && tenphutung.touched">Không phù hợp</div>
+      <div class="validation-error" style="color: red" *ngIf="tenphutung.invalid && tenphutung.touched">Không phù hợp
+      </div>
     </div>
     <div class="form-group">
-      <label for="gia">Giá phụ tùng:</label>
+      <label for="gia">Đơn giá:</label>
       <input type="number" (keyup)="checkSL()" (change)="checkSL()" [min]="1000" [max]="10000000" id="gia"
         class="form-control" name="giaphutung" #giaphutung="ngModel" [(ngModel)]="phutung.giaphutung"
-        placeholder="giaphutung">
+        placeholder="Giá phụ tùng">
     </div>
     <div class="form-group">
       <button class="form-control btn btn-block btn-info" [disabled]="form.invalid || !isshow" type="submit"

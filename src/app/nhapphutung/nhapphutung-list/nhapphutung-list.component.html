@@ -1,50 +1,101 @@
-<button routerLink="/nhapphutung/new" class="btn btn-success">Nhập phụ tùng</button>
-<div class="rounded block bg-primary">
-  <h2 class="p-2 mt-2 text-white-50 text-center">Danh sách nhập phụ tùng</h2>
-</div>
-<div class="row">
-  <div class="col-md-12">
-    <div class="input-group input-group-lg">
-      <div class="input-group-append"></div>
-      <span class="input-group-text">
+<div class="rounded block bg-color">
+
+  <h2>Danh sách nhập phụ tùng</h2>
+
+  <button routerLink="/nhapphutung/new" class="btn btn-success btn-block btn-add">Nhập phụ tùng</button>
+
+  <div class="row form-search">
+
+    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+
+    </div>
+
+
+    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+      <input type="text" name="search" [(ngModel)]="searchvalue" class="form-control search-form"
+        placeholder="Nhập thông tin tìm kiếm">
+    </div>
+
+
+
+
+
+    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+
+      <span class="input-group-text search-icon">
         <i class="fa fa-search" aria-hidden="true"></i>
       </span>
-      <input type="text" name="search" [(ngModel)]="searchvalue" class="form-control" placeholder="Search any field">
     </div>
+
+
+
+    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+
+    </div>
+
   </div>
-</div>
-<div class="shadow round">
-  <table class="table table-hover">
-    <thead>
-      <th>STT</th>
-      <th (click)="sort('ngaynhap')">Ngày nhập
-        <i class="fas" *ngIf="key =='ngaynhap'" [ngClass]="{'fa-sort-up': reverse,'fa-sort-down': !reverse}"></i>
-      </th>
-      <th (click)="sort('tongtien')">Tổng tiền
-        <i class="fas" *ngIf="key =='tongtien'" [ngClass]="{'fa-sort-up': reverse,'fa-sort-down': !reverse}"></i>
-      </th>
-      <th></th>
-    </thead>
-    <tbody>
-      <tr *ngIf="(nhapptList.length === 0)">
-        <td colspan="4">
-          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-        </td>
-      </tr>
-      <tr
-        *ngFor="let phutung of nhapptList | nptlistsearch:searchvalue | orderBy:key:reverse | paginate:{ itemsPerPage: 5, currentPage: p }, let i = index">
-        <th scope="row">{{i + 1}}</th>
-        <td>{{phutung.ngaynhap | customdatetime}}</td>
-        <td>{{phutung.tongtien | currency:'VND'}}</td>
-        <!-- <td> <a matTooltip="Edit" type="button" class="btn text-warning"
-            [routerLink]="[ '/suachua/detail/', suachua.idphieusuachua ]">
-            <i class="fa fa-cog" aria-hidden="true"></i>
-          </a></td> -->
-        <td> <a matTooltip="Delete" type="button" class="btn text-danger" (click)="onDelete(phutung.idnhappt)">
-            <i class="fa fa-trash" aria-hidden="true"></i>
-          </a></td>
-      </tr>
-    </tbody>
-  </table>
-  <pagination-controls (pageChange)="p = $event"></pagination-controls>
+
+  <div class="row">
+
+    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+
+    </div>
+
+    <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+      <table class="table table-hover">
+        <thead>
+          <th>STT</th>
+          <th (click)="sort('ngaynhap')">Ngày nhập
+            <i class="fas" *ngIf="key =='ngaynhap'" [ngClass]="{'fa-sort-up': reverse,'fa-sort-down': !reverse}"></i>
+          </th>
+          <th (click)="sort('tongtien')">Tổng tiền
+            <i class="fas" *ngIf="key =='tongtien'" [ngClass]="{'fa-sort-up': reverse,'fa-sort-down': !reverse}"></i>
+          </th>
+          <th></th>
+        </thead>
+        <tbody>
+          <tr *ngIf="(nhapptList.length === 0)">
+            <td colspan="4">
+              <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+            </td>
+          </tr>
+          <tr
+            *ngFor="let phutung of nhapptList | nptlistsearch:searchvalue | orderBy:key:reverse | paginate:{ itemsPerPage: 5, currentPage: p }, let i = index">
+            <th scope="row">{{i + 1}}</th>
+            <td>{{phutung.ngaynhap | customdatetime}}</td>
+            <td>{{phutung.tongtien | currency:'VND'}}</td>
+            <!-- <td> <a matTooltip="Edit" type="button" class="btn text-warning"
+                  [routerLink]="[ '/suachua/detail/', suachua.idphieusuachua ]">
+                  <i class="fa fa-cog" aria-hidden="true"></i>
+                </a></td> -->
+            <td> <a matTooltip="Delete" type="button" class="btn text-danger" (click)="onDelete(phutung.idnhappt)">
+                <i class="fa fa-trash" aria-hidden="true"></i>
+              </a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+
+    </div>
+
+  </div>
+
+  <div class="row">
+
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+
+    </div>
+
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 control">
+      <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    </div>
+
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+
+    </div>
+
+  </div>
+
 </div>

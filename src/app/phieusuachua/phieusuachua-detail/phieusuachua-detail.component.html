@@ -4,8 +4,10 @@
 <!-- <div class="danger">
   <p><strong>Danger!</strong> Logic số lượng vẫn chưa giải quyết xong, mọi sửa chữa về số lượng sẽ gây lỗi</p>
 </div> -->
-<div class="rounded block bg-primary"><h2 class="p-2 text-white-50 text-center">Phiếu Sửa Chữa</h2></div>
-<div class="rounded" style="padding: 10px">
+<div class="rounded block bg-color">
+
+  <h2>Phiếu Sửa Chữa</h2>
+
   <form #form="ngForm" (submit)="onSave(form)" autocomplete="off">
     <div class="form-group row">
       <div class="col">
@@ -15,18 +17,18 @@
           <div class="validation-error" *ngIf="biensoxe.invalid && biensoxe.touched">this field is required</div>
         </div> -->
         <div class="form-group">
-            <label for="bienso">Biển số xe:</label>
-          <ngx-select-dropdown id="bienso" [disabled]="true" [required]="true" [config]="config" name="bienso" (change)="change()"
-            [options]="tiepnhanList" [(ngModel)]="tiepnhantemp">
+          <label for="bienso">Biển số xe:</label>
+          <ngx-select-dropdown id="bienso" [disabled]="true" [required]="true" [config]="config" name="bienso"
+            (change)="change()" [options]="tiepnhanList" [(ngModel)]="tiepnhantemp">
           </ngx-select-dropdown>
         </div>
       </div>
       <div class="col">
         <div class="form-group">
-            <label for="ngaysuachua">Ngày sửa chữa:</label>
+          <label for="ngaysuachua">Ngày sửa chữa:</label>
           <div class="input-group">
-            <input id="ngaysuachua" class="form-control" placeholder="yyyy-mm-dd" name="ngaysuachua" [(ngModel)]="model" ngbDatepicker
-              #d="ngbDatepicker">
+            <input id="ngaysuachua" class="form-control" placeholder="Ngày sửa chữa (yyyy/mm/dd)" name="ngaysuachua"
+              [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker">
             <div class="input-group-append">
               <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button"><i class="fa fa-calendar"
                   aria-hidden="true"></i></button>
@@ -38,15 +40,16 @@
     <div class="form-group row">
       <div class="col"></div>
       <div class="col">
-          <label for="tongtien">Tổng tiền:</label>
+        <label for="tongtien">Tổng tiền:</label>
         <!-- <input type="text" class="form-control" disabled=true name="tongtien" [(ngModel)]="tongtien" placeholder="Tổng tiền"> -->
-        <ngx-numeric-textbox id="tongtien" [disabled]="true" name="tongtien" [(ngModel)]="tongtien" [format]="0.000.000" [min]="0"
-          [placeholder]="'Tổng tiền'" [rangeValidation]="true">
+        <ngx-numeric-textbox id="tongtien" [disabled]="true" name="tongtien" [(ngModel)]="tongtien" [format]="0.000.000"
+          [min]="0" [placeholder]="'Tổng tiền'" [rangeValidation]="true">
         </ngx-numeric-textbox>
       </div>
     </div>
     <div class="form-group">
-      <app-ct-phieusuachua-detail-list (tinhtien)="tinhTien($event); tongtien = +$event"></app-ct-phieusuachua-detail-list>
+      <app-ct-phieusuachua-detail-list (tinhtien)="tinhTien($event); tongtien = +$event">
+      </app-ct-phieusuachua-detail-list>
     </div>
     <div class="form-group">
       <button class="form-control btn btn-block btn-info" [disabled]="form.invalid || invalid || !isshow" type="submit"

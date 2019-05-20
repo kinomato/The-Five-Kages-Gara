@@ -1,41 +1,60 @@
-<button routerLink="/thutien/new" class="btn btn-success">Thêm phiếu thu</button>
-<div class="rounded block bg-primary mt-2">
-  <h2 class="p-2 text-white-50 shadow-sm text-center">Danh sách thu tiền</h2>
-</div>
+<div class="rounded block bg-color">
+  <h2>Danh sách thu tiền</h2>
 
-<div class="row">
-  <div class="col-md-12">
-    <div class="input-group input-group-lg">
-      <div class="input-group-append"></div>
-      <span class="input-group-text">
+  <button routerLink="/thutien/new" class="btn btn-success btn-block btn-add">Thêm phiếu thu</button>
+
+
+  <div class="row form-search">
+
+    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+
+    </div>
+
+    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+      <input type="text" name="search" [(ngModel)]="searchvalue" class="form-control search-form"
+        placeholder="Nhập thông tin tìm kiếm">
+    </div>
+
+    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+      <span class="input-group-text search-icon">
         <i class="fa fa-search" aria-hidden="true"></i>
       </span>
-      <input type="text" name="search" [(ngModel)]="searchvalue" class="form-control" placeholder="Search any field">
     </div>
+
+    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+
+    </div>
+
   </div>
-</div>
-<div class="shadow rounded">
-  <table class="table table-hover">
-    <thead>
-      <th (click)="sort('tenchuxe')">Tên chủ xe
-        <i class="fas" *ngIf="key =='tenchuxe'" [ngClass]="{'fa-sort-up': reverse,'fa-sort-down': !reverse}"></i>
-      </th>
-      <th (click)="sort('bienso')">Biển số
-        <i class="fas" *ngIf="key =='bienso'" [ngClass]="{'fa-sort-up': reverse,'fa-sort-down': !reverse}"></i>
-      </th>
-      <th (click)="sort('ngaythutien')">Ngày thu tiền
-        <i class="fas" *ngIf="key =='ngaythutien'" [ngClass]="{'fa-sort-up': reverse,'fa-sort-down': !reverse}"></i>
-      </th>
-      <th (click)="sort('dienthoai')">Điện thoại
-        <i class="fas" *ngIf="key =='dienthoai'" [ngClass]="{'fa-sort-up': reverse,'fa-sort-down': !reverse}"></i>
-      </th>
-      <!-- <th>Địa chỉ</th> -->
-      <th>Tổng tiền thu</th>
-      <th></th>
-    </thead>
-    <tbody>
-      <tr >
-          <div *ngIf="thutienList$ | async, then listitem else matprogressbar">
+
+  <div class="row">
+
+    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+
+    </div>
+
+    <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+      <table class="table table-hover">
+        <thead>
+          <th (click)="sort('tenchuxe')">Tên chủ xe
+            <i class="fas" *ngIf="key =='tenchuxe'" [ngClass]="{'fa-sort-up': reverse,'fa-sort-down': !reverse}"></i>
+          </th>
+          <th (click)="sort('bienso')">Biển số
+            <i class="fas" *ngIf="key =='bienso'" [ngClass]="{'fa-sort-up': reverse,'fa-sort-down': !reverse}"></i>
+          </th>
+          <th (click)="sort('ngaythutien')">Ngày thu tiền
+            <i class="fas" *ngIf="key =='ngaythutien'" [ngClass]="{'fa-sort-up': reverse,'fa-sort-down': !reverse}"></i>
+          </th>
+          <th (click)="sort('dienthoai')">Điện thoại
+            <i class="fas" *ngIf="key =='dienthoai'" [ngClass]="{'fa-sort-up': reverse,'fa-sort-down': !reverse}"></i>
+          </th>
+          <!-- <th>Địa chỉ</th> -->
+          <th>Tổng tiền thu</th>
+          <th>Chức năng</th>
+        </thead>
+        <tbody>
+          <tr>
+            <div *ngIf="thutienList$ | async, then listitem else matprogressbar">
             </div>
             <ng-template #matprogressbar>
               <td colspan="6">
@@ -43,34 +62,57 @@
               </td>
             </ng-template>
             <ng-template #listitem>
-              </ng-template>
-      </tr>
-      
-      <tr
-        *ngFor="let thutien of thutienList$ | async | ttlistsearch: searchvalue | orderBy:key:reverse | paginate:{ itemsPerPage: 5, currentPage: p }">
-        <td> {{thutien.tenchuxe}} </td>
-        <td>{{thutien.bienso}}</td>
-        <td>{{thutien.ngaythutien | customdatetime}}</td>
-        <td>{{thutien.dienthoai}}</td>
-        <!-- <td>{{thutien.diachi}}</td> -->
-        <td>{{thutien.sotienthu | currency:'VND'}}</td>
-        <td>
-          <div class="btn-group">
-            <button type="button" class="btn btn-warning" [routerLink]="[ '/thutien/detail/', thutien.idphieuthutien ]">
-              <i class="fa fa-cog" aria-hidden="true"></i></button>
-            <button type="button" class="btn btn-danger" (click)="onDelete(thutien.idphieuthutien)">
-              <i class="fa fa-trash" aria-hidden="true"></i></button>
-          </div>
-          <!-- <a matTooltip="Edit" type="button" class="btn text-warning" [routerLink]="[ '/thutien/detail/', thutien.idphieuthutien ]">
-            <i class="fa fa-cog" aria-hidden="true"></i>
-          </a>
-          <a matTooltip="Delete" type="button" class="btn text-danger" (click)="onDelete(thutien.idphieuthutien)">
-            <i class="fa fa-trash" aria-hidden="true"></i>
-          </a> -->
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <pagination-controls (pageChange)="p = $event"></pagination-controls>
+            </ng-template>
+          </tr>
+
+          <tr
+            *ngFor="let thutien of thutienList$ | async | ttlistsearch: searchvalue | orderBy:key:reverse | paginate:{ itemsPerPage: 5, currentPage: p }">
+            <td> {{thutien.tenchuxe}} </td>
+            <td>{{thutien.bienso}}</td>
+            <td>{{thutien.ngaythutien | customdatetime}}</td>
+            <td>{{thutien.dienthoai}}</td>
+            <!-- <td>{{thutien.diachi}}</td> -->
+            <td>{{thutien.sotienthu | currency:'VND'}}</td>
+            <td>
+              <div class="btn-group">
+                <button type="button" class="btn btn-warning"
+                  [routerLink]="[ '/thutien/detail/', thutien.idphieuthutien ]">
+                  <i class="fa fa-cog" aria-hidden="true"></i></button>
+                <button type="button" class="btn btn-danger" (click)="onDelete(thutien.idphieuthutien)">
+                  <i class="fa fa-trash" aria-hidden="true"></i></button>
+              </div>
+              <!-- <a matTooltip="Edit" type="button" class="btn text-warning" [routerLink]="[ '/thutien/detail/', thutien.idphieuthutien ]">
+                    <i class="fa fa-cog" aria-hidden="true"></i>
+                  </a>
+                  <a matTooltip="Delete" type="button" class="btn text-danger" (click)="onDelete(thutien.idphieuthutien)">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                  </a> -->
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+
+    </div>
+
+  </div>
+  <div class="row">
+
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+
+    </div>
+
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 control">
+      <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    </div>
+
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+
+    </div>
+
+  </div>
+
 </div>
 <!-- <button (click)="show()">show</button> -->

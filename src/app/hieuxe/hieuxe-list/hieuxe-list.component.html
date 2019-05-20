@@ -1,41 +1,72 @@
-<button routerLink="/hieuxe/new" class="btn btn-success">Thêm hiệu xe</button>
-<div class="rounded block bg-primary">
-  <h2 class="p-2 mt-2 text-white-50 text-center">Danh sách hiệu xe</h2>
-</div>
-<div class="shadow rounded">
-  <table class="table table-hover">
-    <thead>
-      <th>STT</th>
-      <th>Tên hiệu xe</th>
-      <th></th>
-    </thead>
-    <tbody>
-      <!-- <tr *ngIf="!(hieuxeList.length !== 0)">
-        <td colspan="3">
-          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-        </td>
-      </tr> -->
-      <div *ngIf="hieuxeList$ | async, then listitem else matprogressbar">
-      </div>
-      <ng-template #matprogressbar>
-        <td colspan="3">
-          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-        </td>
-      </ng-template>
-      <ng-template #listitem>
-        </ng-template>
-      <tr *ngFor="let hieuxe of hieuxeList$ | async | paginate:{ itemsPerPage: 5, currentPage: p }, let i = index">
-        <th scope="row">{{i+1}}</th>
-        <td> {{hieuxe.hieuxe}} </td>
-        <td> <a matTooltip="Edit" class="btn text-warning" [routerLink]="[ '/hieuxe/detail/', hieuxe.idhieuxe ]">
-            <i class="fa fa-cog" aria-hidden="true"></i>
-          </a>
-          <a matTooltip="Delete" class="btn text-danger" (click)="onDelete(hieuxe.idhieuxe)">
-            <i class="fa fa-trash" aria-hidden="true"></i>
-          </a>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <pagination-controls (pageChange)="p = $event"></pagination-controls>
+<div class="rounded block bg-color">
+  <h2>Danh sách hiệu xe</h2>
+  <button routerLink="/hieuxe/new" class="btn btn-success btn-block btn-add">Thêm hiệu xe</button>
+
+
+  <div class="row">
+    
+    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+      
+    </div>
+    
+    <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+        <table class="table table-hover">
+            <thead>
+              <th>STT</th>
+              <th>Tên hiệu xe</th>
+              <th>Chức năng</th>
+            </thead>
+            <tbody>
+              <!-- <tr *ngIf="!(hieuxeList.length !== 0)">
+                <td colspan="3">
+                  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+                </td>
+              </tr> -->
+              <div *ngIf="hieuxeList$ | async, then listitem else matprogressbar">
+              </div>
+              <ng-template #matprogressbar>
+                <td colspan="3">
+                  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+                </td>
+              </ng-template>
+              <ng-template #listitem>
+              </ng-template>
+              <tr *ngFor="let hieuxe of hieuxeList$ | async | paginate:{ itemsPerPage: 5, currentPage: p }, let i = index">
+                <th scope="row">{{i+1}}</th>
+                <td> {{hieuxe.hieuxe}} </td>
+                <td> <a matTooltip="Edit" class="btn text-warning" [routerLink]="[ '/hieuxe/detail/', hieuxe.idhieuxe ]">
+                    <i class="fa fa-cog" aria-hidden="true"></i>
+                  </a>
+                  <a matTooltip="Delete" class="btn text-danger" (click)="onDelete(hieuxe.idhieuxe)">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+    
+    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+      
+    </div>
+    
+  </div>
+
+  <div class="row">
+    
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+      
+    </div>
+    
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 control">
+        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    </div>
+    
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+      
+    </div>
+    
+  </div>
+  
+
 </div>

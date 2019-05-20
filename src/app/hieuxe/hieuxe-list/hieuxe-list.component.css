@@ -1,3 +1,28 @@
-.shadow {
-    background-color: aliceblue;
-}
+.rounded {
+    background-color: white;
+  }
+  
+  .bg-color{
+    padding: 20px;
+  }
+  
+  .bg-color h2{
+    font-weight: bold;
+    color: black;
+    text-transform: uppercase;
+    padding: 15px 0;
+    text-align: center;
+  }
+  
+  .table{
+    border: 2px solid whitesmoke;
+  }
+  .table tbody tr:hover{
+    background-color: orange;
+  }
+  .control{
+    margin: 20px 0;
+  }
+  .btn-add{
+    margin: 20px 0;
+  }

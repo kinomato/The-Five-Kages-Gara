@@ -1,9 +1,9 @@
 <div class="btn-group ml-auto">
-  <button class="btn btn-success" (click)="RestoreAll()">  
-      <i class="fa fa-recycle" aria-hidden="true"></i> Restore All
+  <button class="btn btn-success" (click)="RestoreAll()">
+    <i class="fa fa-recycle" aria-hidden="true"></i> Restore All
   </button>
   <button class="btn btn-danger">
-      <i class="fa fa-trash" aria-hidden="true"></i> Delete All
+    <i class="fa fa-trash" aria-hidden="true"></i> Delete All
   </button>
 </div>
 <div *ngIf="phieufilter$ | async, then listitem else matprogressbar">
