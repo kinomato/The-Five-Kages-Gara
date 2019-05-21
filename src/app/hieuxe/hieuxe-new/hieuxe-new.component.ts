@@ -12,6 +12,9 @@ import { ToastrService } from 'ngx-toastr';
 export class HieuxeNewComponent implements OnInit {
   hieuxe: Hieuxe;
   isshow = true;
+  isshow1 = false;
+  isshow2 = false;
+  xe: Hieuxe;
   constructor(
     private hieuxeService: HieuxeService,
     private toastr: ToastrService
@@ -28,6 +31,20 @@ export class HieuxeNewComponent implements OnInit {
       idhieuxe: null,
       hieuxe: ''
     };
+  }
+  Search() {
+    this.isshow1 = false;
+    this.isshow2 = true;
+    if (this.hieuxe.hieuxe.length > 2) {
+      this.hieuxeService.Search(this.hieuxe.hieuxe).subscribe(res => {
+        this.isshow2 = false;
+        this.isshow1 = true;
+        this.xe = res;
+      });
+    } else {
+      this.isshow1 = false;
+      this.isshow2 = false;
+    }
   }
   onSubmit(form: NgForm) {
     const data = Object.assign({ isdelete: false }, form.value);

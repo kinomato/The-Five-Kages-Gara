@@ -12,6 +12,7 @@ import { NgForm, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Location } from '@angular/common';
 import { CustomResObject } from 'src/app/interfaces/custom-res-object';
+import { Xe } from 'src/app/interfaces/xe';
 
 @Component({
   selector: 'app-phieutiepnhan-new',
@@ -20,9 +21,9 @@ import { CustomResObject } from 'src/app/interfaces/custom-res-object';
 })
 export class PhieutiepnhanNewComponent implements OnInit {
   tenkhachhang: '';
-  biensoxe: '';
-  sodienthoai: '';
-  diachikhach: '';
+  biensoxe = '';
+  sodienthoai = '';
+  diachikhach = '';
   tenhieuxe: string = null;
   selectedHieuxe: Observable<Hieuxe> = null;
   hieuxeList: Hieuxe[];
@@ -30,8 +31,12 @@ export class PhieutiepnhanNewComponent implements OnInit {
   model;
   temp = [];
   isshow = true;
-
+  xe$: Observable<Xe>;
+  xe: Xe;
+  isshow1 = false;
+  isshow2 = false;
   subshieuxe: Subscription;
+  subsxe: Subscription;
 
 
   constructor(
@@ -50,6 +55,7 @@ export class PhieutiepnhanNewComponent implements OnInit {
     // Called once, before the instance is destroyed.
     // Add 'implements OnDestroy' to the class.
     this.subshieuxe.unsubscribe();
+    this.subsxe.unsubscribe();
   }
   getHieuxes() {
     this.subshieuxe = this.hieuxeService.getHieuXes().subscribe(actionArray => {
@@ -64,18 +70,23 @@ export class PhieutiepnhanNewComponent implements OnInit {
   onSubmit(form: NgForm) {
     this.isshow = false;
     this.tiepnhanService.Submit(form).subscribe(res => {
-      res.then(booleen => {
+      res.then(() => {
+        this.toastr.success('Thêm thành công', 'Tiếp nhận xe');
+      },
+        (reject) => {
+          this.toastr.warning('Bạn không đủ quyền lực', 'Thất bại');
+        })
+      .catch(err => {
+        this.toastr.error(err, 'Đã xảy ra lỗi');
+      }); /* .then(booleen => {
         if (booleen) {
           this.isshow = true;
           this.formReset(form);
         } else {
           this.isshow = true;
         }
-      });
+      }); */
     });
-    /* setTimeout(() => {
-      this.isshow = true;
-    }, 3500); */
   }
   getDate() {
     const day = this.currentdate.getDate();
@@ -99,5 +110,32 @@ export class PhieutiepnhanNewComponent implements OnInit {
     this.temp.forEach(element => {
       console.log(element);
     });
+  }
+  Search() {
+    this.isshow1 = false;
+    this.isshow2 = true;
+    if (this.biensoxe.length === 5) {
+      this.tiepnhanService.Search(this.biensoxe).subscribe(res => {
+        this.isshow2 = false;
+        this.isshow1 = true;
+        this.xe = res;
+        if (this.xe) {
+          this.tenhieuxe = this.xe.hieuxe;
+        } else {
+          this.tenhieuxe = null;
+        }
+      });
+    } else {
+      this.isshow1 = false;
+      this.isshow2 = false;
+    }
+  }
+  Apply() {
+    /* this.subsxe = this.xe$.subscribe((xe: Xe) => {
+      console.log(xe);
+      this.tenhieuxe = xe.hieuxe;
+      console.log(this.tenhieuxe);
+    }); */
+    this.tenhieuxe = this.xe.hieuxe;
   }
 }

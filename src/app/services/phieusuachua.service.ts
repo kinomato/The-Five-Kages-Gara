@@ -23,13 +23,13 @@ export class PhieusuachuaService {
     private phutungService: PhutungService,
   ) { }
 
-  SubmitUlt(data: any, ctdata: CTPhieusuachua[], idtn: string) {
+  async SubmitUlt(data: any, ctdata: CTPhieusuachua[], idtn: string) {
     const scref = this.fireStore.firestore.collection('suachua').doc();
     const tnref = this.fireStore.collection('tiepnhan').doc(idtn).ref;
     const idsc = scref.id;
     const batch = this.fireStore.firestore.batch();
     batch.set(scref, data);
-    ctdata.forEach(ctphieusuachua => {
+    await ctdata.forEach(ctphieusuachua => {
       const tempdata = Object.assign({}, ctphieusuachua);
       delete tempdata.idctsuachua;
       const ctref = this.fireStore.firestore.collection('suachua/' + idsc + '/ctsuachua').doc();
@@ -42,20 +42,20 @@ export class PhieusuachuaService {
     batch.update(tnref, newobj);
     return batch.commit();
   }
-  UpdateUtl(idsc: string, datasc: any, ctdata: CTPhieusuachua[], oldctdata: CTPhieusuachua[], deletelist: string[]) {
+  async UpdateUtl(idsc: string, datasc: any, ctdata: CTPhieusuachua[], oldctdata: CTPhieusuachua[], deletelist: string[]) {
     const scref = this.fireStore.collection('suachua').doc(idsc).ref;
     const batch = this.fireStore.firestore.batch();
     batch.update(scref, datasc);
-    deletelist.forEach(idct => {
+    await deletelist.forEach(idct => {
       const ctderef = this.fireStore.collection('suachua/' + idsc + '/ctsuachua').doc(idct).ref;
       batch.delete(ctderef);
     });
-    oldctdata.forEach(ctphieusuachua => {
+    await oldctdata.forEach(ctphieusuachua => {
       const ptref = this.fireStore.collection('phutung').doc(ctphieusuachua.phutung.idphutung).ref;
       const increment = firebase.firestore.FieldValue.increment(ctphieusuachua.soluong);
       batch.update(ptref, {soluongconlai: increment});
     });
-    ctdata.forEach(ctphieusuachua => {
+    await ctdata.forEach(ctphieusuachua => {
       const datact = Object.assign({}, ctphieusuachua);
       delete datact.idctsuachua;
       const idct = ctphieusuachua.idctsuachua;

@@ -8,9 +8,10 @@ import { NgForm } from '@angular/forms';
 import { XesuaService } from 'src/app/xesua/shared/xesua.service';
 import { HieuxeService } from 'src/app/services/hieuxe.service';
 import { KhachhangService } from 'src/app/services/khachhang.service';
-import { mergeMap, flatMap, map, switchMap } from 'rxjs/operators';
-import { observable, forkJoin, Observable, combineLatest } from 'rxjs';
+import { mergeMap, flatMap, map, switchMap, debounceTime, take } from 'rxjs/operators';
+import { observable, forkJoin, Observable, combineLatest, merge } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+import { Xe } from '../interfaces/xe';
 
 @Injectable({
   providedIn: 'root'
@@ -41,6 +42,7 @@ export class PhieutiepnhanService {
           const batch = this.fireStore.firestore.batch();
           const khref = this.fireStore.firestore.collection('khachhang').doc();
           const tnref = this.fireStore.firestore.collection('tiepnhan').doc();
+          const xeref = this.fireStore.firestore.collection('xe').doc(data.bienso);
           const datatiepnhan = Object.assign({}, {
             bienso: data.bienso,
             ngaytiepnhan: data.ngaytiepnhan,
@@ -59,8 +61,9 @@ export class PhieutiepnhanService {
           });
           batch.set(khref, datakhachhang);
           batch.set(tnref, datatiepnhan);
-          return batch.commit()
-            .then(() => {
+          batch.set(xeref, {bienso: data.bienso, hieuxe: data.hieuxe});
+          return batch.commit();
+            /* .then(() => {
               this.toastr.success('Thêm thành công', 'Tiếp nhận xe');
               return true;
             },
@@ -71,7 +74,7 @@ export class PhieutiepnhanService {
             .catch(err => {
               this.toastr.error(err, 'Đã xảy ra lỗi');
               return false;
-            });
+            }); */
         } else {
           const snapshot = res.docs.pop();
           const datatiepnhan = Object.assign({}, {
@@ -90,7 +93,13 @@ export class PhieutiepnhanService {
             tienno: 0,
             idthutien: ''
           });
-          return this.fireStore.collection('tiepnhan').add(datatiepnhan)
+          const batch = this.fireStore.firestore.batch();
+          const xeref = this.fireStore.firestore.collection('xe').doc(data.bienso);
+          const tnref = this.fireStore.firestore.collection('tiepnhan').doc();
+          batch.set(tnref, datatiepnhan);
+          batch.set(xeref, {bienso: data.bienso, hieuxe: data.hieuxe});
+          return batch.commit();
+          /* return this.fireStore.collection('tiepnhan').add(datatiepnhan)
             .then(() => {
               this.toastr.success('Thêm thành công', 'Tiếp nhận xe');
               return true;
@@ -102,7 +111,7 @@ export class PhieutiepnhanService {
             .catch(err => {
               this.toastr.error(err, 'Đã xảy ra lỗi');
               return false;
-            });
+            }); */
         }
       }));
   }
@@ -121,6 +130,8 @@ export class PhieutiepnhanService {
     const batch = this.fireStore.firestore.batch();
     const tnref = this.fireStore.collection('tiepnhan').doc(idtn).ref;
     const khref = this.fireStore.collection('khachhang').doc(idkh).ref;
+    const xeref = this.fireStore.collection('xe').doc(datatn.bienso).ref;
+    batch.set(xeref, {bienso: datatn.bienso, hieuxe: datatn.hieuxe}, {merge: true});
     batch.update(tnref, datatn);
     batch.update(khref, datakh);
     return batch.commit();
@@ -204,35 +215,31 @@ export class PhieutiepnhanService {
       })
     );
   }
-  /* getThongtins1() {
-    return this.getTiepnhans().pipe(
-      map(res => {
-        return res.map(item => {
-          const data = {
-            idphieutiepnhan: item.payload.doc.id,
-            ...item.payload.doc.data()
-          } as Phieutiepnhan;
-          return this.khachhangService.getKhachhang(data.idkhachhang).pipe(
-            map(res1 => {
-              return { ...data, ...res1 } as Phieutiepnhan;
-
-            })}
-    )})) */
-    getThongtinsUlt() {
-      return this.getTiepnhans()
+  getThongtinsUlt() {
+    return this.getTiepnhans()
       .pipe(
         map(res => {
           return res.map(item => {
-            const data = { idphieutiepnhan: item.payload.doc.id, ...item.payload.doc.data()} as Phieutiepnhan;
+            const data = { idphieutiepnhan: item.payload.doc.id, ...item.payload.doc.data() } as Phieutiepnhan;
             return this.khachhangService.getKhachhang(data.idkhachhang)
-            .pipe(
-              map(res1 => {
-                return {...data, ...res1} as Phieutiepnhan;
-              })
-            );
+              .pipe(
+                map(res1 => {
+                  return { ...data, ...res1 } as Phieutiepnhan;
+                })
+              );
           });
         }),
         flatMap(tiepnhans => combineLatest(tiepnhans))
       );
-    }
   }
+  Search(bienso: string) {
+    return this.fireStore.collection('xe').doc(bienso).valueChanges()
+    .pipe(
+      debounceTime(500),
+      take(1),
+      map((res: Xe) => {
+        return res;
+      })
+    );
+  }
+}

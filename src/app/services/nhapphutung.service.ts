@@ -61,7 +61,7 @@ export class NhapphutungService {
     return query.get()
     .then(async snapshot => {
       batch.delete(scref);
-      snapshot.docs.forEach(doc => {
+      await snapshot.docs.forEach(doc => {
         batch.delete(doc.ref);
       });
       return batch.commit();

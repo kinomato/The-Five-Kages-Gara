@@ -1,4 +1,10 @@
 <div class="shadow">
+    <div class="btn-group" style="width: 100%">
+      <button (click)="searchvalue = ''" class="btn btn-info">Tất cả</button>
+      <button (click)="searchvalue = 'tiepnhan'" class="btn btn-primary">Tiếp nhận</button>
+      <button (click)="searchvalue = 'suachua'" class="btn btn-warning">Sửa chữa</button>
+      <button (click)="searchvalue = 'thutien'" class="btn btn-success">Thu tiền</button>
+    </div>
     <select type="input" (change)="valuechange()" class="form-control" name="hieuxe" [(ngModel)]="today" required>
         <option [ngValue]="currentdate.getDate()">Hôm nay</option>
         <option [ngValue]="currentdate.getDate() - 1"> Hôm qua </option>
@@ -13,7 +19,7 @@
       <ng-template #listitem>
         </ng-template>
       <div class="list-group">
-        <a *ngFor="let phieufilter of phieufilter$ | async | paginate:{ itemsPerPage: 5, currentPage: p }"
+        <a *ngFor="let phieufilter of phieufilter$ | async | phieulistseach: searchvalue | paginate:{ itemsPerPage: 5, currentPage: p }"
         [routerLink]="[ phieufilter.path, phieufilter.idphieu ]"
         class="list-group-item list-group-item-action list-group-item-info
             d-flex justify-content-between">

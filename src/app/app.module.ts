@@ -103,6 +103,7 @@ import { RecycleComponent } from './recycle/recycle.component';
 import { NhapphutungDetailComponent } from './nhapphutung/nhapphutung-detail/nhapphutung-detail.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { PhieulistseachPipe } from './custompipe/phieulistseach.pipe';
 
 @NgModule({
   declarations: [
@@ -171,7 +172,8 @@ import { environment } from '../environments/environment';
     PhieulistComponent,
     FooterComponent,
     RecycleComponent,
-    NhapphutungDetailComponent
+    NhapphutungDetailComponent,
+    PhieulistseachPipe
   ],
   imports: [
     BrowserModule,
@@ -199,7 +201,7 @@ import { environment } from '../environments/environment';
     MatProgressBarModule,
     OrderModule,
     NgxPaginationModule,
-    ServiceWorkerModule.register('./ngsw-worker.js', { enabled: environment.production }),
+    /* ServiceWorkerModule.register('./ngsw-worker.js', { enabled: environment.production }), */
   ],
   exports: [
     MatAutocompleteModule,

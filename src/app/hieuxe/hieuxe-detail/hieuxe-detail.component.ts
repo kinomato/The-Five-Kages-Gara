@@ -14,9 +14,13 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./hieuxe-detail.component.css']
 })
 export class HieuxeDetailComponent implements OnInit {
-  hieuxe: Hieuxe;
+  hieuxe: Hieuxe = { hieuxe: '' };
+  oldhieuxe: string;
   isshow = true;
   subhieuxe: Subscription;
+  xe: Hieuxe;
+  isshow1 = false;
+  isshow2 = false;
   constructor(
     private hieuxeService: HieuxeService,
     private location: Location,
@@ -33,11 +37,12 @@ export class HieuxeDetailComponent implements OnInit {
     this.subhieuxe.unsubscribe();
   }
   onSave(form: NgForm) {
+    this.isshow = false;
     /* const id = form.value.id; */
     const id = this.activetedRoute.snapshot.paramMap.get('id'); // id: string
     const data = Object.assign({}, form.value) as Hieuxe;
     /* delete data.id; */
-    this.subhieuxe = this.hieuxeService.Update(id, data).subscribe(res => {
+    this.subhieuxe = this.hieuxeService.Update(id, this.oldhieuxe, data).subscribe(res => {
       res.then(() => {
         this.toastr.success('Cập nhật thành công', 'Hiệu xe');
         this.isshow = true;
@@ -58,9 +63,24 @@ export class HieuxeDetailComponent implements OnInit {
     this.subhieuxe = this.hieuxeService.getHieuxe(id)
       .subscribe(res => {
         this.hieuxe = res.data() as Hieuxe;
+        this.oldhieuxe = this.hieuxe.hieuxe;
       });
   }
   goBack() {
     this.location.back();
+  }
+  Search() {
+    this.isshow1 = false;
+    this.isshow2 = true;
+    if (this.hieuxe.hieuxe.length > 2) {
+      this.hieuxeService.Search(this.hieuxe.hieuxe).subscribe(res => {
+        this.isshow2 = false;
+        this.isshow1 = true;
+        this.xe = res;
+      });
+    } else {
+      this.isshow1 = false;
+      this.isshow2 = false;
+    }
   }
 }

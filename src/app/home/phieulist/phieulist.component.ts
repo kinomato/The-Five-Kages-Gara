@@ -15,6 +15,7 @@ export class PhieulistComponent implements OnInit {
   usemonth = false;
   month: number = null;
   p = 1;
+  searchvalue: string;
   /* week = this.currentdate.get */ // jesus
   phieufilter$: Observable<Phieufilter[]>;
 
