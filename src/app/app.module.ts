@@ -201,7 +201,7 @@ import { PhieulistseachPipe } from './custompipe/phieulistseach.pipe';
     MatProgressBarModule,
     OrderModule,
     NgxPaginationModule,
-    /* ServiceWorkerModule.register('./ngsw-worker.js', { enabled: environment.production }), */
+    ServiceWorkerModule.register('./ngsw-worker.js', { enabled: environment.production }),
   ],
   exports: [
     MatAutocompleteModule,

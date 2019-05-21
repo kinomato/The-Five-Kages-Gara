@@ -15,7 +15,6 @@
 <div class="shadow rounded">
   <table class="table table-hover">
     <thead>
-      <th>STT</th>
       <th (click)="sort('bienso')">Biển số
         <i class="fas" *ngIf="key =='bienso'" [ngClass]="{'fa-sort-up': reverse,'fa-sort-down': !reverse}"></i>
       </th>
@@ -31,13 +30,12 @@
     </thead>
     <tbody>
       <tr *ngIf="!datasub.value">
-        <td colspan="6">
+        <td class="differ" colspan="6">
           <mat-progress-bar mode="indeterminate"></mat-progress-bar>
         </td>
       </tr>
       <tr
         *ngFor="let tiepnhan of datasub | async | dsxesearch: searchvalue | orderBy:key:reverse | paginate:{ itemsPerPage: 5, currentPage: p }; let i = index">
-        <td scope="row">{{i + 1}}</td>
         <td>{{tiepnhan.bienso}}</td>
         <td>{{tiepnhan.hieuxe}}</td>
         <td>{{tiepnhan.tenkhachhang}}</td>

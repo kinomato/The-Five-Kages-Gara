@@ -17,7 +17,6 @@
 <div class="shadow rounded">
   <table class="table table-hover">
     <thead>
-      <th>STT</th>
       <th (click)="sort('bienso')">Biển số
         <i class="fas" *ngIf="key =='bienso'" [ngClass]="{'fa-sort-up': reverse,'fa-sort-down': !reverse}"></i>
       </th>
@@ -34,7 +33,7 @@
         <div *ngIf="suachuaList$ | async, then listitem else matprogressbar">
         </div>
         <ng-template #matprogressbar>
-          <td colspan="5">
+          <td class="differ" colspan="5">
             <mat-progress-bar mode="indeterminate"></mat-progress-bar>
           </td>
         </ng-template>
@@ -44,7 +43,6 @@
 
       <tr
         *ngFor="let suachua of suachuaList$ | async | sclistsearch:searchvalue | orderBy:key:reverse | paginate:{ itemsPerPage: 5, currentPage: p }, let i = index">
-        <th scope="row">{{i + 1}}</th>
         <td>{{suachua.bienso}}</td>
         <td>{{suachua.ngaysuachua | customdatetime}}</td>
         <td>{{suachua.tongtien | currency:'VND'}}</td>
