@@ -7,9 +7,16 @@
     <div class="form-group">
       <label for="hieuxe">Tên hiệu xe</label>
       <input name="hieuxe" #fullname="ngModel" [(ngModel)]="hieuxe.hieuxe" placeholder="Hiệu xe" class="form-control"
-        [minlength]="2" [maxlength]="10"
+        [minlength]="2" [maxlength]="15" style="text-transform: capitalize;"
+        oninput="this.value = this.value.toLowerCase()" (keyup)="Search()"
         pattern="[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]*"
         required>
+      <div *ngIf="isshow1 && !xe" class="text-success"><small>Không bị trùng lặp</small></div>
+      <div *ngIf="isshow2" class="mt-1 text-black-50" style="display: flex; justify-content: flex-start">
+        <mat-spinner class="mt-1" strokeWidth="3" diameter="15"></mat-spinner>
+        <small>Đang kiểm tra...</small>
+      </div>
+      <div class="text-danger" *ngIf="isshow1 && xe"><small>Trùng lặp</small></div>
       <div class="validation-error" *ngIf="fullname.invalid && fullname.touched">Không phù hợp</div>
     </div>
     <div class="form-group">
@@ -20,6 +27,7 @@
         <h5 *ngIf="!isshow">Vui lòng chờ...</h5>
       </button>
     </div>
+
   </form>
 </div>
 

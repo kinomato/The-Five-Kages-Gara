@@ -11,6 +11,7 @@ import { Observable, Subscription } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { KhachhangService } from 'src/app/services/khachhang.service';
 import { ToastrService } from 'ngx-toastr';
+import { Xe } from 'src/app/interfaces/xe';
 
 @Component({
   selector: 'app-phieutiepnhan-detail',
@@ -26,6 +27,9 @@ export class PhieutiepnhanDetailComponent implements OnInit {
   isshow = true;
   subshieuxe: Subscription;
   substiepnhan: Subscription;
+  xe: Xe;
+  isshow1 = false;
+  isshow2 = false;
   constructor(
     private tiepnhanService: PhieutiepnhanService,
     private location: Location,
@@ -41,8 +45,8 @@ export class PhieutiepnhanDetailComponent implements OnInit {
     this.getThongtin();
   }
   OnDestroy(): void {
-    //Called once, before the instance is destroyed.
-    //Add 'implements OnDestroy' to the class.
+    // Called once, before the instance is destroyed.
+    // Add 'implements OnDestroy' to the class.
     this.subshieuxe.unsubscribe();
     this.substiepnhan.unsubscribe();
   }
@@ -124,5 +128,24 @@ export class PhieutiepnhanDetailComponent implements OnInit {
   }
   goBack() {
     this.location.back();
+  }
+  Search() {
+    this.isshow1 = false;
+    this.isshow2 = true;
+    if (this.phieutiepnhan.bienso.length === 5) {
+      this.tiepnhanService.Search(this.phieutiepnhan.bienso).subscribe(res => {
+        this.isshow2 = false;
+        this.isshow1 = true;
+        this.xe = res;
+        if (this.xe) {
+          this.phieutiepnhan.hieuxe = this.xe.hieuxe;
+        } else {
+          this.phieutiepnhan.hieuxe = null;
+        }
+      });
+    } else {
+      this.isshow1 = false;
+      this.isshow2 = false;
+    }
   }
 }

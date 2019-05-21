@@ -1,3 +1,6 @@
 .shadow {
     background-color: aliceblue;
 }
+.validation-error {
+    color:red;
+}

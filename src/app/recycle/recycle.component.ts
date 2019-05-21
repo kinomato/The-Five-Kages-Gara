@@ -21,7 +21,7 @@ export class RecycleComponent implements OnInit {
   phieufilter$: Observable<Phieufilter[]>;
   subrecycle: Subscription;
   p = 1;
-  temp;
+  temp: Phieufilter[];
   constructor(
     private recycleService: RecycleService,
     private tiepnhanService: PhieutiepnhanService,
@@ -163,17 +163,18 @@ export class RecycleComponent implements OnInit {
   }
   RestoreAll() {
     if (confirm('Khôi phục toàn bộ ?')) {
-      this.recycleService.RestoreAll(this.temp)
-      .then(() => {
-        this.toastr.success('Thành công', 'Khôi phục tất cả');
-      },
-        reject => {
-          this.toastr.warning('Bạn không đủ quyền lực', 'Thất bại');
-        })
-      .catch(err => {
-        this.toastr.error(err, 'Đã xảy ra lỗi');
-      });
+      if (this.temp.length !== 0) {
+        this.recycleService.RestoreAll(this.temp)
+        .then(() => {
+          this.toastr.success('Thành công', 'Khôi phục tất cả');
+        },
+          reject => {
+            this.toastr.warning('Bạn không đủ quyền lực', 'Thất bại');
+          })
+        .catch(err => {
+          this.toastr.error(err, 'Đã xảy ra lỗi');
+        });
+      }
     }
-    
   }
 }

@@ -7,7 +7,7 @@ import { Observable, of } from 'rxjs';
 import { CustomResObjectList } from 'src/app/interfaces/custom-res-object-list';
 import { combineLatest, Subscription } from 'rxjs';
 import { Phieufilter } from '../interfaces/phieufilter';
-import { map } from 'rxjs/operators';
+import { map, debounceTime, take } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -22,24 +22,48 @@ export class HieuxeService {
   Submit(data: Hieuxe) {
     return this.fireStore.collection('hieuxe').add(data);
   }
-  Update(id: string, data: Hieuxe ) {
+  Update(id: string, oldhieuxe: string, data: Hieuxe ) {
     const batch = this.fireStore.firestore.batch();
-    const hieuxe = data.hieuxe;
-    const tiepnhan$ = this.getPhieutiepnhan(data.hieuxe);
-    const thutien$ = this.getPhieuthutien(data.hieuxe);
-    return combineLatest(tiepnhan$, thutien$)
+    const tenhieuxe = data.hieuxe;
+    const tiepnhan$ = this.getPhieutiepnhan(oldhieuxe);
+    const thutien$ = this.getPhieuthutien(oldhieuxe);
+    const xe$ = this.getXe(oldhieuxe);
+    console.log('hello');
+    return combineLatest(tiepnhan$, thutien$, xe$)
     .pipe(
       map(res => {
-        return [...res[0], ...res[1]] as Phieufilter[];
+        console.log(res);
+        return [...res[0], ...res[1], ...res[2]] as Phieufilter[];
       }),
-      map(res1 => {
-        res1.forEach(phieu => {
+      map(async res1 => {
+        const loop = await res1.forEach(phieu => {
+          console.log(phieu.collection + phieu.idphieu);
           const pref = this.fireStore.collection(phieu.collection).doc(phieu.idphieu).ref;
-          batch.update(pref, { hieuxe });
+          batch.set(pref, { hieuxe: tenhieuxe }, {merge: true});
         });
+        console.log('oh no');
         const xeref = this.fireStore.collection('hieuxe').doc(id).ref;
-        batch.update(xeref, { hieuxe });
+        batch.update(xeref, { hieuxe: tenhieuxe });
         return batch.commit();
+      })
+    );
+  }
+  getXe(hieuxe: string) {
+    return this.fireStore.collection('xe', ref => {
+      return ref.where('hieuxe', '==', hieuxe);
+    }).snapshotChanges()
+    .pipe(
+      map(res => {
+        if (res.length !== 0) {
+          return res.map(item => {
+            return {
+              idphieu: item.payload.doc.id,
+              collection: 'xe'
+            } as Phieufilter;
+          });
+        } else {
+          return [];
+        }
       })
     );
   }
@@ -49,27 +73,35 @@ export class HieuxeService {
     }).snapshotChanges()
     .pipe(
       map(res => {
-        return res.map(item => {
-          return {
-            idphieu: item.payload.doc.id,
-            collection: 'tiepnhan'
-          } as Phieufilter;
-        });
+        if (res.length !== 0) {
+          return res.map(item => {
+            return {
+              idphieu: item.payload.doc.id,
+              collection: 'tiepnhan'
+            } as Phieufilter;
+          });
+        } else {
+          return [];
+        }
       })
     );
   }
   getPhieuthutien(hieuxe: string) {
-    return this.fireStore.collection('thuien', ref => {
+    return this.fireStore.collection('thutien', ref => {
       return ref.where('hieuxe', '==', hieuxe);
     }).snapshotChanges()
     .pipe(
       map(res => {
-        return res.map(item => {
-          return {
-            idphieu: item.payload.doc.id,
-            collection: 'thutien'
-          } as Phieufilter;
-        });
+        if (res.length !== 0) {
+          return res.map(item => {
+            return {
+              idphieu: item.payload.doc.id,
+              collection: 'thutien'
+            } as Phieufilter;
+          });
+        } else {
+          return [];
+        }
       })
     );
   }
@@ -95,5 +127,25 @@ export class HieuxeService {
   } */
   getHieuxe(id: string) {
     return this.fireStore.doc('hieuxe/' + id).get();
+  }
+  Search(hieuxe: string) {
+    return this.fireStore.collection('hieuxe', ref => {
+      return ref.limit(1).where('hieuxe', '==', hieuxe);
+    }).get()
+    .pipe(
+      debounceTime(500),
+      take(1),
+      map(res => {
+        if (res.empty) {
+          return;
+        } else {
+          const snapshot = res.docs.pop();
+          return {
+            idhieuxe: snapshot.id,
+            ...snapshot.data()
+          } as Hieuxe;
+        }
+      })
+    );
   }
 }
