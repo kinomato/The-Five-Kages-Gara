@@ -1,10 +1,8 @@
-
-
 <div class="rounded block bg-color">
-    
+
   <h2>Danh sách tiếp nhận</h2>
 
-  <button type="button" class="btn btn-success btn-block btn-add" routerLink="/phieutiepnhan/new">Tiếp nhận xe</button>
+
   <!-- <form class="form-inline">
       <label for="search"> <button disabled="true" class="btn btn-outline-secondary"><i class="fa fa-search"
             aria-hidden="true"></i></button> </label> 
@@ -17,15 +15,11 @@
 
     </div>
 
-    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+    <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+
       <input type="text" name="search" [(ngModel)]="searchvalue" class="form-control search-form"
         placeholder="Nhập thông tin tìm kiếm">
-    </div>
 
-    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
-      <span class="input-group-text search-icon">
-        <i class="fa fa-search" aria-hidden="true"></i>
-      </span>
     </div>
 
     <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
@@ -33,7 +27,7 @@
     </div>
 
   </div>
-  
+
   <div class="row">
 
     <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
@@ -41,6 +35,10 @@
     </div>
 
     <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+
+      <button type="button" class="btn btn-success btn-block btn-add" routerLink="/phieutiepnhan/new">Tiếp nhận
+        xe</button>
+
       <table class="table table-hover">
         <thead>
           <th (click)="sort('bienso')">Biển số

@@ -28,7 +28,7 @@
   border: 2px solid whitesmoke;
 }
 .table tbody tr:hover{
-  background-color: orange;
+  background-color: whitesmoke;
 }
 .control{
   margin: 20px 0;

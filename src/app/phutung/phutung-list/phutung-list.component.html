@@ -1,84 +1,88 @@
 <div class="rounded block bg-color">
   <h2>Danh sách phụ tùng</h2>
-  <button routerLink="/phutung/new" class="btn btn-success btn-block btn-add">Thêm phụ tùng</button>
+
 
   <div class="row">
-    
+
     <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
-      
+
     </div>
-    
+
     <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-        <table class="table table-hover">
-            <thead>
-              <th>STT</th>
-              <th>Tên phụ tùng</th>
-              <th>Giá</th>
-              <th>Số lượng</th>
-              <th>Chức năng</th>
-            </thead>
-            <tbody>
-              <!-- <tr *ngIf="(phutungList.length === 0)">
+
+      <button routerLink="/phutung/new" class="btn btn-success btn-block btn-add">Thêm phụ tùng</button>
+
+      <table class="table table-hover">
+        <thead>
+          <th>STT</th>
+          <th>Tên phụ tùng</th>
+          <th>Giá</th>
+          <th>Số lượng</th>
+          <th>Chức năng</th>
+        </thead>
+        <tbody>
+          <!-- <tr *ngIf="(phutungList.length === 0)">
                 <td colspan="5">
                   <mat-progress-bar mode="indeterminate"></mat-progress-bar>
                 </td>
               </tr> -->
-              <div *ngIf="phutungList$ | async, then listitem else matprogressbar">
+          <div *ngIf="phutungList$ | async, then listitem else matprogressbar">
+          </div>
+          <ng-template #matprogressbar>
+            <td colspan="5">
+              <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+            </td>
+          </ng-template>
+          <ng-template #listitem>
+          </ng-template>
+          <tr
+            *ngFor="let phutung of phutungList$ | async | paginate:{ itemsPerPage: 5, currentPage: p }, let i = index">
+            <th scope="row">{{i+1}}</th>
+            <td>{{phutung.tenphutung}} </td>
+            <td> {{phutung.giaphutung | currency:'VND'}} </td>
+            <td> {{phutung.soluongconlai}} </td>
+            <td>
+              <div class="btn-group">
+                <button class="btn btn-warning" [routerLink]="[ '/phutung/detail/', phutung.idphutung ]">
+                  <i class="fa fa-cog" aria-hidden="true"></i>
+                </button>
+                <button class="btn btn-danger" (click)="onDelete(phutung.idphutung)">
+                  <i class="fa fa-trash" aria-hidden="true"></i>
+                </button>
               </div>
-              <ng-template #matprogressbar>
-                <td colspan="5">
-                  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-                </td>
-              </ng-template>
-              <ng-template #listitem>
-              </ng-template>
-              <tr *ngFor="let phutung of phutungList$ | async | paginate:{ itemsPerPage: 5, currentPage: p }, let i = index">
-                <th scope="row">{{i+1}}</th>
-                <td>{{phutung.tenphutung}} </td>
-                <td> {{phutung.giaphutung | currency:'VND'}} </td>
-                <td> {{phutung.soluongconlai}} </td>
-                <td>
-                  <div class="btn-group">
-                    <button class="btn btn-warning" [routerLink]="[ '/phutung/detail/', phutung.idphutung ]">
-                      <i class="fa fa-cog" aria-hidden="true"></i>
-                    </button>
-                    <button class="btn btn-danger" (click)="onDelete(phutung.idphutung)">
-                      <i class="fa fa-trash" aria-hidden="true"></i>
-                    </button>
-                  </div>
-                  <!-- <a matTooltip="Edit" class="btn text-warning" [routerLink]="[ '/phutung/detail/', phutung.idphutung ]">
+              <!-- <a matTooltip="Edit" class="btn text-warning" [routerLink]="[ '/phutung/detail/', phutung.idphutung ]">
                     <i class="fa fa-cog" aria-hidden="true"></i>
                   </a>
                   <a matTooltip="Delete" class="btn text-danger" (click)="onDelete(phutung.idphutung)">
                     <i class="fa fa-trash" aria-hidden="true"></i>
                   </a> -->
-                </td>
-              </tr>
-            </tbody>
-          </table>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-    
+
     <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
-      
+
     </div>
-    
+
   </div>
 
   <div class="row">
-    
+
     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-      
+
     </div>
-    
+
     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 control">
-        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+      <pagination-controls (pageChange)="p = $event"></pagination-controls>
     </div>
-    
+
     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-      
+
     </div>
-    
+
   </div>
-  
+
 
 </div>

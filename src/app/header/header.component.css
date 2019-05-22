@@ -25,19 +25,21 @@
 
 .header .large ul li a{
   text-transform: uppercase;
-  text-align: center;
+  text-align: left;
   margin-right: 20px;
   font-size: 14px;
-}
+}          
+
+
 .header ul li a:hover{
   background-color: orange;
 }
 
-.header ul li a i{
-  margin-right: 10px;
-  text-align: center;
+.header .large ul li a i{
+ 
   font-size: 15px;
 }
+
 .large ul li .nav-item .nav-link{
   width: auto;
 }

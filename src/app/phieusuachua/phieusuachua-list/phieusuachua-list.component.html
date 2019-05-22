@@ -3,33 +3,20 @@
 
   <h2>Danh sách sửa chữa</h2>
 
-  <button routerLink="/suachua/new" class="btn btn-success btn-block btn-add">Thêm phiếu sửa</button>
-
   <div class="row form-search">
 
     <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
-
     </div>
 
-    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+
+    <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
 
       <input type="text" name="search" [(ngModel)]="searchvalue" class="form-control search-form"
         placeholder="Nhập thông tin tìm kiếm">
-
     </div>
 
     <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
-      <span class="input-group-text search-icon">
-        <i class="fa fa-search " aria-hidden="true"></i>
-      </span>
     </div>
-
-    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
-
-    </div>
-
-
-
 
   </div>
 
@@ -40,6 +27,7 @@
     </div>
 
     <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+      <button routerLink="/suachua/new" class="btn btn-success btn-block btn-add">Thêm phiếu sửa</button>
       <table class="table table-hover">
         <thead>
           <th>STT</th>
