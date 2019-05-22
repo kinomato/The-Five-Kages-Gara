@@ -1,10 +1,10 @@
 <!-- <button class="btn btn-outline-secondary" (click)="goBack()">
   <i class="fas fa-caret-square-left"></i> Back</button> -->
-<div class="rounded block bg-primary"><h2 class="p-2 text-white-50 text-center">Phiếu nhập phụ tùng</h2></div>
+<div class="rounded block bg-primary"><h2 class="p-2 text-white-50 text-center">Nhập phụ tùng</h2></div>
 <div class="shadow rounded" style="padding: 10px">
   <form #form="ngForm" (submit)="onSubmit(form)" autocomplete="off">
     <div class="form-group row">
-      <div class="col">
+      <div class="col-sm-6">
         <div class="form-group">
             <label for="ngaysuachua">Ngày sửa chữa:</label>
           <div class="input-group">
@@ -17,14 +17,14 @@
           </div>
         </div>
       </div>
-      <div class="col">
+      <div class="col-sm-6">
         <label for="tongtien">Tổng tiền</label>
         <ngx-numeric-textbox id="tongtien" [disabled]="true" name="tongtien" [(ngModel)]="tongtien" [format]="0.000.000" [min]="0"
           [placeholder]="'Tổng tiền'" [rangeValidation]="true">
         </ngx-numeric-textbox>
       </div>
     </div>
-    <div class="form-group text-center">
+    <div class="form-group">
       <app-ct-nhapphutung-list (tinhtien)="tinhTien($event);tongtien = +$event"></app-ct-nhapphutung-list>
     </div>
     <div class="form-group">

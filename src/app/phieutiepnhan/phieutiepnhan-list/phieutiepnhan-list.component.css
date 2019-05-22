@@ -62,11 +62,11 @@ thead>th {
   }
 
   td:nth-of-type(3):before {
-    content: "Ngày tiếp nhận:";
+    content: "Ngày nhận:";
   }
 
   td:nth-of-type(4):before {
-    content: "Tên khách hàng:";
+    content: "Tên khách:";
   }
 
   td:nth-of-type(5):before {

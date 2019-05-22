@@ -4,7 +4,7 @@
 <div class="rounded" style="padding: 10px">
   <form #form="ngForm" (submit)="onSubmit(form)" autocomplete="off">
     <div class="form-group row">
-      <div class="col">
+      <div class="col-sm-6">
         <!-- <div class="form-group">
           <input name="bienso" #biensoxe="ngModel" [(ngModel)]="phieusuachua.bienso" placeholder="biển số"
             class="form-control" required>
@@ -18,7 +18,7 @@
           </ngx-select-dropdown>
         </div>
       </div>
-      <div class="col">
+      <div class="col-sm-6">
         <div class="form-group">
           <label for="ngaysuachua">Ngày sửa chữa:</label>
           <div class="input-group">
@@ -33,8 +33,8 @@
       </div>
     </div>
     <div class="form-group row">
-      <div class="col"></div>
-      <div class="col">
+      <div class="col-sm-6"></div>
+      <div class="col-sm-6">
         <label for="tongtien">Tổng tiền:</label>
         <!-- <input type="text" class="form-control" disabled=true name="tongtien" [(ngModel)]="tongtien" placeholder="Tổng tiền"> -->
         <ngx-numeric-textbox id="tongtien" [disabled]="true" name="tongtien" [(ngModel)]="tongtien" [format]="0.000.000"

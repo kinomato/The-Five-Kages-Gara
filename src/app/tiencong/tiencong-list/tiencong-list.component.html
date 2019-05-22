@@ -5,7 +5,6 @@
 <div class="shadow rounded">
   <table class="table table-hover">
     <thead>
-      <th>STT</th>
       <th>Tên</th>
       <th>Mức tiền công</th>
       <th></th>
@@ -19,14 +18,13 @@
       <div *ngIf="tiencongList$ | async, then listitem else matprogressbar">
         </div>
         <ng-template #matprogressbar>
-          <td colspan="4">
+          <td class="differ" colspan="4">
             <mat-progress-bar mode="indeterminate"></mat-progress-bar>
           </td>
         </ng-template>
         <ng-template #listitem>
           </ng-template>
       <tr *ngFor="let tiencong of tiencongList$ | async | paginate:{ itemsPerPage: 5, currentPage: p }, let i = index">
-        <th scope="row">{{i+1}}</th>
         <td> {{tiencong.tenloaitiencong}} </td>
         <td> {{tiencong.muctiencong | currency:'VND'}} </td>
         <td>
