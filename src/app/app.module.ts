@@ -12,6 +12,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireStorageModule } from '@angular/fire/storage';
 
 import { SelectDropDownModule } from 'ngx-select-dropdown';
 import { NumericTextboxModule } from 'ngx-numeric-textbox';
@@ -104,6 +105,8 @@ import { NhapphutungDetailComponent } from './nhapphutung/nhapphutung-detail/nha
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { PhieulistseachPipe } from './custompipe/phieulistseach.pipe';
+import { DropZoneDirective } from './directives/drop-zone.directive';
+import { ConvertComponent } from './convert/convert.component';
 
 @NgModule({
   declarations: [
@@ -173,7 +176,9 @@ import { PhieulistseachPipe } from './custompipe/phieulistseach.pipe';
     FooterComponent,
     RecycleComponent,
     NhapphutungDetailComponent,
-    PhieulistseachPipe
+    PhieulistseachPipe,
+    DropZoneDirective,
+    ConvertComponent
   ],
   imports: [
     BrowserModule,
@@ -184,6 +189,7 @@ import { PhieulistseachPipe } from './custompipe/phieulistseach.pipe';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     AngularFirestoreModule.enablePersistence(), // cho phép hoạt động offline
+    AngularFireStorageModule,
     AppRoutingModule,
     BrowserAnimationsModule, // required animations module
     ToastrModule.forRoot(),
